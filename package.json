@@ -54,7 +54,6 @@
     "camelcase": "^6.2.0",
     "chalk": "^4.1.2",
     "fs-extra": "^10.0.0",
-    "handlebars": "^4.7.7",
     "inquirer": "^8.1.5",
     "inversify": "^5.1.1",
     "lodash": "^4.17.21",

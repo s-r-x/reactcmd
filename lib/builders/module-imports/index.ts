@@ -1,6 +1,8 @@
 import { IModuleImportSpec } from './interface';
 import _ from 'lodash';
+import { injectable } from 'inversify';
 
+@injectable()
 export class ModuleImportsBuilder {
   private imports: IModuleImportSpec[] = [];
   render(): string {

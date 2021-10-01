@@ -2,6 +2,7 @@ import { Arguments, CommandBuilder } from 'yargs';
 import { ComponentGenerator } from '../../generators/component';
 import container from '../../ioc/container';
 import { TYPES } from '../../ioc/types';
+import { TStylingStrategy } from '../../typings/styling';
 
 type Options = {
   name: string;
@@ -18,6 +19,19 @@ export const command = 'component <name> [dir]';
 export const aliases = ['c'];
 export const desc = 'Generate component';
 
+const styleChoices: TStylingStrategy[] = [
+  'styled-components',
+  'emotion',
+  'aphrodite',
+  'radium',
+  'mui',
+  'styled-jsx',
+  'linaria',
+  'less',
+  'css',
+  'stylus',
+  'sass',
+];
 export const builder: CommandBuilder<Options, Options> = yargs =>
   yargs
     .options({
@@ -30,7 +44,7 @@ export const builder: CommandBuilder<Options, Options> = yargs =>
       style: {
         type: 'string',
         alias: 's',
-        choices: ['sc', 'lin', 'less', 'css', 'styl', 'sass', 'scss', 'no'],
+        choices: styleChoices,
       },
       'prop-types': { type: 'boolean', desc: 'Use prop-types?', alias: 'pt' },
     })

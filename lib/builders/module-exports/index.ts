@@ -6,7 +6,9 @@ import {
 } from './interface';
 import _, { isEmpty } from 'lodash';
 import { Maybe } from '../../typings/utils';
+import { injectable } from 'inversify';
 
+@injectable()
 export class ModuleExportsBuilder {
   private namedExports: INamedModuleExportsSpec[] = [];
   private defaultExport: Maybe<IDefaultModuleExportsSpec> = null;

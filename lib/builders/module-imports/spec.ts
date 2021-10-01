@@ -54,6 +54,18 @@ describe('ModuleImportsBuilder', () => {
       expect(builder.render()).to.be.empty.string;
     });
   });
+  describe('removeImport', () => {
+    it('should remove provided import', () => {
+      const expected = `
+        import _ from "lodash"; 
+      `;
+      const builder = new ModuleImportsBuilder();
+      builder.addImport({ default: '_', from: 'lodash' });
+      builder.addImport({ default: 'React', from: 'react' });
+      builder.removeImport('react');
+      expectCodeToEq(builder.render(), expected);
+    });
+  });
   describe('reset', () => {
     it('should reset imports', () => {
       const builder = new ModuleImportsBuilder();

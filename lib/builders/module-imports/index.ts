@@ -8,12 +8,15 @@ export class ModuleImportsBuilder {
   }
   addImport(spec: IModuleImportSpec) {
     this.imports.push(spec);
+    return this;
   }
   removeImport(from: string) {
     this.imports = this.imports.filter(i => i.from !== from);
+    return this;
   }
   reset() {
     this.imports = [];
+    return this;
   }
   private renderRow = (spec: IModuleImportSpec) => {
     let final = `import ${spec.default || ''}`;

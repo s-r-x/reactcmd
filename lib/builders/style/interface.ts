@@ -1,0 +1,25 @@
+import { TStylingStrategy } from '../../typings/styling';
+import { Maybe } from '../../typings/utils';
+
+export type TStyleBuilderFactory = (
+  strategy: TStylingStrategy
+) => IStyleBuilder;
+
+export interface IStyleBuildSpec {
+  rootClass?: string;
+  rootTag: string;
+  ts?: boolean;
+}
+
+export interface IStyleBuildArtifacts {
+  headImport?: string;
+  standalone: Maybe<{
+    filename: string;
+    content: string;
+  }>;
+  render(children: string): string;
+  hoc?: (component: string) => string;
+}
+export interface IStyleBuilder {
+  build(spec: IStyleBuildSpec): IStyleBuildArtifacts;
+}

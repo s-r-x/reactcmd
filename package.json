@@ -1,0 +1,66 @@
+{
+  "name": "react-std-cli",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "react-std-cli": "./bin/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint --ext .ts lib",
+    "lint.strict": "eslint --ext .ts lib --max-warnings 0",
+    "lint.fix": "eslint --ext .ts --fix lib",
+    "check-types": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' TS_NODE_TRANSPILE_ONLY=true NODE_ENV=test mocha -r ts-node/register -r lib/tests/mocha-hooks.ts \"lib/**/*spec.ts\""
+  },
+  "files": [
+    "dist"
+  ],
+  "author": "Ilya Strus <strax1990@gmail.com>",
+  "keywords": [
+    "react",
+    "cli",
+    "react-cli"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^4.2.22",
+    "@types/fs-extra": "^9.0.13",
+    "@types/lodash": "^4.14.175",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.10.1",
+    "@types/prettier": "^2.4.1",
+    "@types/sinon-chai": "^3.2.5",
+    "@types/tmp": "^0.2.1",
+    "@types/yargs": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.32.0",
+    "@typescript-eslint/parser": "^4.32.0",
+    "chai": "^4.3.4",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "mocha": "^9.1.2",
+    "sinon": "^11.1.2",
+    "sinon-chai": "^3.7.0",
+    "tmp": "^0.0.33",
+    "ts-node": "^10.2.1",
+    "type-fest": "^0.20.2",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "camelcase": "^6.2.0",
+    "chalk": "^4.1.2",
+    "fs-extra": "^10.0.0",
+    "handlebars": "^4.7.7",
+    "inquirer": "^8.1.5",
+    "inversify": "^5.1.1",
+    "lodash": "^4.17.21",
+    "pkg-dir": "^5.0.0",
+    "prettier": "^2.4.1",
+    "reflect-metadata": "^0.1.13",
+    "yargs": "^17.2.1"
+  }
+}

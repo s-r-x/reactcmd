@@ -1,12 +1,12 @@
-import { IModuleImportSpec } from './interface';
+import { IModuleImportsBuilder, IModuleImportSpec } from './interface';
 import _ from 'lodash';
 import { injectable } from 'inversify';
 
 @injectable()
-export class ModuleImportsBuilder {
+export class ModuleImportsBuilder implements IModuleImportsBuilder {
   private imports: IModuleImportSpec[] = [];
-  render(): string {
-    return this.imports.map(this.renderRow).join('');
+  build(): string {
+    return this.imports.map(this.buildRow).join('');
   }
   addImport(spec: IModuleImportSpec) {
     this.imports.push(spec);
@@ -20,7 +20,7 @@ export class ModuleImportsBuilder {
     this.imports = [];
     return this;
   }
-  private renderRow = (spec: IModuleImportSpec) => {
+  private buildRow = (spec: IModuleImportSpec) => {
     let final = `import ${spec.default || ''}`;
     if (!_.isEmpty(spec.named)) {
       final += `${spec.default ? ',' : ''} { ${spec.named!.join(', ')} }`;

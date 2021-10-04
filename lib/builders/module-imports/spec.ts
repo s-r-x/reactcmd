@@ -11,7 +11,7 @@ describe('ModuleImportsBuilder', () => {
         from: 'react',
         default: 'React',
       });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should generate correct output with named imports', () => {
       const expected = `import {useEffect, useState} from "react"`;
@@ -20,7 +20,7 @@ describe('ModuleImportsBuilder', () => {
         from: 'react',
         named: ['useEffect', 'useState'],
       });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should generate correct output with mixed imports', () => {
       const expected = `import React, {useEffect, useState} from "react"`;
@@ -30,7 +30,7 @@ describe('ModuleImportsBuilder', () => {
         default: 'React',
         named: ['useEffect', 'useState'],
       });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should generate correct output with multiple imports', () => {
       const expected = `
@@ -47,11 +47,11 @@ describe('ModuleImportsBuilder', () => {
         from: 'lodash',
         default: '_',
       });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should return empty string if there are no imports', () => {
       const builder = new ModuleImportsBuilder();
-      expect(builder.render()).to.be.empty.string;
+      expect(builder.build()).to.be.empty.string;
     });
   });
   describe('removeImport', () => {
@@ -63,7 +63,7 @@ describe('ModuleImportsBuilder', () => {
       builder.addImport({ default: '_', from: 'lodash' });
       builder.addImport({ default: 'React', from: 'react' });
       builder.removeImport('react');
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
   });
   describe('reset', () => {
@@ -71,7 +71,7 @@ describe('ModuleImportsBuilder', () => {
       const builder = new ModuleImportsBuilder();
       builder.addImport({ default: '_', from: 'lodash' });
       builder.reset();
-      expect(builder.render()).to.be.empty.string;
+      expect(builder.build()).to.be.empty.string;
     });
   });
 });

@@ -1,5 +1,6 @@
 import { TStylingStrategy } from '../../typings/styling';
 import { Maybe } from '../../typings/utils';
+import { IModuleImportSpec } from '../module-imports/interface';
 
 export type TStyleBuilderFactory = (
   strategy: TStylingStrategy
@@ -12,7 +13,7 @@ export interface IStyleBuildSpec {
 }
 
 export interface IStyleBuildArtifacts {
-  headImport?: string;
+  imports?: IModuleImportSpec[];
   standalone: Maybe<{
     filename: string;
     content: string;

@@ -17,7 +17,12 @@ export class MuiStyleBuilder extends AbstractStyleBuilder {
           });
 				`,
       },
-      headImport: `import { ${hookName} } from "./styles"`,
+      imports: [
+        {
+          named: [hookName],
+          from: './styles',
+        },
+      ],
       render(children) {
         return `
 					<${tag} className={cls.${rootClass}}>

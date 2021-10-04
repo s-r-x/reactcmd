@@ -15,10 +15,16 @@ export class AphroditeStyleBuilder extends AbstractStyleBuilder {
           });
 				`,
       },
-      headImport: `
-        import { css } from 'aphrodite';
-        import { styles } from './styles';
-      `,
+      imports: [
+        {
+          named: ['css'],
+          from: 'aphrodite',
+        },
+        {
+          named: ['styles'],
+          from: './styles',
+        },
+      ],
       render(children) {
         return `
 					<${tag} className={css(styles.${rootClass})}>

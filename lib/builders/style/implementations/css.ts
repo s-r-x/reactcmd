@@ -12,7 +12,11 @@ export class CssStyleBuilder extends AbstractStyleBuilder {
           .${rootClass} {}
 				`,
       },
-      headImport: `import "./${filename}"`,
+      imports: [
+        {
+          from: `./${filename}`,
+        },
+      ],
       render(children) {
         return `
 					<${tag} className="${rootClass}">

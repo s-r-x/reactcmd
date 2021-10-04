@@ -13,7 +13,11 @@ export class StylusStyleBuilder extends AbstractStyleBuilder {
             cursor: inherit
 				`,
       },
-      headImport: `import "./${filename}"`,
+      imports: [
+        {
+          from: `./${filename}`,
+        },
+      ],
       render(children) {
         return `
 					<${tag} className="${rootClass}">

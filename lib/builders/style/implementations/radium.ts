@@ -15,10 +15,16 @@ export class RadiumStyleBuilder extends AbstractStyleBuilder {
           };
 				`,
       },
-      headImport: `
-        import ${libDefaultExport} from "radium";
-        import { styles } from './styles';
-      `,
+      imports: [
+        {
+          default: libDefaultExport,
+          from: 'radium',
+        },
+        {
+          named: ['styles'],
+          from: './styles',
+        },
+      ],
       hoc(component) {
         return `${libDefaultExport}(${component})`;
       },

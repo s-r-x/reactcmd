@@ -17,7 +17,12 @@ export class LinariaStyleBuilder extends AbstractStyleBuilder {
 					export const ${rootClass} = styled.${tag}\`\`;
 				`,
       },
-      headImport: `import {${rootClass}} from "./styled"`,
+      imports: [
+        {
+          named: [rootClass],
+          from: './styled',
+        },
+      ],
       render(children) {
         return `
 					<${rootClass}>

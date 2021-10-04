@@ -1,4 +1,4 @@
-export const TYPES = {
+export const TOKENS = {
   logger: 'logger',
   env: 'env',
   fs: 'fs',

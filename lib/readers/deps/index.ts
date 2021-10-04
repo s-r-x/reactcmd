@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { TYPES } from '../../ioc/types';
+import { TOKENS } from '../../ioc/tokens';
 import path from 'path';
 import { TPkg, TPkgDeps } from '../../typings/pkg';
 import { IFileSystem } from '../../file-system/interface';
@@ -9,8 +9,8 @@ import { IDepsReader } from './interface';
 @injectable()
 export class DepsReader implements IDepsReader {
   constructor(
-    @inject(TYPES.env) private env: IEnvReader,
-    @inject(TYPES.fs) private fs: IFileSystem
+    @inject(TOKENS.env) private env: IEnvReader,
+    @inject(TOKENS.fs) private fs: IFileSystem
   ) {}
   async readDeps(): Promise<TPkgDeps> {
     const pkg = await this.readPkg();

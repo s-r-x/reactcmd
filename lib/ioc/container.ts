@@ -17,21 +17,21 @@ import { EnvReader } from '../readers/env';
 import { IEnvReader } from '../readers/env/interface';
 import { TmplReader } from '../readers/templates';
 import { ITmplReader } from '../readers/templates/interface';
-import { TYPES } from './types';
+import { TOKENS } from './tokens';
 
 export const createContainer = () => {
   const c = new Container();
-  c.bind<ILogger>(TYPES.logger).to(Logger).inSingletonScope();
-  c.bind<IEnvReader>(TYPES.env).to(EnvReader).inSingletonScope();
-  c.bind<IFileSystem>(TYPES.fs).to(FileSystem).inSingletonScope();
-  c.bind<IConfigReader>(TYPES.cfgReader).to(ConfigReader);
-  c.bind<IDepsReader>(TYPES.depsReader).to(DepsReader);
-  c.bind<ITmplReader>(TYPES.tmplReader).to(TmplReader);
-  c.bind<IStylingAnalyzer>(TYPES.styleAnlz).to(StylingAnalyzer);
-  c.bind<TStyleBuilderFactory>(TYPES.styBldrFctry).toConstantValue(
+  c.bind<ILogger>(TOKENS.logger).to(Logger).inSingletonScope();
+  c.bind<IEnvReader>(TOKENS.env).to(EnvReader).inSingletonScope();
+  c.bind<IFileSystem>(TOKENS.fs).to(FileSystem).inSingletonScope();
+  c.bind<IConfigReader>(TOKENS.cfgReader).to(ConfigReader);
+  c.bind<IDepsReader>(TOKENS.depsReader).to(DepsReader);
+  c.bind<ITmplReader>(TOKENS.tmplReader).to(TmplReader);
+  c.bind<IStylingAnalyzer>(TOKENS.styleAnlz).to(StylingAnalyzer);
+  c.bind<TStyleBuilderFactory>(TOKENS.styBldrFctry).toConstantValue(
     styleBuilderFactory
   );
-  c.bind<IComponentGenerator>(TYPES.cmpGen).to(ComponentGenerator);
+  c.bind<IComponentGenerator>(TOKENS.cmpGen).to(ComponentGenerator);
   return c;
 };
 

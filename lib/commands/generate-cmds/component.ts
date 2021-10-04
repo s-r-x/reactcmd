@@ -1,7 +1,7 @@
 import { Arguments, CommandBuilder } from 'yargs';
 import { ComponentGenerator } from '../../generators/component';
 import container from '../../ioc/container';
-import { TYPES } from '../../ioc/types';
+import { TOKENS } from '../../ioc/tokens';
 import { TStylingStrategy } from '../../typings/styling';
 
 type Options = {
@@ -62,7 +62,7 @@ export const builder: CommandBuilder<Options, Options> = yargs =>
     });
 
 export const handler = async (argv: Arguments<Options>): Promise<void> => {
-  const generator = container.get<ComponentGenerator>(TYPES.cmpGen);
+  const generator = container.get<ComponentGenerator>(TOKENS.cmpGen);
   await generator.gen(argv);
   process.exit(0);
 };

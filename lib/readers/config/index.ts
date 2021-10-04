@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { TYPES } from '../../ioc/types';
+import { TOKENS } from '../../ioc/tokens';
 import path from 'path';
 import { Maybe } from '../../typings/utils';
 import { TCliConfigFile } from '../../typings/config';
@@ -12,8 +12,8 @@ export const CONFIG_NAME = 'react-std-cli.config.json';
 @injectable()
 export class ConfigReader implements IConfigReader {
   constructor(
-    @inject(TYPES.env) private env: IEnvReader,
-    @inject(TYPES.fs) private fs: IFileSystem
+    @inject(TOKENS.env) private env: IEnvReader,
+    @inject(TOKENS.fs) private fs: IFileSystem
   ) {}
   async readConfig(): Promise<Maybe<TCliConfigFile>> {
     return await this.fs.readJSON(this.getConfigPath());

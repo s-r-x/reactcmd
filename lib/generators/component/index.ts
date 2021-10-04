@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { TStyleBuilderFactory } from '../../builders/style/interface';
-import { TYPES } from '../../ioc/types';
+import { TOKENS } from '../../ioc/tokens';
 import { IComponentGenerator } from './interface';
 
 interface IGenerateDto {
@@ -11,7 +11,7 @@ interface IGenerateDto {
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
   constructor(
-    @inject(TYPES.styBldrFctry)
+    @inject(TOKENS.styBldrFctry)
     private styleBuilderFactory: TStyleBuilderFactory
   ) {}
   async gen(args: IGenerateDto): Promise<void> {

@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { TYPES } from '../../ioc/types';
+import { TOKENS } from '../../ioc/tokens';
 import { IDepsReader } from '../../readers/deps/interface';
 import { TPkgDeps } from '../../typings/pkg';
 import { TStylingStrategy } from '../../typings/styling';
@@ -12,7 +12,7 @@ import { IStylingAnalyzer } from './interface';
 // TODO:: css modules
 @injectable()
 export class StylingAnalyzer implements IStylingAnalyzer {
-  constructor(@inject(TYPES.depsReader) private depsReader: IDepsReader) {}
+  constructor(@inject(TOKENS.depsReader) private depsReader: IDepsReader) {}
   async determineStylingStrategy(): Promise<TStylingStrategy> {
     const deps = await this.depsReader.readAllDepsAndMerge();
     return this.determineStrategyByPkg(deps);

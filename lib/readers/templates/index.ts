@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { TYPES } from '../../ioc/types';
+import { TOKENS } from '../../ioc/tokens';
 import path from 'path';
 import { IFileSystem } from '../../file-system/interface';
 import { IEnvReader } from '../env/interface';
@@ -11,8 +11,8 @@ export const TEMPLATES_DIR = 'templates';
 @injectable()
 export class TmplReader implements ITmplReader {
   constructor(
-    @inject(TYPES.env) private env: IEnvReader,
-    @inject(TYPES.fs) private fs: IFileSystem
+    @inject(TOKENS.env) private env: IEnvReader,
+    @inject(TOKENS.fs) private fs: IFileSystem
   ) {}
   async readTemplate(tmpl: string): Promise<string> {
     const tmplContent = await this.fs.readFile(

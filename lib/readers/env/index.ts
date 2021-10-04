@@ -1,12 +1,12 @@
 import { injectable, inject } from 'inversify';
 import { NoRootDirError } from './errors';
-import { TYPES } from '../../ioc/types';
+import { TOKENS } from '../../ioc/tokens';
 import { IEnvReader } from './interface';
 import { IFileSystem } from '../../file-system/interface';
 
 @injectable()
 export class EnvReader implements IEnvReader {
-  constructor(@inject(TYPES.fs) private fs: IFileSystem) {}
+  constructor(@inject(TOKENS.fs) private fs: IFileSystem) {}
   getCliRootDir(): string {
     if (this.cachedCliRootDir) {
       return this.cachedCliRootDir;

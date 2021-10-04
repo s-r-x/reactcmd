@@ -3,7 +3,7 @@ import { ModuleExportsBuilder as Builder } from '.';
 import { expectCodeToEq } from '../../tests/expect-generated-code-to-eq';
 
 describe('ModuleExportsBuilder', () => {
-  describe('render', () => {
+  describe('build', () => {
     it('should generate correct output for default export', () => {
       const expected = 'export default Component';
       const builder = new Builder();
@@ -11,7 +11,7 @@ describe('ModuleExportsBuilder', () => {
         type: 'default',
         name: 'Component',
       });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should and apply hocs to default export', () => {
       const expected =
@@ -22,7 +22,7 @@ describe('ModuleExportsBuilder', () => {
         name: 'Component',
         hocs: ['connect(state => ({}), {})', 'withSomething', 'withRouter'],
       });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should generate correct output for named export', () => {
       const expected = 'export { Component };';
@@ -31,7 +31,7 @@ describe('ModuleExportsBuilder', () => {
         type: 'named',
         name: 'Component',
       });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should generate correct output for named export with alias', () => {
       const expected = 'export { Component as Another };';
@@ -41,7 +41,7 @@ describe('ModuleExportsBuilder', () => {
         name: 'Component',
         alias: 'Another',
       });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should generate correct output for multiple named exports', () => {
       const expected = `export { Component, Component2 };`;
@@ -55,7 +55,7 @@ describe('ModuleExportsBuilder', () => {
           type: 'named',
           name: 'Component2',
         });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should generate correct output for mixed exports', () => {
       const expected = `
@@ -78,7 +78,7 @@ describe('ModuleExportsBuilder', () => {
           type: 'named',
           name: 'Component2',
         });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
     });
     it('should filter out multiple default exports', () => {
       const expected = `
@@ -94,7 +94,36 @@ describe('ModuleExportsBuilder', () => {
           type: 'default',
           name: 'Last',
         });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
+    });
+  });
+  describe('replaceExports', () => {
+    it('should replace all exports', () => {
+      const expected = `
+        export default NewExport;
+        export { NewNamed };
+      `;
+      const builder = new Builder();
+      builder
+        .addExport({
+          type: 'default',
+          name: 'Default',
+        })
+        .addExport({
+          type: 'named',
+          name: 'Named',
+        })
+        .replaceExports([
+          {
+            type: 'default',
+            name: 'NewExport',
+          },
+          {
+            type: 'named',
+            name: 'NewNamed',
+          },
+        ]);
+      expectCodeToEq(builder.build(), expected);
     });
   });
   describe('reset', () => {
@@ -115,10 +144,10 @@ describe('ModuleExportsBuilder', () => {
           type: 'named',
           name: 'N3',
         });
-      expectCodeToEq(builder.render(), expected);
+      expectCodeToEq(builder.build(), expected);
 
       builder.reset();
-      expect(builder.render()).to.be.empty.string;
+      expect(builder.build()).to.be.empty.string;
     });
   });
 });

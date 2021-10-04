@@ -1,5 +1,6 @@
 import {
   IDefaultModuleExportsSpec,
+  IModuleExportsBuilder,
   INamedModuleExportsSpec,
   IRemoveExportDto,
   TModuleExportsSpec,
@@ -9,13 +10,20 @@ import { Maybe } from '../../typings/utils';
 import { injectable } from 'inversify';
 
 @injectable()
-export class ModuleExportsBuilder {
+export class ModuleExportsBuilder implements IModuleExportsBuilder {
   private namedExports: INamedModuleExportsSpec[] = [];
   private defaultExport: Maybe<IDefaultModuleExportsSpec> = null;
-  render(): string {
+  build(): string {
     return [this.renderDefaultExport(), this.renderNamedExports()]
       .filter(Boolean)
       .join('');
+  }
+  replaceExports(specs: TModuleExportsSpec[]) {
+    this.reset();
+    specs.forEach(spec => {
+      this.addExport(spec);
+    });
+    return this;
   }
   addExport(spec: TModuleExportsSpec) {
     if (spec.type === 'default') {

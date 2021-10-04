@@ -1,3 +1,11 @@
+export interface IModuleExportsBuilder {
+  build(): string;
+  replaceExports(specs: TModuleExportsSpec[]): this;
+  addExport(spec: TModuleExportsSpec): this;
+  removeExport(arg: IRemoveExportDto): this;
+  reset(): this;
+}
+
 export interface INamedModuleExportsSpec {
   type: 'named';
   name: string;

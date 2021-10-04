@@ -8,6 +8,10 @@ export class ModuleImportsBuilder implements IModuleImportsBuilder {
   build(): string {
     return this.imports.map(this.buildRow).join('');
   }
+  replaceImports(specs: IModuleImportSpec[]) {
+    this.imports = specs;
+    return this;
+  }
   addImport(spec: IModuleImportSpec) {
     this.imports.push(spec);
     return this;

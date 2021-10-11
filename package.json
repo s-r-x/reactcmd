@@ -29,6 +29,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.22",
     "@types/fs-extra": "^9.0.13",
+    "@types/jscodeshift": "^0.11.2",
     "@types/lodash": "^4.14.175",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.10.1",
@@ -56,6 +57,7 @@
     "fs-extra": "^10.0.0",
     "inquirer": "^8.1.5",
     "inversify": "^5.1.1",
+    "jscodeshift": "^0.13.0",
     "lodash": "^4.17.21",
     "pkg-dir": "^5.0.0",
     "prettier": "^2.4.1",

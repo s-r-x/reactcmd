@@ -1,4 +1,4 @@
-import { Maybe } from '../../../typings/utils';
+import { Maybe } from '../../typings/utils';
 
 export class ComponentBuilder {
   private useMemo = false;

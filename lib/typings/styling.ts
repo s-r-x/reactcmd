@@ -5,7 +5,6 @@ export type TStylingStrategy =
   | 'radium'
   | 'emotion'
   | 'styled-jsx'
-  | 'mui'
   | 'stylus'
   | 'less'
   | 'sass'

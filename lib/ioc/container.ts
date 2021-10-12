@@ -1,6 +1,10 @@
 import { Container } from 'inversify';
 import { StylingAnalyzer } from '../analyzers/styling';
 import { IStylingAnalyzer } from '../analyzers/styling/interface';
+import { ModuleExportsBuilder } from '../builders/module-exports';
+import { IModuleExportsBuilder } from '../builders/module-exports/interface';
+import { ModuleImportsBuilder } from '../builders/module-imports';
+import { IModuleImportsBuilder } from '../builders/module-imports/interface';
 import { styleBuilderFactory } from '../builders/style/factory';
 import { TStyleBuilderFactory } from '../builders/style/interface';
 import { FileSystem } from '../file-system';
@@ -32,6 +36,8 @@ export const createContainer = () => {
     styleBuilderFactory
   );
   c.bind<IComponentGenerator>(TOKENS.cmpGen).to(ComponentGenerator);
+  c.bind<IModuleExportsBuilder>(TOKENS.mdlExprtBldr).to(ModuleExportsBuilder);
+  c.bind<IModuleImportsBuilder>(TOKENS.mdlImprtBldr).to(ModuleImportsBuilder);
   return c;
 };
 

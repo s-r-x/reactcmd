@@ -4,9 +4,8 @@ import { CssStyleBuilder } from './implementations/css';
 import { EmotionStyleBuilder } from './implementations/emotion';
 import { LessStyleBuilder } from './implementations/less';
 import { LinariaStyleBuilder } from './implementations/linaria';
-import { MuiStyleBuilder } from './implementations/mui';
 import { RadiumStyleBuilder } from './implementations/radium';
-import { SassStyleBuilder } from './implementations/sass';
+import { ScssStyleBuilder } from './implementations/scss';
 import { ScStyleBuilder } from './implementations/sc';
 import { StyledJsxStyleBuilder } from './implementations/styled-jsx';
 import { StylusStyleBuilder } from './implementations/stylus';
@@ -18,9 +17,8 @@ const implementations: Record<TStylingStrategy, new () => IStyleBuilder> = {
   emotion: EmotionStyleBuilder,
   less: LessStyleBuilder,
   linaria: LinariaStyleBuilder,
-  mui: MuiStyleBuilder,
   radium: RadiumStyleBuilder,
-  sass: SassStyleBuilder,
+  sass: ScssStyleBuilder,
   stylus: StylusStyleBuilder,
   'styled-jsx': StyledJsxStyleBuilder,
   'styled-components': ScStyleBuilder,

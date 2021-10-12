@@ -3,28 +3,55 @@ import {
   IStyleBuildSpec,
   IStyleBuildArtifacts,
   IStyleBuilder,
+  TNormalizedStyleBuildSpec,
 } from '../interface';
 import _ from 'lodash';
+import path from 'path';
+import j from 'jscodeshift';
 
 export abstract class AbstractStyleBuilder implements IStyleBuilder {
-  abstract build(spec: IStyleBuildSpec): IStyleBuildArtifacts;
+  protected fileExt?: string;
+  protected shouldCapitalizeRootClass?: boolean;
+  protected defaultFilename = 'styles';
 
-  protected normalizeSpec({
-    rootClass = DEFAULT_ROOT_CLASS,
+  build(spec: IStyleBuildSpec): IStyleBuildArtifacts {
+    return this.buildArtifacts(this.normalizeSpec(spec));
+  }
+
+  protected abstract buildArtifacts(
+    spec: TNormalizedStyleBuildSpec
+  ): IStyleBuildArtifacts;
+  private normalizeSpec({
+    rootClass,
     rootTag = DEFAULT_ROOT_TAG,
     ts = false,
-  }: IStyleBuildSpec): Required<IStyleBuildSpec> {
+    filename,
+    jsxChildren = [j.literal('hello world')],
+  }: IStyleBuildSpec): TNormalizedStyleBuildSpec {
     return {
-      rootClass,
+      rootClass: this.normalizeRootClass(rootClass),
       rootTag,
       ts,
+      jsxChildren,
+      file: this.generateStandaloneFileMeta(filename, ts),
     };
   }
-  protected normalizeSpecAndCapitalizeRootClass(
-    rawSpec: IStyleBuildSpec
-  ): ReturnType<AbstractStyleBuilder['normalizeSpec']> {
-    const spec = this.normalizeSpec(rawSpec);
-    spec.rootClass = _.capitalize(spec.rootClass);
-    return spec;
+  private normalizeRootClass(cls: string = DEFAULT_ROOT_CLASS): string {
+    if (this.shouldCapitalizeRootClass) {
+      return _.capitalize(cls);
+    }
+    return cls;
+  }
+  private generateStandaloneFileMeta(
+    filename?: string,
+    ts?: boolean
+  ): TNormalizedStyleBuildSpec['file'] {
+    const parsed = path.parse(filename || this.defaultFilename);
+    const ext = this.fileExt || (ts ? '.ts' : '.js');
+    return {
+      ext,
+      name: parsed.name,
+      nameWithExt: parsed.name + ext,
+    };
   }
 }

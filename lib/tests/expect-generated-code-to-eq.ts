@@ -2,9 +2,17 @@ import { expect } from 'chai';
 
 import prettier from 'prettier';
 
-export const format = (src: string): string => {
-  return prettier.format(src, {
+interface IFormatOpts {
+  parser?: prettier.Options['parser'];
+}
+export const format = (
+  src: string,
+  { parser = 'babel' }: IFormatOpts = {
     parser: 'babel',
+  }
+): string => {
+  return prettier.format(src, {
+    parser,
     semi: true,
     trailingComma: 'none',
     bracketSpacing: false,
@@ -15,6 +23,10 @@ export const format = (src: string): string => {
   });
 };
 
-export const expectCodeToEq = (output: string, expectOutput: string): void => {
-  expect(format(output)).to.eq(format(expectOutput));
+export const expectCodeToEq = (
+  output: string,
+  expectOutput: string,
+  opts?: IFormatOpts
+): void => {
+  expect(format(output, opts)).to.eq(format(expectOutput, opts));
 };

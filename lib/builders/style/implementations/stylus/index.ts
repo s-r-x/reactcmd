@@ -1,5 +1,6 @@
-import { IStyleBuildSpec, IStyleBuildArtifacts } from '../interface';
-import { AbstractStyleBuilder } from './abstract';
+import { IStyleBuildSpec, IStyleBuildArtifacts } from '../../interface';
+import { AbstractStyleBuilder } from '../abstract';
+import j from 'jscodeshift';
 
 export class StylusStyleBuilder extends AbstractStyleBuilder {
   build(rawSpec: IStyleBuildSpec): IStyleBuildArtifacts {
@@ -13,11 +14,7 @@ export class StylusStyleBuilder extends AbstractStyleBuilder {
             cursor: inherit
 				`,
       },
-      imports: [
-        {
-          from: `./${filename}`,
-        },
-      ],
+      imports: [j.importDeclaration([], j.literal(`./${filename}`))],
       render(children) {
         return `
 					<${tag} className="${rootClass}">

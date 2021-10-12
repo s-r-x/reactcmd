@@ -3,17 +3,17 @@ import _ from 'lodash';
 export const componentTmpl = _.template(`
 	<%= imports %>
 
-	<%= declarations %>
+	<%= header %>
 
 	<%= componentHead %>
 
 		<%= componentBody %>
 
 		return (
-			<%= componentContent %>
+			<%= JSX %>
 		)
 	};
-	<%= afterComponent %>
+	<%= footer %>
 
 	<%= exports %>
 `);

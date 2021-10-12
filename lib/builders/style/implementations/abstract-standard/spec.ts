@@ -14,7 +14,7 @@ const builders: [constructor: new () => IStyleBuilder, ext: string][] = [
   [ScssStyleBuilder, 'scss'],
 ];
 builders.forEach(([Builder, ext]) => {
-  describe.only(`${_.capitalize(ext)}StyleBuilder`, () => {
+  describe(`${_.capitalize(ext)}StyleBuilder`, () => {
     describe('build', () => {
       describe('should generate correct style artifacts', () => {
         (

@@ -1,4 +1,8 @@
-import { DEFAULT_ROOT_CLASS, DEFAULT_ROOT_TAG } from '../constants';
+import {
+  DEFAULT_JSX_CHILDREN,
+  DEFAULT_ROOT_CLASS,
+  DEFAULT_ROOT_TAG,
+} from '../constants';
 import {
   IStyleBuildSpec,
   IStyleBuildArtifacts,
@@ -7,7 +11,6 @@ import {
 } from '../interface';
 import _ from 'lodash';
 import path from 'path';
-import j from 'jscodeshift';
 
 export abstract class AbstractStyleBuilder implements IStyleBuilder {
   protected fileExt?: string;
@@ -26,7 +29,7 @@ export abstract class AbstractStyleBuilder implements IStyleBuilder {
     rootTag = DEFAULT_ROOT_TAG,
     ts = false,
     filename,
-    jsxChildren = [j.literal('hello world')],
+    jsxChildren = DEFAULT_JSX_CHILDREN,
   }: IStyleBuildSpec): TNormalizedStyleBuildSpec {
     return {
       rootClass: this.normalizeRootClass(rootClass),

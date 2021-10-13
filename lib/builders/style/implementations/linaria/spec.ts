@@ -2,7 +2,7 @@ import { LinariaStyleBuilder as Builder } from '.';
 import j from 'jscodeshift';
 import { expectCodeToEq } from '../../../../tests/expect-generated-code-to-eq';
 import { expect } from 'chai';
-import { DEFAULT_CSS_RULES } from '../../constants';
+import { DEFAULT_CSS_RULES, DEFAULT_JSX_CHILDREN_STR } from '../../constants';
 
 describe('LinariaStyleBuilder', () => {
   describe('build', () => {
@@ -20,10 +20,9 @@ describe('LinariaStyleBuilder', () => {
           filename,
           ts,
         });
-        const children = 'hello';
         const { nsExport } = builder;
         const expectedJsx = `
-        	<${nsExport}.${rootClass}>${children}</${nsExport}.${rootClass}>
+        	<${nsExport}.${rootClass}>${DEFAULT_JSX_CHILDREN_STR}</${nsExport}.${rootClass}>
         `;
         const expectedImports = `
         	import * as ${nsExport} from "./${filename}";

@@ -1,5 +1,9 @@
+import j from 'jscodeshift';
+
 export const DEFAULT_ROOT_CLASS = 'root';
 export const DEFAULT_ROOT_TAG = 'div';
 export const DEFAULT_CSS_RULES = `
 	cursor: inherit; 
 `;
+export const DEFAULT_JSX_CHILDREN_STR = 'hello_world';
+export const DEFAULT_JSX_CHILDREN = [j.literal(DEFAULT_JSX_CHILDREN_STR)];

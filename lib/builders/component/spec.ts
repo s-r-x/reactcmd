@@ -7,7 +7,7 @@ import {
   PROPS_TYPE_IDENTIFIER,
 } from './constants';
 
-describe.only('ComponentBuilder', () => {
+describe('ComponentBuilder', () => {
   describe('buildDefaultExport', () => {
     it('should build correct export without hocs', () => {
       const builder = new Builder();

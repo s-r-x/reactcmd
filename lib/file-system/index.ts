@@ -24,4 +24,12 @@ export class FileSystem implements IFileSystem {
     const dir = findPkgDir.sync(cwd);
     return dir || null;
   }
+  async readDir(dir: string): Promise<string[]> {
+    try {
+      const list = await fs.readdir(dir);
+      return list;
+    } catch (_e) {
+      return [];
+    }
+  }
 }

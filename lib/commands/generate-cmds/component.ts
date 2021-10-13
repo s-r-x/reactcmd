@@ -3,17 +3,7 @@ import { ComponentGenerator } from '../../generators/component';
 import container from '../../ioc/container';
 import { TOKENS } from '../../ioc/tokens';
 import { TStylingStrategy } from '../../typings/styling';
-
-type Options = {
-  name: string;
-  ts?: boolean;
-  js?: boolean;
-  'no-style'?: boolean;
-  style?: string;
-  stories?: boolean;
-  class?: boolean;
-  fc?: boolean;
-};
+import { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
 
 export const command = 'component <name> [dir]';
 export const aliases = ['c'];
@@ -24,7 +14,6 @@ const styleChoices: TStylingStrategy[] = [
   'emotion',
   'aphrodite',
   'radium',
-  'mui',
   'styled-jsx',
   'linaria',
   'less',
@@ -32,15 +21,18 @@ const styleChoices: TStylingStrategy[] = [
   'stylus',
   'sass',
 ];
-export const builder: CommandBuilder<Options, Options> = yargs =>
+export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
   yargs
     .options({
       ts: { type: 'boolean', desc: 'Use typescript?', alias: 'tsx' },
       js: { type: 'boolean', desc: 'Use javascript?', alias: 'jsx' },
       class: { type: 'boolean', desc: 'Class component?' },
       fc: { type: 'boolean', desc: 'Functional component?' },
+      mobx: { type: 'boolean', desc: 'Use mobx?' },
+      redux: { type: 'boolean', desc: 'Use redux?' },
+      nostyle: { type: 'boolean', desc: 'Disable styling?' },
       stories: { type: 'boolean', desc: 'Create stories?' },
-      memo: { type: 'boolean', desc: 'Wrap in memo or extends PureComponent?' },
+      pure: { type: 'boolean', desc: 'Wrap in memo or extends PureComponent?' },
       style: {
         type: 'string',
         alias: 's',
@@ -61,7 +53,7 @@ export const builder: CommandBuilder<Options, Options> = yargs =>
       default: 'components',
     });
 
-export const handler = async (argv: Arguments<Options>): Promise<void> => {
+export const handler = async (argv: Arguments<IOptions>): Promise<void> => {
   const generator = container.get<ComponentGenerator>(TOKENS.cmpGen);
   await generator.gen(argv);
   process.exit(0);

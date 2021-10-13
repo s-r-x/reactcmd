@@ -8,7 +8,7 @@ import _ from 'lodash';
 import path from 'path';
 import {
   DEFAULT_COMPONENTS_FOLDER,
-  POSSIBLE_COMPONENTS_FOLDER,
+  POSSIBLE_COMPONENTS_FOLDERS,
   POSSIBLE_SRC_FOLDERS,
 } from './constants';
 
@@ -23,7 +23,7 @@ export class EnvAnalyzer implements IEnvAnalyzer {
     const list = await this.fs.readDir(src);
     const defaultFolder = path.join(src, DEFAULT_COMPONENTS_FOLDER);
     if (_.isEmpty(list)) return defaultFolder;
-    for (const option in POSSIBLE_COMPONENTS_FOLDER) {
+    for (const option in POSSIBLE_COMPONENTS_FOLDERS) {
       if (list.has(option)) {
         return path.join(src, option);
       }

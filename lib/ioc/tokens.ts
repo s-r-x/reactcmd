@@ -1,5 +1,6 @@
 export const TOKENS = {
   logger: Symbol.for('logger'),
+  envAnalyzer: Symbol.for('envAnlz'),
   env: Symbol.for('env'),
   fs: Symbol.for('fs'),
   cfgReader: Symbol.for('cfgReader'),

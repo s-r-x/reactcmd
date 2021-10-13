@@ -1,12 +1,16 @@
 import { Container } from 'inversify';
+import { EnvAnalyzer } from '../analyzers/env';
+import { IEnvAnalyzer } from '../analyzers/env/interface';
 import { StylingAnalyzer } from '../analyzers/styling';
 import { IStylingAnalyzer } from '../analyzers/styling/interface';
+import { ComponentBuilder } from '../builders/component';
 import { styleBuilderFactory } from '../builders/style/factory';
 import { TStyleBuilderFactory } from '../builders/style/interface';
 import { FileSystem } from '../file-system';
 import { IFileSystem } from '../file-system/interface';
 import { ComponentGenerator } from '../generators/component';
 import { IComponentGenerator } from '../generators/component/interface';
+import { ComponentGeneratorOptionsNormalizer } from '../generators/component/options-normalizer';
 import { Logger } from '../logger';
 import { ILogger } from '../logger/interface';
 import { ConfigReader } from '../readers/config';
@@ -22,6 +26,7 @@ import { TOKENS } from './tokens';
 export const createContainer = () => {
   const c = new Container();
   c.bind<ILogger>(TOKENS.logger).to(Logger).inSingletonScope();
+  c.bind<IEnvAnalyzer>(TOKENS.envAnalyzer).to(EnvAnalyzer).inSingletonScope();
   c.bind<IEnvReader>(TOKENS.env).to(EnvReader).inSingletonScope();
   c.bind<IFileSystem>(TOKENS.fs).to(FileSystem).inSingletonScope();
   c.bind<IConfigReader>(TOKENS.cfgReader).to(ConfigReader);
@@ -32,6 +37,8 @@ export const createContainer = () => {
     styleBuilderFactory
   );
   c.bind<IComponentGenerator>(TOKENS.cmpGen).to(ComponentGenerator);
+  c.bind(ComponentGeneratorOptionsNormalizer).toSelf();
+  c.bind(ComponentBuilder).toSelf();
   return c;
 };
 

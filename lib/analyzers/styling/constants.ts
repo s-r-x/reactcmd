@@ -15,5 +15,4 @@ export const LIB_TO_STYLING_STRATEGY_MAP: Record<
   stylus: 'stylus',
   less: 'less',
   sass: 'sass',
-  '@material-ui/core': 'mui',
 };

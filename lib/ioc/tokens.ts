@@ -8,6 +8,4 @@ export const TOKENS = {
   styleAnlz: Symbol.for('styleAnlz'),
   styBldrFctry: Symbol.for('styleBuilderFact'),
   cmpGen: Symbol.for('cmpGen'),
-  mdlExprtBldr: Symbol.for('mdlExprtBldr'),
-  mdlImprtBldr: Symbol.for('mdlImprtBldr'),
 };

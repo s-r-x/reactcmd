@@ -33,6 +33,7 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       nostyle: { type: 'boolean', desc: 'Disable styling?' },
       stories: { type: 'boolean', desc: 'Create stories?' },
       pure: { type: 'boolean', desc: 'Wrap in memo or extends PureComponent?' },
+      tag: { type: 'string', desc: 'JSX root tag', default: 'div' },
       style: {
         type: 'string',
         alias: 's',

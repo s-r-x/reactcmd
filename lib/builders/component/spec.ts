@@ -1,11 +1,7 @@
 import { ComponentBuilder as Builder } from '.';
 import j from 'jscodeshift';
 import { expectCodeToEq } from '../../tests/expect-generated-code-to-eq';
-import {
-  DEFAULT_COMPONENT_NAME,
-  DEFAULT_JSX_STR,
-  PROPS_TYPE_IDENTIFIER,
-} from './constants';
+import { DEFAULT_COMPONENT_NAME, PROPS_TYPE_IDENTIFIER } from './constants';
 
 describe('ComponentBuilder', () => {
   describe('buildDefaultExport', () => {
@@ -81,6 +77,18 @@ describe('ComponentBuilder', () => {
     });
   });
   describe('buildComponentDeclaration', () => {
+    it('should generatate correct jsx with custom tag', () => {
+      const tag = 'p';
+      const src = Builder.new().withTag(tag).buildComponentDeclaration();
+      expectCodeToEq(
+        src,
+        `
+            const ${DEFAULT_COMPONENT_NAME} = props => {
+              return ${j(Builder.buildDefaultJsx(tag)).toSource()};
+            }
+          `
+      );
+    });
     describe('fc', () => {
       it('should generate correct declaration with typescript', () => {
         const src = Builder.new().withTypescript().buildComponentDeclaration();
@@ -88,7 +96,7 @@ describe('ComponentBuilder', () => {
           src,
           `
             const ${DEFAULT_COMPONENT_NAME}: React.FC<${PROPS_TYPE_IDENTIFIER}> = props => {
-              return ${DEFAULT_JSX_STR};
+              return ${j(Builder.buildDefaultJsx()).toSource()};
             }
           `
         );
@@ -99,7 +107,7 @@ describe('ComponentBuilder', () => {
           src,
           `
             const ${DEFAULT_COMPONENT_NAME} = props => {
-              return ${DEFAULT_JSX_STR};
+              return ${j(Builder.buildDefaultJsx()).toSource()};
             }
           `
         );
@@ -116,7 +124,7 @@ describe('ComponentBuilder', () => {
           `
             class ${DEFAULT_COMPONENT_NAME} extends React.Component<${PROPS_TYPE_IDENTIFIER}> {
               render() {
-                return ${DEFAULT_JSX_STR};
+                return ${j(Builder.buildDefaultJsx()).toSource()};
               }
             }
           `
@@ -134,7 +142,7 @@ describe('ComponentBuilder', () => {
           `
             class ${DEFAULT_COMPONENT_NAME} extends React.PureComponent<${PROPS_TYPE_IDENTIFIER}> {
               render() {
-                return ${DEFAULT_JSX_STR};
+                return ${j(Builder.buildDefaultJsx()).toSource()};
               }
             }
           `
@@ -149,7 +157,7 @@ describe('ComponentBuilder', () => {
           `
             class ${DEFAULT_COMPONENT_NAME} extends React.Component {
               render() {
-                return ${DEFAULT_JSX_STR};
+                return ${j(Builder.buildDefaultJsx()).toSource()};
               }
             }
           `

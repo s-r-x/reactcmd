@@ -5,8 +5,8 @@ import { Maybe, TStringDict } from '../../typings/utils';
 import {
   DEFAULT_COMPONENT_NAME,
   DEFAULT_IMPORTS,
-  DEFAULT_JSX,
   DEFAULT_PROPS,
+  DEFAULT_TAG,
   ENABLE_TS_BY_DEFAULT,
   IS_CLASS_BY_DEFAULT,
   IS_PURE_BY_DEFAULT,
@@ -19,7 +19,7 @@ import {
 export class ComponentBuilder {
   private imports: j.ImportDeclaration[] = DEFAULT_IMPORTS;
   private hocs: string[] = [];
-  private jsx: Maybe<j.JSXElement> = DEFAULT_JSX;
+  private jsx: Maybe<j.JSXElement> = null;
   private componentName = DEFAULT_COMPONENT_NAME;
   private isClass = IS_CLASS_BY_DEFAULT;
   private isPure = IS_PURE_BY_DEFAULT;
@@ -27,13 +27,21 @@ export class ComponentBuilder {
   private props = DEFAULT_PROPS;
   private useMobx = USE_MOBX_BY_DEFAULT;
   private useRedux = USE_REDUX_BY_DEFAULT;
+  private tag = DEFAULT_TAG;
 
   static new() {
     return new this();
   }
+  static buildDefaultJsx(tag: string = DEFAULT_TAG): j.JSXElement {
+    return j.jsxElement(
+      j.jsxOpeningElement(j.jsxIdentifier(tag), []),
+      j.jsxClosingElement(j.jsxIdentifier(tag)),
+      [j.stringLiteral('^_^')]
+    );
+  }
   reset() {
     this.hocs = [];
-    this.jsx = DEFAULT_JSX;
+    this.jsx = null;
     this.imports = DEFAULT_IMPORTS;
     this.componentName = DEFAULT_COMPONENT_NAME;
     this.isClass = IS_CLASS_BY_DEFAULT;
@@ -42,6 +50,7 @@ export class ComponentBuilder {
     this.useMobx = USE_MOBX_BY_DEFAULT;
     this.useRedux = USE_REDUX_BY_DEFAULT;
     this.props = DEFAULT_PROPS;
+    this.tag = DEFAULT_TAG;
     return this;
   }
   withMobx() {
@@ -54,6 +63,10 @@ export class ComponentBuilder {
   }
   withJsx(jsx: j.JSXElement) {
     this.jsx = jsx;
+    return this;
+  }
+  withTag(tag: string) {
+    this.tag = tag;
     return this;
   }
   makePure() {
@@ -148,7 +161,7 @@ export class ComponentBuilder {
         identifier,
         j.arrowFunctionExpression(
           [j.identifier('props')],
-          j.blockStatement([j.returnStatement(this.jsx)])
+          j.blockStatement([j.returnStatement(this.finalJsx)])
         )
       ),
     ]);
@@ -168,7 +181,7 @@ export class ComponentBuilder {
             j.functionExpression(
               null,
               [],
-              j.blockStatement([j.returnStatement(this.jsx)])
+              j.blockStatement([j.returnStatement(this.finalJsx)])
             )
           ),
         ]),
@@ -191,6 +204,10 @@ export class ComponentBuilder {
           j.literal('react-redux')
         ),
     ].filter(Boolean) as j.ImportDeclaration[];
+  }
+  private get finalJsx(): j.JSXElement {
+    if (this.jsx) return this.jsx;
+    return ComponentBuilder.buildDefaultJsx(this.tag);
   }
   private get finalHocs(): string[] {
     return [

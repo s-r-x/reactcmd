@@ -28,6 +28,7 @@ export class ComponentGenerator implements IComponentGenerator {
         opts.style as TStylingStrategy
       );
       styleArtifacts = styleBuilder.build({
+        rootTag: opts.tag,
         ts: opts.ts,
       });
     }
@@ -39,6 +40,9 @@ export class ComponentGenerator implements IComponentGenerator {
     }
     if (opts.ts) {
       builder.withTypescript();
+    }
+    if (opts.tag) {
+      builder.withTag(opts.tag);
     }
     if (opts.mobx) {
       builder.withMobx();

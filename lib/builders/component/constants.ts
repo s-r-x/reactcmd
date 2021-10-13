@@ -1,15 +1,5 @@
-import { IBuildComponentSpec } from './interface';
 import j from 'jscodeshift';
 import { TStringDict } from '../../typings/utils';
-
-export const BUILD_COMPONENT_DEFAULT_SPEC: IBuildComponentSpec = {
-  name: 'Component',
-  lang: 'js',
-  isPure: false,
-  useClass: false,
-  usePT: false,
-  useRedux: false,
-};
 
 export const DEFAULT_JSX = j.jsxElement(
   j.jsxOpeningElement(j.jsxIdentifier('div'), []),

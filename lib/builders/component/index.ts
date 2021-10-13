@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import j from 'jscodeshift';
 import _ from 'lodash';
 import { Maybe, TStringDict } from '../../typings/utils';
@@ -14,6 +15,7 @@ import {
   USE_REDUX_BY_DEFAULT,
 } from './constants';
 
+@injectable()
 export class ComponentBuilder {
   private imports: j.ImportDeclaration[] = DEFAULT_IMPORTS;
   private hocs: string[] = [];

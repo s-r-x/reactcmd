@@ -11,12 +11,14 @@ import {
   POSSIBLE_COMPONENTS_FOLDERS,
   POSSIBLE_SRC_FOLDERS,
 } from './constants';
+import { IConfigReader } from '../../readers/config/interface';
 
 @injectable()
 export class EnvAnalyzer implements IEnvAnalyzer {
   constructor(
     @inject(TOKENS.env) private env: IEnvReader,
-    @inject(TOKENS.fs) private fs: IFileSystem
+    @inject(TOKENS.fs) private fs: IFileSystem,
+    @inject(TOKENS.cfgReader) private cfgReader: IConfigReader
   ) {}
   async determineComponentsDir(): Promise<string> {
     const src = await this.determineSourceDir();
@@ -32,6 +34,8 @@ export class EnvAnalyzer implements IEnvAnalyzer {
   }
   async determineSourceDir(): Promise<string> {
     const rootDir = this.env.getProjectRootDir();
+    const srcDir = await this.cfgReader.getSrcDir();
+    if (srcDir) return srcDir;
     const list = await this.fs.readDir(rootDir);
     if (_.isEmpty(list)) return rootDir;
     for (const option of POSSIBLE_SRC_FOLDERS) {

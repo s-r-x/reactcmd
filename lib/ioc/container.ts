@@ -10,9 +10,10 @@ import { FileSystem } from '../file-system';
 import { IFileSystem } from '../file-system/interface';
 import { ComponentGenerator } from '../generators/component';
 import { IComponentGenerator } from '../generators/component/interface';
-import { ComponentGeneratorOptionsNormalizer } from '../generators/component/options-normalizer';
 import { Logger } from '../logger';
 import { ILogger } from '../logger/interface';
+import { ComponentGenInputNormalizer } from '../normalizers/component-gen-input';
+import { IComponentGenInputNormalizer } from '../normalizers/component-gen-input/interface';
 import { ConfigReader } from '../readers/config';
 import { IConfigReader } from '../readers/config/interface';
 import { DepsReader } from '../readers/deps';
@@ -34,7 +35,9 @@ export const createContainer = () => {
     styleBuilderFactory
   );
   c.bind<IComponentGenerator>(TOKENS.cmpGen).to(ComponentGenerator);
-  c.bind(ComponentGeneratorOptionsNormalizer).toSelf();
+  c.bind<IComponentGenInputNormalizer>(TOKENS.cmpGenInputNrmlz).to(
+    ComponentGenInputNormalizer
+  );
   c.bind(ComponentBuilder).toSelf();
   return c;
 };

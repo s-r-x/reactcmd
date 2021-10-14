@@ -5,10 +5,10 @@ import {
   TStyleBuilderFactory,
 } from '../../builders/style/interface';
 import { TOKENS } from '../../ioc/tokens';
+import { IComponentGenInputNormalizer } from '../../normalizers/component-gen-input/interface';
 import { TStylingStrategy } from '../../typings/styling';
 import { Maybe } from '../../typings/utils';
 import { IComponentGenerator, IGenerateComponentOptions } from './interface';
-import { ComponentGeneratorOptionsNormalizer } from './options-normalizer';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -16,11 +16,12 @@ export class ComponentGenerator implements IComponentGenerator {
     @inject(TOKENS.styBldrFctry)
     private styleBuilderFactory: TStyleBuilderFactory,
     private componentBuilder: ComponentBuilder,
-    private optionsNormalizer: ComponentGeneratorOptionsNormalizer
+    @inject(TOKENS.cmpGenInputNrmlz)
+    private inputNormalizer: IComponentGenInputNormalizer
   ) {}
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const { componentBuilder: builder } = this;
-    const opts = await this.optionsNormalizer.normalize(rawOpts);
+    const opts = await this.inputNormalizer.normalize(rawOpts);
     let styleArtifacts: Maybe<IStyleBuildArtifacts> = null;
     builder.withComponentName(opts.name);
     if (opts.style && !opts.nostyle) {
@@ -63,7 +64,7 @@ export class ComponentGenerator implements IComponentGenerator {
       builder.withJsx(styleArtifacts.jsx);
     }
     const component = builder.build();
-    console.log(opts);
+    console.log(component);
     return Promise.resolve();
   }
 }

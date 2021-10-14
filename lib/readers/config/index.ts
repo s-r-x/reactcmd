@@ -7,7 +7,7 @@ import { IFileSystem } from '../../file-system/interface';
 import { IConfigReader } from './interface';
 import { IEnvReader } from '../env/interface';
 
-export const CONFIG_NAME = 'react-std-cli.config.json';
+export const CONFIG_NAME = 'reactcmd.config.json';
 
 @injectable()
 export class ConfigReader implements IConfigReader {
@@ -17,6 +17,16 @@ export class ConfigReader implements IConfigReader {
   ) {}
   async readConfig(): Promise<Maybe<TCliConfigFile>> {
     return await this.fs.readJSON(this.getConfigPath());
+  }
+  async getSrcDir(): Promise<Maybe<string>> {
+    const cfg = await this.readConfig();
+    const src = cfg?.srcDir;
+    if (!src) return null;
+    if (path.isAbsolute(src)) {
+      return src;
+    } else {
+      return path.join(this.env.getProjectRootDir(), src);
+    }
   }
   private getConfigPath(): string {
     const root = this.env.getProjectRootDir();

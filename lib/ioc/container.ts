@@ -4,6 +4,8 @@ import { IEnvAnalyzer } from '../analyzers/env/interface';
 import { StylingAnalyzer } from '../analyzers/styling';
 import { IStylingAnalyzer } from '../analyzers/styling/interface';
 import { ComponentBuilder } from '../builders/component';
+import { ComponentBuilderFacade } from '../builders/component/facade';
+import { IComponentBuilderFacade } from '../builders/component/interface';
 import { styleBuilderFactory } from '../builders/style/factory';
 import { TStyleBuilderFactory } from '../builders/style/interface';
 import { FileSystem } from '../file-system';
@@ -24,6 +26,10 @@ import { TOKENS } from './tokens';
 
 export const createContainer = () => {
   const c = new Container();
+  c.bind(ComponentBuilder).toSelf();
+  c.bind<IComponentBuilderFacade>(TOKENS.componentBuilderFacade).to(
+    ComponentBuilderFacade
+  );
   c.bind<ILogger>(TOKENS.logger).to(Logger).inSingletonScope();
   c.bind<IEnvAnalyzer>(TOKENS.envAnalyzer).to(EnvAnalyzer).inSingletonScope();
   c.bind<IEnvReader>(TOKENS.env).to(EnvReader).inSingletonScope();
@@ -38,7 +44,6 @@ export const createContainer = () => {
   c.bind<IComponentGenInputNormalizer>(TOKENS.cmpGenInputNrmlz).to(
     ComponentGenInputNormalizer
   );
-  c.bind(ComponentBuilder).toSelf();
   return c;
 };
 

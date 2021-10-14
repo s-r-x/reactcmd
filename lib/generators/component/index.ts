@@ -1,5 +1,8 @@
 import { inject, injectable } from 'inversify';
-import { ComponentBuilder } from '../../builders/component';
+import {
+  IComponentBuilderFacade,
+  IComponentGeneratorSpec,
+} from '../../builders/component/interface';
 import {
   IStyleBuildArtifacts,
   TStyleBuilderFactory,
@@ -9,62 +12,60 @@ import { IComponentGenInputNormalizer } from '../../normalizers/component-gen-in
 import { TStylingStrategy } from '../../typings/styling';
 import { Maybe } from '../../typings/utils';
 import { IComponentGenerator, IGenerateComponentOptions } from './interface';
+import _ from 'lodash';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
   constructor(
     @inject(TOKENS.styBldrFctry)
     private styleBuilderFactory: TStyleBuilderFactory,
-    private componentBuilder: ComponentBuilder,
     @inject(TOKENS.cmpGenInputNrmlz)
-    private inputNormalizer: IComponentGenInputNormalizer
+    private inputNormalizer: IComponentGenInputNormalizer,
+    @inject(TOKENS.componentBuilderFacade)
+    private componentBuilder: IComponentBuilderFacade
   ) {}
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const { componentBuilder: builder } = this;
     const opts = await this.inputNormalizer.normalize(rawOpts);
-    let styleArtifacts: Maybe<IStyleBuildArtifacts> = null;
-    builder.withComponentName(opts.name);
+    const styleArtifacts = this.genStyleArtifacts(opts);
+    const componentBuilderSpec = this.genComponentBuilderSpec(
+      opts,
+      styleArtifacts
+    );
+    const component =
+      builder.buildUsingComponentGeneratorSpec(componentBuilderSpec);
+    console.log(component);
+    return Promise.resolve();
+  }
+  private genStyleArtifacts(
+    opts: IGenerateComponentOptions
+  ): Maybe<IStyleBuildArtifacts> {
     if (opts.style && !opts.nostyle) {
-      const styleBuilder = this.styleBuilderFactory(
-        opts.style as TStylingStrategy
-      );
-      styleArtifacts = styleBuilder.build({
+      return this.styleBuilderFactory(opts.style as TStylingStrategy).build({
         rootTag: opts.tag,
         ts: opts.ts,
       });
     }
-    if (opts.fc) {
-      builder.asFC();
-    }
-    if (opts.class) {
-      builder.asClassComponent();
-    }
-    if (opts.ts) {
-      builder.withTypescript();
-    }
-    if (opts.tag) {
-      builder.withTag(opts.tag);
-    }
-    if (opts.mobx) {
-      builder.withMobx();
-    }
-    if (opts.redux) {
-      builder.withRedux();
-    }
-    if (opts.pure) {
-      builder.makePure();
-    }
-    if (styleArtifacts?.imports) {
-      builder.withExtraImports(styleArtifacts.imports);
-    }
-    if (styleArtifacts?.hocs) {
-      builder.withExtraHocs(styleArtifacts.hocs);
-    }
-    if (styleArtifacts?.jsx) {
-      builder.withJsx(styleArtifacts.jsx);
-    }
-    const component = builder.build();
-    console.log(component);
-    return Promise.resolve();
+    return null;
+  }
+  private genComponentBuilderSpec(
+    opts: IGenerateComponentOptions,
+    styleArtifacts: Maybe<IStyleBuildArtifacts>
+  ): IComponentGeneratorSpec {
+    return {
+      ..._.pick(opts, [
+        'name',
+        'fc',
+        'class',
+        'ts',
+        'tag',
+        'mobx',
+        'redux',
+        'pure',
+      ]),
+      imports: styleArtifacts?.imports,
+      hocs: styleArtifacts?.hocs,
+      jsx: styleArtifacts?.jsx,
+    };
   }
 }

@@ -1,8 +1,8 @@
-import { TStylingStrategy } from './styling';
+import { IGenerateComponentOptions } from '../generators/component/interface';
 
 export type TCliConfigFile = {
-  component: {
-    styling?: TStylingStrategy;
-    ts?: boolean;
+  srcDir?: string;
+  commands?: {
+    component?: IGenerateComponentOptions;
   };
 };

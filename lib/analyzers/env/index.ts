@@ -6,12 +6,9 @@ import { TLang } from '../../typings';
 import { IEnvAnalyzer } from './interface';
 import _ from 'lodash';
 import path from 'path';
-import {
-  DEFAULT_COMPONENTS_FOLDER,
-  POSSIBLE_COMPONENTS_FOLDERS,
-  POSSIBLE_SRC_FOLDERS,
-} from './constants';
+import { POSSIBLE_COMPONENTS_FOLDERS, POSSIBLE_SRC_FOLDERS } from './constants';
 import { IConfigReader } from '../../readers/config/interface';
+import { Maybe } from '../../typings/utils';
 
 @injectable()
 export class EnvAnalyzer implements IEnvAnalyzer {
@@ -20,17 +17,17 @@ export class EnvAnalyzer implements IEnvAnalyzer {
     @inject(TOKENS.fs) private fs: IFileSystem,
     @inject(TOKENS.cfgReader) private cfgReader: IConfigReader
   ) {}
-  async determineComponentsDir(): Promise<string> {
+  async determineComponentsDir(): Promise<Maybe<string>> {
     const src = await this.determineSourceDir();
     const list = await this.fs.readDir(src);
-    const defaultFolder = path.join(src, DEFAULT_COMPONENTS_FOLDER);
-    if (_.isEmpty(list)) return defaultFolder;
+    // TODO:: read from config first?
+    if (_.isEmpty(list)) return null;
     for (const option in POSSIBLE_COMPONENTS_FOLDERS) {
       if (list.has(option)) {
         return path.join(src, option);
       }
     }
-    return defaultFolder;
+    return null;
   }
   async determineSourceDir(): Promise<string> {
     const rootDir = this.env.getProjectRootDir();

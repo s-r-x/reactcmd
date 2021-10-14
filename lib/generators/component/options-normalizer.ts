@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { IEnvAnalyzer } from '../../analyzers/env/interface';
 import { IStylingAnalyzer } from '../../analyzers/styling/interface';
 import { TOKENS } from '../../ioc/tokens';
-import { IGenerateComponentOptions } from './interface';
+import { IGenerateComponentOptions as IOptions } from './interface';
 
 @injectable()
 export class ComponentGeneratorOptionsNormalizer {
@@ -10,8 +10,8 @@ export class ComponentGeneratorOptionsNormalizer {
     @inject(TOKENS.envAnalyzer) private envAnalyzer: IEnvAnalyzer,
     @inject(TOKENS.styleAnlz) private styleAnalyzer: IStylingAnalyzer
   ) {}
-  async normalize(args: IGenerateComponentOptions) {
-    const opts: IGenerateComponentOptions = { ...args };
+  async normalize(args: IOptions): Promise<IOptions> {
+    const opts: IOptions = { ...args };
     if (!opts.style && !opts.nostyle) {
       opts.style = await this.styleAnalyzer.determineStylingStrategy();
     }

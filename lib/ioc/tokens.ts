@@ -5,7 +5,6 @@ export const TOKENS = {
   fs: Symbol.for('fs'),
   cfgReader: Symbol.for('cfgReader'),
   depsReader: Symbol.for('depsReader'),
-  tmplReader: Symbol.for('tmplReader'),
   styleAnlz: Symbol.for('styleAnlz'),
   styBldrFctry: Symbol.for('styleBuilderFact'),
   cmpGen: Symbol.for('cmpGen'),

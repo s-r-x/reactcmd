@@ -19,8 +19,6 @@ import { DepsReader } from '../readers/deps';
 import { IDepsReader } from '../readers/deps/interface';
 import { EnvReader } from '../readers/env';
 import { IEnvReader } from '../readers/env/interface';
-import { TmplReader } from '../readers/templates';
-import { ITmplReader } from '../readers/templates/interface';
 import { TOKENS } from './tokens';
 
 export const createContainer = () => {
@@ -31,7 +29,6 @@ export const createContainer = () => {
   c.bind<IFileSystem>(TOKENS.fs).to(FileSystem).inSingletonScope();
   c.bind<IConfigReader>(TOKENS.cfgReader).to(ConfigReader);
   c.bind<IDepsReader>(TOKENS.depsReader).to(DepsReader);
-  c.bind<ITmplReader>(TOKENS.tmplReader).to(TmplReader);
   c.bind<IStylingAnalyzer>(TOKENS.styleAnlz).to(StylingAnalyzer);
   c.bind<TStyleBuilderFactory>(TOKENS.styBldrFctry).toConstantValue(
     styleBuilderFactory

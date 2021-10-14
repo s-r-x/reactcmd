@@ -63,7 +63,7 @@ export class ComponentGenerator implements IComponentGenerator {
       builder.withJsx(styleArtifacts.jsx);
     }
     const component = builder.build();
-    console.log(component);
+    console.log(opts);
     return Promise.resolve();
   }
 }

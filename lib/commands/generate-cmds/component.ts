@@ -24,8 +24,8 @@ const styleChoices: TStylingStrategy[] = [
 export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
   yargs
     .options({
-      ts: { type: 'boolean', desc: 'Use typescript?', alias: 'tsx' },
-      js: { type: 'boolean', desc: 'Use javascript?', alias: 'jsx' },
+      ts: { type: 'boolean', desc: 'Use typescript?' },
+      js: { type: 'boolean', desc: 'Use javascript?' },
       class: { type: 'boolean', desc: 'Class component?' },
       fc: { type: 'boolean', desc: 'Functional component?' },
       mobx: { type: 'boolean', desc: 'Use mobx?' },
@@ -50,8 +50,7 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
     .positional('dir', {
       type: 'string',
       demandOption: true,
-      desc: 'Directory of the components',
-      default: 'components',
+      desc: 'Directory to create the component',
     });
 
 export const handler = async (argv: Arguments<IOptions>): Promise<void> => {

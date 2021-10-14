@@ -3,6 +3,7 @@ import path from 'path';
 import { IEnvAnalyzer } from '../../analyzers/env/interface';
 import { IStylingAnalyzer } from '../../analyzers/styling/interface';
 import { TOKENS } from '../../ioc/tokens';
+import { pascalCase } from '../../utils/pascal-case';
 import { IGenerateComponentOptions as IOptions } from './interface';
 
 @injectable()
@@ -17,6 +18,7 @@ export class ComponentGeneratorOptionsNormalizer {
     if (!opts.style && !opts.nostyle) {
       opts.style = await this.styleAnalyzer.determineStylingStrategy();
     }
+    opts.name = pascalCase(opts.name);
     // TODO:: needs testing
     if (opts.dir) {
       if (!path.isAbsolute(opts.dir)) {

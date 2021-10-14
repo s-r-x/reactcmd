@@ -6,7 +6,7 @@ export interface IGenerateComponentOptions {
   nostyle?: boolean;
   pure?: boolean;
   mobx?: boolean;
-  tag: string;
+  tag?: string;
   redux?: boolean;
   style?: string;
   stories?: boolean;

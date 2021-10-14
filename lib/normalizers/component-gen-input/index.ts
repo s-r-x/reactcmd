@@ -15,35 +15,49 @@ export class ComponentGenInputNormalizer
     @inject(TOKENS.envAnalyzer) private envAnalyzer: IEnvAnalyzer,
     @inject(TOKENS.styleAnlz) private styleAnalyzer: IStylingAnalyzer
   ) {}
-  async normalize(args: IOptions): Promise<IOptions> {
-    const opts: IOptions = { ...args };
+  async normalize(rawInput: IOptions): Promise<IOptions> {
+    const input: IOptions = { ...rawInput };
+    this.normalizeComponentName(input);
+    await this.normalizeStyle(input);
+    await this.normalizeDir(input);
+    await this.normalizeLang(input);
+    return input;
+  }
+  async normalizeDir(input: IOptions) {
     const srcDir = await this.envAnalyzer.determineSourceDir();
-    if (!opts.style && !opts.nostyle) {
-      opts.style = await this.styleAnalyzer.determineStylingStrategy();
-    }
-    opts.name = pascalCase(opts.name);
-    // TODO:: needs testing
-    if (opts.dir) {
-      if (!path.isAbsolute(opts.dir)) {
-        if (opts.dir.startsWith('.')) {
-          opts.dir = path.join(process.cwd(), opts.dir);
+    if (input.dir) {
+      if (!path.isAbsolute(input.dir)) {
+        if (input.dir.startsWith('.')) {
+          input.dir = path.join(process.cwd(), input.dir);
         } else {
-          opts.dir = path.join(srcDir, opts.dir);
+          input.dir = path.join(srcDir, input.dir);
         }
       }
     } else {
       const componentsDir = await this.envAnalyzer.determineComponentsDir();
       if (componentsDir) {
-        opts.dir = componentsDir;
+        input.dir = componentsDir;
       } else {
-        opts.dir = srcDir;
+        input.dir = srcDir;
       }
     }
-    if (!opts.js && !opts.ts) {
-      const lang = await this.envAnalyzer.determineLang();
-      opts.js = lang === 'js';
-      opts.ts = lang === 'ts';
+  }
+  normalizeComponentName(input: IOptions) {
+    input.name = pascalCase(input.name);
+  }
+  async normalizeStyle(input: IOptions) {
+    if (input.nostyle) {
+      input.style = undefined;
     }
-    return opts;
+    if (!input.style && !input.nostyle) {
+      input.style = await this.styleAnalyzer.determineStylingStrategy();
+    }
+  }
+  async normalizeLang(input: IOptions) {
+    if (!input.js && !input.ts) {
+      const lang = await this.envAnalyzer.determineLang();
+      input.js = lang === 'js';
+      input.ts = lang === 'ts';
+    }
   }
 }

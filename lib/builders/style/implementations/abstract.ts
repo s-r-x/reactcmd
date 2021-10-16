@@ -9,12 +9,12 @@ import {
   IStyleBuilder,
   TNormalizedStyleBuildSpec,
 } from '../interface';
-import _ from 'lodash';
 import path from 'path';
+import { pascalCase } from '../../../utils/pascal-case';
 
 export abstract class AbstractStyleBuilder implements IStyleBuilder {
   protected fileExt?: string;
-  protected shouldCapitalizeRootClass?: boolean;
+  protected usePascalCaseForRootClass?: boolean;
   protected defaultFilename = 'styles';
 
   build(spec: IStyleBuildSpec): IStyleBuildArtifacts {
@@ -40,8 +40,8 @@ export abstract class AbstractStyleBuilder implements IStyleBuilder {
     };
   }
   private normalizeRootClass(cls: string = DEFAULT_ROOT_CLASS): string {
-    if (this.shouldCapitalizeRootClass) {
-      return _.capitalize(cls);
+    if (this.usePascalCaseForRootClass) {
+      return pascalCase(cls);
     }
     return cls;
   }

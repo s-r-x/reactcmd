@@ -10,7 +10,7 @@ import { DEFAULT_CSS_RULES } from '../../constants';
 export abstract class AbstractStyledStyleBuilder extends AbstractStyleBuilder {
   readonly nsExport = 'S';
   protected abstract styledImport: j.ImportDeclaration;
-  protected override shouldCapitalizeRootClass = true;
+  protected override usePascalCaseForRootClass = true;
   protected override defaultFilename = 'styled';
   protected buildArtifacts({
     rootTag: tag,

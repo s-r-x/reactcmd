@@ -2,15 +2,15 @@ import {
   DEFAULT_JSX_CHILDREN,
   DEFAULT_ROOT_CLASS,
   DEFAULT_ROOT_TAG,
-} from '../constants';
+} from './constants';
 import {
   IStyleBuildSpec,
   IStyleBuildArtifacts,
   IStyleBuilder,
   TNormalizedStyleBuildSpec,
-} from '../interface';
+} from './interface';
 import path from 'path';
-import { pascalCase } from '../../../utils/pascal-case';
+import { pascalCase } from '../../utils/pascal-case';
 
 export abstract class AbstractStyleBuilder implements IStyleBuilder {
   protected fileExt?: string;

@@ -1,10 +1,10 @@
 import type {
   TNormalizedStyleBuildSpec as TSpec,
   IStyleBuildArtifacts,
-} from '../../interface';
+} from '../interface';
 import { AbstractStyleBuilder } from '../abstract';
 import j from 'jscodeshift';
-import { DEFAULT_CSS_RULES } from '../../constants';
+import { DEFAULT_CSS_RULES } from '../constants';
 
 // abstract class for css/less/scss
 export abstract class CssCompatibleStyleBuilder extends AbstractStyleBuilder {

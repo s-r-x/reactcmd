@@ -1,11 +1,8 @@
 import { ScStyleBuilder as Builder } from '.';
 import j from 'jscodeshift';
-import { expectCodeToEq } from '../../../../../tests/expect-generated-code-to-eq';
+import { expectCodeToEq } from '../../../../tests/expect-generated-code-to-eq';
 import { expect } from 'chai';
-import {
-  DEFAULT_CSS_RULES,
-  DEFAULT_JSX_CHILDREN_STR,
-} from '../../../constants';
+import { DEFAULT_CSS_RULES, DEFAULT_JSX_CHILDREN_STR } from '../../constants';
 
 describe('ScStyleBuilder', () => {
   describe('build', () => {

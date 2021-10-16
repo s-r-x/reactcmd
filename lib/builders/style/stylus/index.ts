@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { IStyleBuildSpec, IStyleBuildArtifacts } from '../../interface';
+import { IStyleBuildSpec, IStyleBuildArtifacts } from '../interface';
 import { AbstractStyleBuilder } from '../abstract';
 import j from 'jscodeshift';
 

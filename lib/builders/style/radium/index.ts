@@ -1,48 +1,50 @@
 import {
   IStyleBuildArtifacts,
   TNormalizedStyleBuildSpec as TSpec,
-} from '../../interface';
+} from '../interface';
 import { AbstractStyleBuilder } from '../abstract';
 import j from 'jscodeshift';
 
-export class AphroditeStyleBuilder extends AbstractStyleBuilder {
+export class RadiumStyleBuilder extends AbstractStyleBuilder {
   readonly stylesExport = 'styles';
   protected buildArtifacts({
-    rootClass,
-    rootTag: tag,
     file,
+    rootTag: tag,
+    rootClass,
     jsxChildren,
   }: TSpec): IStyleBuildArtifacts {
+    const radiumDefaultExport = 'Radium';
     const { stylesExport } = this;
     return {
-      standalone: {
-        filename: file.nameWithExt,
-        content: `
-          import { StyleSheet } from 'aphrodite';
-
-          export const ${stylesExport} = StyleSheet.create({
-            ${rootClass}: {}
-          });
-				`,
-      },
       imports: [
         j.importDeclaration(
-          [j.importSpecifier(j.identifier('css'))],
-          j.literal('aphrodite')
+          [j.importDefaultSpecifier(j.identifier(radiumDefaultExport))],
+          j.literal('radium')
         ),
         j.importDeclaration(
-          [j.importSpecifier(j.identifier(this.stylesExport))],
+          [j.importSpecifier(j.identifier(stylesExport))],
           j.literal(`./${file.name}`)
         ),
       ],
+      standalone: {
+        filename: file.nameWithExt,
+        content: `
+          export const ${stylesExport} = {
+            ${rootClass}: {}
+          };
+				`,
+      },
+      applyHocs(identifier) {
+        return j.callExpression(j.identifier(radiumDefaultExport), [
+          identifier,
+        ]);
+      },
       jsx: j.jsxElement(
         j.jsxOpeningElement(j.jsxIdentifier(tag), [
           j.jsxAttribute(
-            j.jsxIdentifier('className'),
+            j.jsxIdentifier('style'),
             j.jsxExpressionContainer(
-              j.callExpression(j.identifier('css'), [
-                j.identifier(`${stylesExport}.${rootClass}`),
-              ])
+              j.identifier(`${stylesExport}.${rootClass}`)
             )
           ),
         ]),

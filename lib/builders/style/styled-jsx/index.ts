@@ -1,7 +1,7 @@
 import {
   IStyleBuildArtifacts,
   TNormalizedStyleBuildSpec as TSpec,
-} from '../../interface';
+} from '../interface';
 import { AbstractStyleBuilder } from '../abstract';
 import j from 'jscodeshift';
 

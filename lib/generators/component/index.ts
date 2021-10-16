@@ -10,9 +10,11 @@ import {
 import { TOKENS } from '../../ioc/tokens';
 import { IComponentGenInputNormalizer } from '../../normalizers/component-gen-input/interface';
 import { TStylingStrategy } from '../../typings/styling';
-import { Maybe } from '../../typings/utils';
+import { Maybe, TStringDict } from '../../typings/utils';
 import { IComponentGenerator, IGenerateComponentOptions } from './interface';
 import _ from 'lodash';
+import { IFilesListWriter } from '../../writers/files-list/interface';
+import path from 'path';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -22,7 +24,9 @@ export class ComponentGenerator implements IComponentGenerator {
     @inject(TOKENS.cmpGenInputNrmlz)
     private inputNormalizer: IComponentGenInputNormalizer,
     @inject(TOKENS.componentBuilderFacade)
-    private componentBuilder: IComponentBuilderFacade
+    private componentBuilder: IComponentBuilderFacade,
+    @inject(TOKENS.filesListWriter)
+    private filesListWriter: IFilesListWriter
   ) {}
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const { componentBuilder: builder } = this;
@@ -34,8 +38,29 @@ export class ComponentGenerator implements IComponentGenerator {
     );
     const component =
       builder.buildUsingComponentGeneratorSpec(componentBuilderSpec);
-    console.log(component);
-    return Promise.resolve();
+    const filesList = this.genWritableFilesList(
+      opts,
+      component,
+      styleArtifacts
+    );
+    await this.filesListWriter.write({
+      list: filesList,
+      shouldPromptOnOverride: true,
+    });
+  }
+  private genWritableFilesList(
+    opts: IGenerateComponentOptions,
+    component: string,
+    styleArtifacts: Maybe<IStyleBuildArtifacts>
+  ): TStringDict {
+    const rootDir = path.join(opts.dir!, opts.name);
+    return {
+      [path.join(rootDir, 'index.tsx')]: component,
+      ...(styleArtifacts?.standalone && {
+        [path.join(rootDir, styleArtifacts.standalone.filename)]:
+          styleArtifacts.standalone.content,
+      }),
+    };
   }
   private genStyleArtifacts(
     opts: IGenerateComponentOptions

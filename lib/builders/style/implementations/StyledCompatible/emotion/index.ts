@@ -1,7 +1,7 @@
-import { AbstractStyledStyleBuilder } from '../abstract-styled';
 import j from 'jscodeshift';
+import { StyledCompatibleStyleBuilder } from '..';
 
-export class EmotionStyleBuilder extends AbstractStyledStyleBuilder {
+export class EmotionStyleBuilder extends StyledCompatibleStyleBuilder {
   protected get styledImport() {
     return j.importDeclaration(
       [j.importDefaultSpecifier(j.identifier('styled'))],

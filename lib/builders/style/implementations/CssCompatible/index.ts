@@ -7,7 +7,7 @@ import j from 'jscodeshift';
 import { DEFAULT_CSS_RULES } from '../../constants';
 
 // abstract class for css/less/scss
-export abstract class AbstractStandardStyleBuilder extends AbstractStyleBuilder {
+export abstract class CssCompatibleStyleBuilder extends AbstractStyleBuilder {
   protected buildArtifacts({
     rootTag: tag,
     rootClass,

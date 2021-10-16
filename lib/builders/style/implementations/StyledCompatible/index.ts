@@ -7,7 +7,7 @@ import j from 'jscodeshift';
 import { DEFAULT_CSS_RULES } from '../../constants';
 
 // abstract class for styled-components/linaria/emotion
-export abstract class AbstractStyledStyleBuilder extends AbstractStyleBuilder {
+export abstract class StyledCompatibleStyleBuilder extends AbstractStyleBuilder {
   readonly nsExport = 'S';
   protected abstract styledImport: j.ImportDeclaration;
   protected override usePascalCaseForRootClass = true;

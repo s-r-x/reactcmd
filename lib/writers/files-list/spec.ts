@@ -7,7 +7,7 @@ import { TStringDict } from '../../typings/utils';
 import _ from 'lodash';
 
 // TODO:: test files overriding
-describe.only('FilesListWriter', () => {
+describe('FilesListWriter', () => {
   describe('write', () => {
     it('should write files if none of them does not exist', async () => {
       const fsWriteStub = sinon.stub().returns(Promise.resolve());

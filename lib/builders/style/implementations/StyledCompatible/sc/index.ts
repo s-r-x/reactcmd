@@ -1,7 +1,7 @@
-import { AbstractStyledStyleBuilder } from '../abstract-styled';
 import j from 'jscodeshift';
+import { StyledCompatibleStyleBuilder } from '..';
 
-export class ScStyleBuilder extends AbstractStyledStyleBuilder {
+export class ScStyleBuilder extends StyledCompatibleStyleBuilder {
   protected get styledImport() {
     return j.importDeclaration(
       [j.importDefaultSpecifier(j.identifier('styled'))],

@@ -4,7 +4,9 @@ import { createFsMock } from '../../tests/fixtures/create-fs-mock';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { TStringDict } from '../../typings/utils';
+import _ from 'lodash';
 
+// TODO:: test files overriding
 describe.only('FilesListWriter', () => {
   describe('write', () => {
     it('should write files if none of them does not exist', async () => {
@@ -28,7 +30,7 @@ describe.only('FilesListWriter', () => {
       });
 
       expect(confirmStub).to.not.have.been.called;
-
+      expect(fsWriteStub.callCount).to.eq(_.size(list));
       let call = 0;
       for (const file in list) {
         expect(fsWriteStub.getCall(call).calledWith(file, list[file])).to.be

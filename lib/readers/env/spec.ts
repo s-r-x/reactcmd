@@ -21,7 +21,7 @@ describe('EnvReader', () => {
       const { env, stub } = createEnv('/cli');
       const [root] = Array.from(new Array(3)).map(() => env.getCliRootDir());
       expect(stub).to.have.been.calledOnce;
-      expect(stub).to.have.been.calledWith(process.cwd());
+      expect(stub).to.have.been.calledWith(__dirname);
       expect(root).to.eq('/cli');
     });
     it('should raise when cli root dir cannot be found', () => {
@@ -36,7 +36,7 @@ describe('EnvReader', () => {
         env.getProjectRootDir()
       );
       expect(stub).to.have.been.calledOnce;
-      expect(stub).to.have.been.calledWith(__dirname);
+      expect(stub).to.have.been.calledWith(process.cwd());
       expect(root).to.eq('/proj');
     });
     it('should raise when project root dir cannot be found', () => {

@@ -8,6 +8,7 @@ export const TOKENS = {
   styleAnlz: Symbol.for('styleAnlz'),
   styBldrFctry: Symbol.for('styleBuilderFact'),
   cmpGen: Symbol.for('cmpGen'),
+  componentTestsBuilder: Symbol.for('componentTestsBuilder'),
   componentBuilderFacade: Symbol.for('componentBuilderFacade'),
   cmpGenInputNrmlz: Symbol.for('cmpGenInputNrmlz'),
   filesListWriter: Symbol.for('filesListWriter'),

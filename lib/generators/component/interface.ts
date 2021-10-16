@@ -9,7 +9,8 @@ export interface IGenerateComponentOptions {
   tag?: string;
   redux?: boolean;
   style?: string;
-  stories?: boolean;
+  test?: boolean;
+  story?: boolean;
   class?: boolean;
   fc?: boolean;
 }

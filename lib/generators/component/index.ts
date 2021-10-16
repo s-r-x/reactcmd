@@ -15,6 +15,7 @@ import { IComponentGenerator, IGenerateComponentOptions } from './interface';
 import _ from 'lodash';
 import { IFilesListWriter } from '../../writers/files-list/interface';
 import path from 'path';
+import { IComponentTestsBuilder } from '../../builders/component-tests/interface';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -26,22 +27,23 @@ export class ComponentGenerator implements IComponentGenerator {
     @inject(TOKENS.componentBuilderFacade)
     private componentBuilder: IComponentBuilderFacade,
     @inject(TOKENS.filesListWriter)
-    private filesListWriter: IFilesListWriter
+    private filesListWriter: IFilesListWriter,
+    @inject(TOKENS.componentTestsBuilder)
+    private componentTestsBuilder: IComponentTestsBuilder
   ) {}
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const { componentBuilder: builder } = this;
     const opts = await this.inputNormalizer.normalize(rawOpts);
     const styleArtifacts = this.genStyleArtifacts(opts);
-    const componentBuilderSpec = this.genComponentBuilderSpec(
-      opts,
-      styleArtifacts
+    const component = builder.buildUsingComponentGeneratorSpec(
+      this.genComponentBuilderSpec(opts, styleArtifacts)
     );
-    const component =
-      builder.buildUsingComponentGeneratorSpec(componentBuilderSpec);
+    const tests = this.genTests(opts);
     const filesList = this.genWritableFilesList(
       opts,
       component,
-      styleArtifacts
+      styleArtifacts,
+      tests
     );
     await this.filesListWriter.write({
       list: filesList,
@@ -51,16 +53,28 @@ export class ComponentGenerator implements IComponentGenerator {
   private genWritableFilesList(
     opts: IGenerateComponentOptions,
     component: string,
-    styleArtifacts: Maybe<IStyleBuildArtifacts>
+    styleArtifacts: Maybe<IStyleBuildArtifacts>,
+    tests: Maybe<string>
   ): TStringDict {
     const rootDir = path.join(opts.dir!, opts.name);
+    const ext = opts.ts ? 'tsx' : 'jsx';
     return {
-      [path.join(rootDir, `index.${opts.ts ? 'tsx' : 'jsx'}`)]: component,
+      [path.join(rootDir, `index.${ext}`)]: component,
+      ...(tests && {
+        [path.join(rootDir, `spec.${ext}`)]: tests,
+      }),
       ...(styleArtifacts?.standalone && {
         [path.join(rootDir, styleArtifacts.standalone.filename)]:
           styleArtifacts.standalone.content,
       }),
     };
+  }
+  private genTests(opts: IGenerateComponentOptions): Maybe<string> {
+    if (!opts.test) return null;
+    return this.componentTestsBuilder.build({
+      name: opts.name,
+      importPath: './index.tsx',
+    });
   }
   private genStyleArtifacts(
     opts: IGenerateComponentOptions

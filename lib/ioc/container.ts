@@ -4,6 +4,8 @@ import { IEnvAnalyzer } from '../analyzers/env/interface';
 import { StylingAnalyzer } from '../analyzers/styling';
 import { IStylingAnalyzer } from '../analyzers/styling/interface';
 import { ComponentBuilder } from '../builders/component';
+import { ComponentTestsBuilder } from '../builders/component-tests';
+import { IComponentTestsBuilder } from '../builders/component-tests/interface';
 import { ComponentBuilderFacade } from '../builders/component/facade';
 import { IComponentBuilderFacade } from '../builders/component/interface';
 import { styleBuilderFactory } from '../builders/style/factory';
@@ -45,6 +47,9 @@ export const createContainer = () => {
   c.bind<IStylingAnalyzer>(TOKENS.styleAnlz).to(StylingAnalyzer);
   c.bind<TStyleBuilderFactory>(TOKENS.styBldrFctry).toConstantValue(
     styleBuilderFactory
+  );
+  c.bind<IComponentTestsBuilder>(TOKENS.componentTestsBuilder).to(
+    ComponentTestsBuilder
   );
   c.bind<IComponentGenerator>(TOKENS.cmpGen).to(ComponentGenerator);
   c.bind<IComponentGenInputNormalizer>(TOKENS.cmpGenInputNrmlz).to(

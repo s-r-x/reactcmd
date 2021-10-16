@@ -4,7 +4,7 @@ import { createTempDir } from '../tests/fixtures/create-temp-dir';
 import systemFs from 'fs-extra';
 import path from 'path';
 
-describe('FileSystem', () => {
+describe.only('FileSystem', () => {
   describe('readFile', () => {
     it('should read file', async () => {
       const fs = new FileSystem();
@@ -60,6 +60,19 @@ describe('FileSystem', () => {
       const [tempDir] = await createTempDir(true);
       process.chdir(tempDir);
       expect(fs.findClosestPkgDir(process.cwd())).to.be.null;
+    });
+  });
+  describe('readDir', () => {
+    it('should read directory and return set of files list', async () => {
+      const fs = new FileSystem();
+      const [dir] = await createTempDir(true);
+      const filesToWrite = ['file.txt', 'script.js'];
+      await Promise.all(filesToWrite.map(file => systemFs.ensureFile(file)));
+
+      const readed = await fs.readDir(dir);
+      for (const file of filesToWrite) {
+        expect(readed.has(file)).to.be.true;
+      }
     });
   });
 });

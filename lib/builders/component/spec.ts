@@ -1,9 +1,20 @@
 import { ComponentBuilder as Builder } from '.';
 import j from 'jscodeshift';
 import { expectCodeToEq } from '../../tests/expect-generated-code-to-eq';
-import { DEFAULT_COMPONENT_NAME, PROPS_TYPE_IDENTIFIER } from './constants';
+import {
+  DEFAULT_COMPONENT_NAME,
+  MOBX_HOC_NAME,
+  PROPS_TYPE_IDENTIFIER,
+  REDUX_CONNECTOR_NAME,
+  REDUX_HOC_NAME,
+  REDUX_TYPE_EXTRACTOR_NAME,
+} from './constants';
 
-describe('ComponentBuilder', () => {
+const REDUX_TS_IMPORTS = `import { ${REDUX_HOC_NAME}, ${REDUX_TYPE_EXTRACTOR_NAME} } from 'react-redux'`;
+const MOBX_IMPORTS = `import { ${MOBX_HOC_NAME}} from 'mobx'`;
+const REDUX_TS_PROPS = `interface ${PROPS_TYPE_IDENTIFIER} extends ${REDUX_TYPE_EXTRACTOR_NAME}<typeof ${REDUX_CONNECTOR_NAME}> {}`;
+
+describe.only('ComponentBuilder', () => {
   describe('buildDefaultExport', () => {
     it('should build correct export without hocs', () => {
       const builder = new Builder();
@@ -25,6 +36,18 @@ describe('ComponentBuilder', () => {
         `export default ${DEFAULT_COMPONENT_NAME}`
       );
     });
+    it(`should apply mobx ${MOBX_HOC_NAME} hoc`, () => {
+      expectCodeToEq(
+        Builder.new().withMobx().buildDefaultExport(),
+        `export default ${MOBX_HOC_NAME}(${DEFAULT_COMPONENT_NAME});`
+      );
+    });
+    it(`should apply redux connector`, () => {
+      expectCodeToEq(
+        Builder.new().withRedux().buildDefaultExport(),
+        `export default ${REDUX_CONNECTOR_NAME}(${DEFAULT_COMPONENT_NAME});`
+      );
+    });
     it('should apply all provided hocs', () => {
       expectCodeToEq(
         Builder.new()
@@ -43,7 +66,7 @@ describe('ComponentBuilder', () => {
       expectCodeToEq(
         Builder.new().withMobx().buildImports(),
         `import React from 'react';
-         import { observer } from 'mobx';
+         ${MOBX_IMPORTS};
         `
       );
     });
@@ -51,7 +74,15 @@ describe('ComponentBuilder', () => {
       expectCodeToEq(
         Builder.new().withRedux().buildImports(),
         `import React from 'react';
-         import { connect } from 'react-redux';
+         import { ${REDUX_HOC_NAME} } from 'react-redux';
+        `
+      );
+    });
+    it(`should include redux ${REDUX_TYPE_EXTRACTOR_NAME} import when using with typescript`, () => {
+      expectCodeToEq(
+        Builder.new().withRedux().withTypescript().buildImports(),
+        `import React from 'react';
+         ${REDUX_TS_IMPORTS};
         `
       );
     });
@@ -129,7 +160,6 @@ describe('ComponentBuilder', () => {
             }
           `
         );
-        console.log(src);
       });
       it('should generate correct declaration for pure component', () => {
         const src = Builder.new()
@@ -165,6 +195,17 @@ describe('ComponentBuilder', () => {
       });
     });
   });
+  describe('buildVariablesDeclaration', () => {
+    it(`should include redux ${REDUX_CONNECTOR_NAME} when using with redux`, () => {
+      const src = Builder.new().withRedux().buildVariablesDeclaration();
+      expectCodeToEq(
+        src,
+        `
+        const ${REDUX_CONNECTOR_NAME} = ${REDUX_HOC_NAME}(state => state) 
+      `
+      );
+    });
+  });
   describe('buildPropsDeclaration', () => {
     it('should build correct props declaration', () => {
       const src = Builder.new().buildPropsDeclaration();
@@ -174,6 +215,10 @@ describe('ComponentBuilder', () => {
         interface ${PROPS_TYPE_IDENTIFIER} {} 
       `
       );
+    });
+    it('should extract props from redux', () => {
+      const src = Builder.new().withRedux().buildPropsDeclaration();
+      expectCodeToEq(src, REDUX_TS_PROPS);
     });
   });
   describe('build', () => {
@@ -206,10 +251,12 @@ describe('ComponentBuilder', () => {
         `
           import React from "react";
           import MyLib from "my-lib";
-          import { observer } from 'mobx';
-          import { connect } from 'react-redux';
+          ${MOBX_IMPORTS};
+          ${REDUX_TS_IMPORTS};
 
-          interface ${PROPS_TYPE_IDENTIFIER} {}
+          const ${REDUX_CONNECTOR_NAME} = ${REDUX_HOC_NAME}(state => state);
+
+          ${REDUX_TS_PROPS};
 
           class ${name} extends React.PureComponent<${PROPS_TYPE_IDENTIFIER}> {
             render() {
@@ -217,7 +264,7 @@ describe('ComponentBuilder', () => {
             }
           }
 
-          export default hoc1(hoc2(observer(${name})));
+          export default hoc1(hoc2(${MOBX_HOC_NAME}(${REDUX_CONNECTOR_NAME}(${name}))));
         `
       );
     });

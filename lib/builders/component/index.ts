@@ -10,7 +10,11 @@ import {
   ENABLE_TS_BY_DEFAULT,
   IS_CLASS_BY_DEFAULT,
   IS_PURE_BY_DEFAULT,
+  MOBX_HOC_NAME,
   PROPS_TYPE_IDENTIFIER,
+  REDUX_CONNECTOR_NAME,
+  REDUX_HOC_NAME,
+  REDUX_TYPE_EXTRACTOR_NAME,
   USE_MOBX_BY_DEFAULT,
   USE_REDUX_BY_DEFAULT,
 } from './constants';
@@ -104,6 +108,7 @@ export class ComponentBuilder {
   build(): string {
     return [
       this.buildImports(),
+      this.buildVariablesDeclaration(),
       this.useTs && this.buildPropsDeclaration(),
       this.buildComponentDeclaration(),
       this.buildDefaultExport(),
@@ -113,6 +118,49 @@ export class ComponentBuilder {
   }
   buildImports(): string {
     return this.stringifyAst(this.finalImports);
+  }
+  buildVariablesDeclaration(): string {
+    if (!this.useRedux) return '';
+    const connectorDeclaration = j.variableDeclaration('const', [
+      j.variableDeclarator(
+        j.identifier(REDUX_CONNECTOR_NAME),
+        j.callExpression(j.identifier(REDUX_HOC_NAME), [
+          j.arrowFunctionExpression(
+            [j.identifier('state')],
+            j.identifier('state')
+          ),
+        ])
+      ),
+    ]);
+    return this.stringifyAst(connectorDeclaration);
+  }
+  buildPropsDeclaration(): string {
+    const props = j.tsInterfaceDeclaration(
+      j.identifier(PROPS_TYPE_IDENTIFIER),
+      j.tsInterfaceBody([
+        //j.tsPropertySignature(
+        //  j.identifier('name'),
+        //  j.tsTypeAnnotation(j.tsStringKeyword()),
+        //  true
+        //),
+      ])
+    );
+    if (this.useRedux) {
+      props.extends = [
+        j.tsExpressionWithTypeArguments(
+          j.identifier(
+            `${REDUX_TYPE_EXTRACTOR_NAME}<typeof ${REDUX_CONNECTOR_NAME}>`
+          )
+        ),
+      ];
+    }
+    return this.stringifyAst(props);
+  }
+  buildComponentDeclaration(): string {
+    const component = this.isClass
+      ? this.buildClassComponentDeclaration()
+      : this.buildFCDeclaration();
+    return this.stringifyAst(component);
   }
   buildDefaultExport() {
     const ast = this.finalHocs.reduceRight((acc, exp) => {
@@ -126,25 +174,6 @@ export class ComponentBuilder {
       return source.join('\n');
     }
     return source;
-  }
-  public buildPropsDeclaration(): string {
-    const props = j.tsInterfaceDeclaration(
-      j.identifier(PROPS_TYPE_IDENTIFIER),
-      j.tsInterfaceBody([
-        //j.tsPropertySignature(
-        //  j.identifier('name'),
-        //  j.tsTypeAnnotation(j.tsStringKeyword()),
-        //  true
-        //),
-      ])
-    );
-    return this.stringifyAst(props);
-  }
-  public buildComponentDeclaration(): string {
-    const component = this.isClass
-      ? this.buildClassComponentDeclaration()
-      : this.buildFCDeclaration();
-    return this.stringifyAst(component);
   }
   private buildFCDeclaration(): j.VariableDeclaration {
     const identifier = j.identifier(this.componentName);
@@ -195,12 +224,18 @@ export class ComponentBuilder {
       ...this.imports,
       this.useMobx &&
         j.importDeclaration(
-          [j.importSpecifier(j.identifier('observer'))],
+          [j.importSpecifier(j.identifier(MOBX_HOC_NAME))],
           j.literal('mobx')
         ),
       this.useRedux &&
         j.importDeclaration(
-          [j.importSpecifier(j.identifier('connect'))],
+          [
+            j.importSpecifier(j.identifier(REDUX_HOC_NAME)),
+            this.useTs &&
+              (j.importSpecifier(
+                j.identifier(REDUX_TYPE_EXTRACTOR_NAME)
+              ) as any),
+          ].filter(Boolean),
           j.literal('react-redux')
         ),
     ].filter(Boolean) as j.ImportDeclaration[];
@@ -212,8 +247,8 @@ export class ComponentBuilder {
   private get finalHocs(): string[] {
     return [
       ...this.hocs,
-      this.useMobx && 'observer',
-      // this.useRedux && 'connect((state) => {})',
+      this.useMobx && MOBX_HOC_NAME,
+      this.useRedux && REDUX_CONNECTOR_NAME,
       this.isPure && !this.isClass && 'React.memo',
     ].filter(Boolean) as string[];
   }

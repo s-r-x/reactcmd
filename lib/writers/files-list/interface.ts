@@ -1,9 +1,9 @@
 import { TStringDict } from '../../typings/utils';
 
 export interface IWriteFilesTreeDto {
-  tree: TStringDict;
+  list: TStringDict;
   shouldPromptOnOverride?: boolean;
 }
-export interface IFilesTreeWriter {
+export interface IFilesListWriter {
   write(dto: IWriteFilesTreeDto): Promise<void>;
 }

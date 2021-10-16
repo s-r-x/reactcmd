@@ -24,8 +24,8 @@ import { DepsReader } from '../readers/deps';
 import { IDepsReader } from '../readers/deps/interface';
 import { EnvReader } from '../readers/env';
 import { IEnvReader } from '../readers/env/interface';
-import { FilesTreeWriter } from '../writers/files-tree';
-import { IFilesTreeWriter } from '../writers/files-tree/interface';
+import { FilesListWriter } from '../writers/files-list';
+import { IFilesListWriter } from '../writers/files-list/interface';
 import { TOKENS } from './tokens';
 
 export const createContainer = () => {
@@ -35,7 +35,7 @@ export const createContainer = () => {
     ComponentBuilderFacade
   );
   c.bind<ICliUi>(TOKENS.cliUi).to(CliUi);
-  c.bind<IFilesTreeWriter>(TOKENS.filesTreeWriter).to(FilesTreeWriter);
+  c.bind<IFilesListWriter>(TOKENS.filesListWriter).to(FilesListWriter);
   c.bind<ILogger>(TOKENS.logger).to(Logger).inSingletonScope();
   c.bind<IEnvAnalyzer>(TOKENS.envAnalyzer).to(EnvAnalyzer).inSingletonScope();
   c.bind<IEnvReader>(TOKENS.env).to(EnvReader).inSingletonScope();

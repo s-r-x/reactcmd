@@ -4,7 +4,7 @@ import { createTempDir } from '../tests/fixtures/create-temp-dir';
 import systemFs from 'fs-extra';
 import path from 'path';
 
-describe.only('FileSystem', () => {
+describe('FileSystem', () => {
   describe('readFile', () => {
     it('should read file', async () => {
       const fs = new FileSystem();

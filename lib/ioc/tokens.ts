@@ -10,6 +10,6 @@ export const TOKENS = {
   cmpGen: Symbol.for('cmpGen'),
   componentBuilderFacade: Symbol.for('componentBuilderFacade'),
   cmpGenInputNrmlz: Symbol.for('cmpGenInputNrmlz'),
-  filesTreeWriter: Symbol.for('filesTreeWriter'),
+  filesListWriter: Symbol.for('filesListWriter'),
   cliUi: Symbol.for('cliUi'),
 };

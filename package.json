@@ -1,10 +1,10 @@
 {
-  "name": "react-std-cli",
+  "name": "reactcmd",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "bin": {
-    "react-std-cli": "./bin/cli.js"
+    "reactcmd": "./bin/cli.js"
   },
   "scripts": {
     "build": "tsc",

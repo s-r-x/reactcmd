@@ -10,3 +10,7 @@ lint.fix:
 	npm run lint.fix
 test:
 	npm test
+link:
+	npm link
+unlink:
+	npm unlink

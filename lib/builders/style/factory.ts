@@ -8,8 +8,8 @@ import { StyledJsxStyleBuilder } from './styled-jsx';
 import { EmotionStyleBuilder } from './StyledCompatible/emotion';
 import { LinariaStyleBuilder } from './StyledCompatible/linaria';
 import { ScStyleBuilder } from './StyledCompatible/sc';
-import { StylusStyleBuilder } from './stylus';
 import { IStyleBuilder, TStyleBuilderFactory } from './interface';
+import { StylusStyleBuilder } from './CssCompatible/stylus';
 
 const implementations: Record<TStylingStrategy, new () => IStyleBuilder> = {
   aphrodite: AphroditeStyleBuilder,

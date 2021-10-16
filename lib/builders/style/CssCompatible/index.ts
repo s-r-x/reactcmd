@@ -6,7 +6,7 @@ import { AbstractStyleBuilder } from '../abstract';
 import j from 'jscodeshift';
 import { DEFAULT_CSS_RULES } from '../constants';
 
-// abstract class for css/less/scss
+// abstract class for css/less/scss/stylus
 export abstract class CssCompatibleStyleBuilder extends AbstractStyleBuilder {
   protected buildArtifacts({
     rootTag: tag,
@@ -14,14 +14,11 @@ export abstract class CssCompatibleStyleBuilder extends AbstractStyleBuilder {
     jsxChildren,
     file,
   }: TSpec): IStyleBuildArtifacts {
+    const content = this.buildStyles(rootClass);
     return {
       standalone: {
         filename: file.nameWithExt,
-        content: `
-          .${rootClass} {
-            ${DEFAULT_CSS_RULES}
-          }
-				`,
+        content,
       },
       imports: [j.importDeclaration([], j.literal(`./${file.nameWithExt}`))],
       jsx: j.jsxElement(
@@ -35,5 +32,12 @@ export abstract class CssCompatibleStyleBuilder extends AbstractStyleBuilder {
         jsxChildren
       ),
     };
+  }
+  protected buildStyles(className: string): string {
+    return `
+      .${className} {
+        ${DEFAULT_CSS_RULES}
+      }
+    `;
   }
 }

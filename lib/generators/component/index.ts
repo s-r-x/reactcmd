@@ -55,7 +55,7 @@ export class ComponentGenerator implements IComponentGenerator {
   ): TStringDict {
     const rootDir = path.join(opts.dir!, opts.name);
     return {
-      [path.join(rootDir, 'index.tsx')]: component,
+      [path.join(rootDir, `index.${opts.ts ? 'tsx' : 'jsx'}`)]: component,
       ...(styleArtifacts?.standalone && {
         [path.join(rootDir, styleArtifacts.standalone.filename)]:
           styleArtifacts.standalone.content,

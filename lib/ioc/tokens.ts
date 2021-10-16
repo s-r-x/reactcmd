@@ -11,4 +11,5 @@ export const TOKENS = {
   componentBuilderFacade: Symbol.for('componentBuilderFacade'),
   cmpGenInputNrmlz: Symbol.for('cmpGenInputNrmlz'),
   filesTreeWriter: Symbol.for('filesTreeWriter'),
+  cliUi: Symbol.for('cliUi'),
 };

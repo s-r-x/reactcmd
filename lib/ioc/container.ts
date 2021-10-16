@@ -8,6 +8,8 @@ import { ComponentBuilderFacade } from '../builders/component/facade';
 import { IComponentBuilderFacade } from '../builders/component/interface';
 import { styleBuilderFactory } from '../builders/style/factory';
 import { TStyleBuilderFactory } from '../builders/style/interface';
+import { CliUi } from '../cli-ui';
+import { ICliUi } from '../cli-ui/interface';
 import { FileSystem } from '../file-system';
 import { IFileSystem } from '../file-system/interface';
 import { ComponentGenerator } from '../generators/component';
@@ -32,6 +34,7 @@ export const createContainer = () => {
   c.bind<IComponentBuilderFacade>(TOKENS.componentBuilderFacade).to(
     ComponentBuilderFacade
   );
+  c.bind<ICliUi>(TOKENS.cliUi).to(CliUi);
   c.bind<IFilesTreeWriter>(TOKENS.filesTreeWriter).to(FilesTreeWriter);
   c.bind<ILogger>(TOKENS.logger).to(Logger).inSingletonScope();
   c.bind<IEnvAnalyzer>(TOKENS.envAnalyzer).to(EnvAnalyzer).inSingletonScope();

@@ -35,4 +35,7 @@ export class FileSystem implements IFileSystem {
       return new Set();
     }
   }
+  async writeFile(path: string, content: string): Promise<void> {
+    await fs.outputFile(path, content);
+  }
 }

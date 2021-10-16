@@ -4,7 +4,6 @@ import type {
 } from '../interface';
 import { AbstractStyleBuilder } from '../abstract';
 import j from 'jscodeshift';
-import { DEFAULT_CSS_RULES } from '../constants';
 
 // abstract class for styled-components/linaria/emotion
 export abstract class StyledCompatibleStyleBuilder extends AbstractStyleBuilder {
@@ -19,16 +18,25 @@ export abstract class StyledCompatibleStyleBuilder extends AbstractStyleBuilder 
     jsxChildren,
   }: TSpec): IStyleBuildArtifacts {
     const jsxTag = `${this.nsExport}.${rootClass}`;
+    const exp = j.exportDeclaration(
+      false,
+      j.variableDeclaration('const', [
+        j.variableDeclarator(
+          j.identifier(rootClass),
+          j.taggedTemplateExpression(
+            j.memberExpression(j.identifier('styled'), j.identifier(tag)),
+            j.templateLiteral([], [])
+          )
+        ),
+      ])
+    );
+    const content = [j(this.styledImport).toSource(), j(exp).toSource()].join(
+      '\n\n'
+    );
     return {
       standalone: {
         filename: file.nameWithExt,
-        content: `
-					${j(this.styledImport).toSource()};
-
-					export const ${rootClass} = styled.${tag}\`
-            ${DEFAULT_CSS_RULES} 
-          \`;
-				`,
+        content,
       },
       imports: [
         j.importDeclaration(

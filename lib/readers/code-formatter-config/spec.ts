@@ -1,12 +1,12 @@
 import { Options } from 'prettier';
-import { PrettierConfigReader as Reader } from '.';
+import { CodeFormatterConfigReader as Reader } from '.';
 import { createTempDir } from '../../tests/fixtures/create-temp-dir';
 import fs from 'fs-extra';
 import path from 'path';
 import { expect } from 'chai';
 import { DEFAULT_PRETTIER_CONFIG } from './constants';
 
-describe('PrettierConfigReader', () => {
+describe('CodeFormatterConfigReader', () => {
   describe('read', () => {
     it('should read the config', async () => {
       const reader = new Reader();

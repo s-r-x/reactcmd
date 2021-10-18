@@ -1,5 +1,5 @@
 import { Options } from 'prettier';
 
-export interface IPrettierConfigReader {
+export interface ICodeFormatterConfigReader {
   read(): Promise<Options>;
 }

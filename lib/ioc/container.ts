@@ -12,6 +12,8 @@ import { styleBuilderFactory } from '../builders/style/factory';
 import { TStyleBuilderFactory } from '../builders/style/interface';
 import { CliUi } from '../cli-ui';
 import { ICliUi } from '../cli-ui/interface';
+import { CodeFormatter } from '../code-formatter';
+import { ICodeFormatter } from '../code-formatter/interface';
 import { FileSystem } from '../file-system';
 import { IFileSystem } from '../file-system/interface';
 import { ComponentGenerator } from '../generators/component';
@@ -28,8 +30,8 @@ import { EnvReader } from '../readers/env';
 import { IEnvReader } from '../readers/env/interface';
 import { PkgJsonReader } from '../readers/pkg-json';
 import { IPkgJsonReader } from '../readers/pkg-json/interface';
-import { PrettierConfigReader } from '../readers/prettier-config';
-import { IPrettierConfigReader } from '../readers/prettier-config/interface';
+import { CodeFormatterConfigReader } from '../readers/code-formatter-config';
+import { ICodeFormatterConfigReader } from '../readers/code-formatter-config/interface';
 import { FilesListWriter } from '../writers/files-list';
 import { IFilesListWriter } from '../writers/files-list/interface';
 import { TOKENS } from './tokens';
@@ -40,8 +42,11 @@ export const createContainer = () => {
   c.bind<IComponentBuilderFacade>(TOKENS.componentBuilderFacade).to(
     ComponentBuilderFacade
   );
-  c.bind<IPrettierConfigReader>(TOKENS.prettierCfgReader)
-    .to(PrettierConfigReader)
+  c.bind<ICodeFormatterConfigReader>(TOKENS.codeFormatterCfgReader)
+    .to(CodeFormatterConfigReader)
+    .inSingletonScope();
+  c.bind<ICodeFormatter>(TOKENS.codeFormatter)
+    .to(CodeFormatter)
     .inSingletonScope();
   c.bind<ICliUi>(TOKENS.cliUi).to(CliUi);
   c.bind<IFilesListWriter>(TOKENS.filesListWriter).to(FilesListWriter);

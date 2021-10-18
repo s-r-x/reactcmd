@@ -13,6 +13,7 @@ export interface IGenerateComponentOptions {
   story?: boolean;
   class?: boolean;
   fc?: boolean;
+  cssmodules?: boolean;
 }
 export interface IComponentGenerator {
   gen(args: IGenerateComponentOptions): Promise<void>;

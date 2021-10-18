@@ -35,12 +35,13 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       pure: { type: 'boolean', desc: 'Wrap in memo or extends PureComponent?' },
       test: { type: 'boolean', desc: 'Create test file?' },
       tag: { type: 'string', desc: 'JSX root tag', default: 'div' },
+      cssmodules: { type: 'boolean', desc: 'Use CSS modules?', alias: 'CSSM' },
       style: {
         type: 'string',
-        alias: 's',
+        alias: 'S',
         choices: styleChoices,
       },
-      'prop-types': { type: 'boolean', desc: 'Use prop-types?', alias: 'pt' },
+      'prop-types': { type: 'boolean', desc: 'Use prop-types?', alias: 'PT' },
     })
     .positional('name', {
       type: 'string',

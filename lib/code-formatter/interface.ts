@@ -1,6 +1,8 @@
-import { Options } from 'prettier';
+import type { Options as PrettierOpts } from 'prettier';
+
+export type TPrettierParser = NonNullable<PrettierOpts['parser']>;
 export interface ICodeFormatOptions {
-  parser?: Options['parser'];
+  parser?: TPrettierParser;
   ext?: string;
 }
 export interface ICodeFormatter {

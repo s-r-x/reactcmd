@@ -7,7 +7,7 @@
     "reactcmd": "./bin/cli.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p ./tsconfig.build.json",
     "dev": "tsc --watch",
     "lint": "eslint --ext .ts lib",
     "lint.strict": "eslint --ext .ts lib --max-warnings 0",

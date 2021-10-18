@@ -15,7 +15,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noImplicitOverride": true,
-    "types": ["reflect-metadata", "mocha"]
+    "types": ["reflect-metadata", "mocha"],
+    "sourceMap": true
   },
   "include": ["./lib"]
 }

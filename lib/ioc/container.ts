@@ -28,6 +28,8 @@ import { EnvReader } from '../readers/env';
 import { IEnvReader } from '../readers/env/interface';
 import { PkgJsonReader } from '../readers/pkg-json';
 import { IPkgJsonReader } from '../readers/pkg-json/interface';
+import { PrettierConfigReader } from '../readers/prettier-config';
+import { IPrettierConfigReader } from '../readers/prettier-config/interface';
 import { FilesListWriter } from '../writers/files-list';
 import { IFilesListWriter } from '../writers/files-list/interface';
 import { TOKENS } from './tokens';
@@ -38,6 +40,9 @@ export const createContainer = () => {
   c.bind<IComponentBuilderFacade>(TOKENS.componentBuilderFacade).to(
     ComponentBuilderFacade
   );
+  c.bind<IPrettierConfigReader>(TOKENS.prettierCfgReader)
+    .to(PrettierConfigReader)
+    .inSingletonScope();
   c.bind<ICliUi>(TOKENS.cliUi).to(CliUi);
   c.bind<IFilesListWriter>(TOKENS.filesListWriter).to(FilesListWriter);
   c.bind<ILogger>(TOKENS.logger).to(Logger).inSingletonScope();

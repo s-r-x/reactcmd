@@ -14,4 +14,5 @@ export const TOKENS = {
   filesListWriter: Symbol.for('filesListWriter'),
   cliUi: Symbol.for('cliUi'),
   pkgJsonReader: Symbol.for('pkgJsonReader'),
+  prettierCfgReader: Symbol.for('prettierCfgReader'),
 };

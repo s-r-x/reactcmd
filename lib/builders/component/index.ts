@@ -2,6 +2,7 @@ import { injectable } from 'inversify';
 import j from 'jscodeshift';
 import _ from 'lodash';
 import { Maybe, TStringDict } from '../../typings/utils';
+import { stringifyAst } from '../../utils/ast';
 import {
   DEFAULT_COMPONENT_NAME,
   DEFAULT_IMPORTS,
@@ -117,7 +118,7 @@ export class ComponentBuilder {
       .join('\n\n');
   }
   buildImports(): string {
-    return this.stringifyAst(this.finalImports);
+    return stringifyAst(this.finalImports);
   }
   buildVariablesDeclaration(): string {
     if (!this.useRedux) return '';
@@ -132,7 +133,7 @@ export class ComponentBuilder {
         ])
       ),
     ]);
-    return this.stringifyAst(connectorDeclaration);
+    return stringifyAst(connectorDeclaration);
   }
   buildPropsDeclaration(): string {
     const props = j.tsInterfaceDeclaration(
@@ -154,26 +155,19 @@ export class ComponentBuilder {
         ),
       ];
     }
-    return this.stringifyAst(props);
+    return stringifyAst(props);
   }
   buildComponentDeclaration(): string {
     const component = this.isClass
       ? this.buildClassComponentDeclaration()
       : this.buildFCDeclaration();
-    return this.stringifyAst(component);
+    return stringifyAst(component);
   }
   buildDefaultExport() {
     const ast = this.finalHocs.reduceRight((acc, exp) => {
       return j.callExpression(j.identifier(exp), [acc]);
     }, j.identifier(this.componentName) as j.Identifier | j.CallExpression);
-    return this.stringifyAst(j.exportDefaultDeclaration(ast));
-  }
-  private stringifyAst(...args: Parameters<typeof j>): string {
-    const source = j(...args).toSource();
-    if (Array.isArray(source)) {
-      return source.join('\n');
-    }
-    return source;
+    return stringifyAst(j.exportDefaultDeclaration(ast));
   }
   private buildFCDeclaration(): j.VariableDeclaration {
     const identifier = j.identifier(this.componentName);

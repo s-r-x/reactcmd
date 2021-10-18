@@ -10,7 +10,7 @@ export interface IGenerateComponentOptions {
   redux?: boolean;
   style?: string;
   test?: boolean;
-  story?: boolean;
+  sb?: boolean;
   class?: boolean;
   fc?: boolean;
   cssmodules?: boolean;

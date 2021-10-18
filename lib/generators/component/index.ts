@@ -16,6 +16,8 @@ import _ from 'lodash';
 import path from 'path';
 import { IComponentTestsBuilder } from '../../builders/component-tests/interface';
 import { IFileWriter } from '../../writers/file/interface';
+import { IComponentStoriesBuilder } from '../../builders/component-stories/interface';
+import { COMPONENT_DEFAULT_FILENAME } from './constants';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -28,7 +30,9 @@ export class ComponentGenerator implements IComponentGenerator {
     private componentBuilder: IComponentBuilderFacade,
     @inject(TOKENS.fileWriter) private fileWriter: IFileWriter,
     @inject(TOKENS.componentTestsBuilder)
-    private componentTestsBuilder: IComponentTestsBuilder
+    private testsBuilder: IComponentTestsBuilder,
+    @inject(TOKENS.componentStoriesBuilder)
+    private storiesBuilder: IComponentStoriesBuilder
   ) {}
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const { componentBuilder: builder } = this;
@@ -38,11 +42,13 @@ export class ComponentGenerator implements IComponentGenerator {
       this.genComponentBuilderSpec(opts, styleArtifacts)
     );
     const tests = this.genTests(opts);
+    const stories = this.genStories(opts);
     const filesList = this.genWritableFilesList(
       opts,
       component,
       styleArtifacts,
-      tests
+      tests,
+      stories
     );
     for (const file in filesList) {
       await this.fileWriter.write({
@@ -57,14 +63,20 @@ export class ComponentGenerator implements IComponentGenerator {
     opts: IGenerateComponentOptions,
     component: string,
     style: Maybe<IStyleBuildArtifacts>,
-    tests: Maybe<string>
+    tests: Maybe<string>,
+    stories: Maybe<string>
   ): TStringDict {
     const rootDir = path.join(opts.dir!, opts.name);
-    const ext = opts.ts ? 'tsx' : 'jsx';
+    const ext = this.getExt(opts.ts);
     return {
-      [path.join(rootDir, `index.${ext}`)]: component,
+      [path.join(rootDir, `${COMPONENT_DEFAULT_FILENAME}.${ext}`)]: component,
       ...(tests && {
-        [path.join(rootDir, `spec.${ext}`)]: tests,
+        [path.join(rootDir, `${COMPONENT_DEFAULT_FILENAME}.spec.${ext}`)]:
+          tests,
+      }),
+      ...(stories && {
+        [path.join(rootDir, `${COMPONENT_DEFAULT_FILENAME}.stories.${ext}`)]:
+          stories,
       }),
       ...(style?.standalone && {
         [path.join(rootDir, style.standalone.filename)]:
@@ -74,10 +86,20 @@ export class ComponentGenerator implements IComponentGenerator {
   }
   private genTests(opts: IGenerateComponentOptions): Maybe<string> {
     if (!opts.test) return null;
-    return this.componentTestsBuilder.build({
+    return this.testsBuilder.build({
       name: opts.name,
-      importPath: './index.tsx',
+      importPath: './' + COMPONENT_DEFAULT_FILENAME,
     });
+  }
+  private genStories(opts: IGenerateComponentOptions): Maybe<string> {
+    if (!opts.sb) return null;
+    const { storiesBuilder: bldr } = this;
+    bldr.reset().withComponentName(opts.name);
+    bldr.withComponentImportPath('./' + COMPONENT_DEFAULT_FILENAME);
+    if (opts.ts) {
+      bldr.withTypescript();
+    }
+    return bldr.build();
   }
   private genStyleArtifacts(
     opts: IGenerateComponentOptions
@@ -110,5 +132,8 @@ export class ComponentGenerator implements IComponentGenerator {
       hocs: style?.hocs,
       jsx: style?.jsx,
     };
+  }
+  private getExt(ts?: boolean): string {
+    return ts ? 'tsx' : 'jsx';
   }
 }

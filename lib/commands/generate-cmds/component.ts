@@ -31,7 +31,7 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       mobx: { type: 'boolean', desc: 'Use mobx?' },
       redux: { type: 'boolean', desc: 'Use redux?' },
       nostyle: { type: 'boolean', desc: 'Disable styling?' },
-      stories: { type: 'boolean', desc: 'Create stories?' },
+      sb: { type: 'boolean', desc: 'Create stories?' },
       pure: { type: 'boolean', desc: 'Wrap in memo or extends PureComponent?' },
       test: { type: 'boolean', desc: 'Create test file?' },
       tag: { type: 'string', desc: 'JSX root tag', default: 'div' },

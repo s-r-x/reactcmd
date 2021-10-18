@@ -3,4 +3,5 @@ export interface IComponentStoriesBuilder {
   withComponentName(name: string): this;
   withComponentImportPath(path: string): this;
   withTypescript(): this;
+  reset(): this;
 }

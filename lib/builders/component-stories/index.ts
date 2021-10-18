@@ -22,6 +22,11 @@ export class ComponentStoriesBuilder implements IComponentStoriesBuilder {
     this.useTs = true;
     return this;
   }
+  reset() {
+    this.componentName = 'Component';
+    this.componentImportPath = './index';
+    return this;
+  }
   withComponentImportPath(path: string) {
     this.componentImportPath = path;
     return this;

@@ -26,6 +26,8 @@ import { DepsReader } from '../readers/deps';
 import { IDepsReader } from '../readers/deps/interface';
 import { EnvReader } from '../readers/env';
 import { IEnvReader } from '../readers/env/interface';
+import { PkgJsonReader } from '../readers/pkg-json';
+import { IPkgJsonReader } from '../readers/pkg-json/interface';
 import { FilesListWriter } from '../writers/files-list';
 import { IFilesListWriter } from '../writers/files-list/interface';
 import { TOKENS } from './tokens';
@@ -42,6 +44,9 @@ export const createContainer = () => {
   c.bind<IEnvAnalyzer>(TOKENS.envAnalyzer).to(EnvAnalyzer).inSingletonScope();
   c.bind<IEnvReader>(TOKENS.env).to(EnvReader).inSingletonScope();
   c.bind<IFileSystem>(TOKENS.fs).to(FileSystem).inSingletonScope();
+  c.bind<IPkgJsonReader>(TOKENS.pkgJsonReader)
+    .to(PkgJsonReader)
+    .inSingletonScope();
   c.bind<IConfigReader>(TOKENS.cfgReader).to(ConfigReader);
   c.bind<IDepsReader>(TOKENS.depsReader).to(DepsReader);
   c.bind<IStylingAnalyzer>(TOKENS.styleAnlz).to(StylingAnalyzer);

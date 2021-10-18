@@ -1,23 +1,20 @@
 import { inject, injectable } from 'inversify';
 import { TOKENS } from '../../ioc/tokens';
-import path from 'path';
-import { TPkg, TPkgDeps } from '../../typings/pkg';
-import { IFileSystem } from '../../file-system/interface';
-import { IEnvReader } from '../env/interface';
+import { TPkgDeps } from '../../typings/pkg';
 import { IDepsReader } from './interface';
+import { IPkgJsonReader } from '../pkg-json/interface';
 
 @injectable()
 export class DepsReader implements IDepsReader {
   constructor(
-    @inject(TOKENS.env) private env: IEnvReader,
-    @inject(TOKENS.fs) private fs: IFileSystem
+    @inject(TOKENS.pkgJsonReader) private pkgReader: IPkgJsonReader
   ) {}
   async readDeps(): Promise<TPkgDeps> {
-    const pkg = await this.readPkg();
+    const pkg = await this.pkgReader.read();
     return pkg.dependencies || {};
   }
   async readDevDeps(): Promise<TPkgDeps> {
-    const pkg = await this.readPkg();
+    const pkg = await this.pkgReader.read();
     return pkg.devDependencies || {};
   }
   async readAllDepsAndMerge(): Promise<TPkgDeps> {
@@ -27,16 +24,4 @@ export class DepsReader implements IDepsReader {
     ]);
     return { ...deps, ...allDeps };
   }
-  private async readPkg(): Promise<TPkg> {
-    if (this.cachedPkg) return this.cachedPkg;
-    const rootDir = this.env.getProjectRootDir();
-    const pkg = await this.fs.readJSON(path.join(rootDir, 'package.json'));
-    if (!pkg) {
-      this.cachedPkg = {};
-    } else {
-      this.cachedPkg = pkg;
-    }
-    return this.cachedPkg;
-  }
-  private cachedPkg!: TPkg;
 }

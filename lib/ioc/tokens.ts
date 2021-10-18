@@ -13,4 +13,5 @@ export const TOKENS = {
   cmpGenInputNrmlz: Symbol.for('cmpGenInputNrmlz'),
   filesListWriter: Symbol.for('filesListWriter'),
   cliUi: Symbol.for('cliUi'),
+  pkgJsonReader: Symbol.for('pkgJsonReader'),
 };

@@ -37,12 +37,14 @@ export class ComponentGenerator implements IComponentGenerator {
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const { componentBuilder: builder } = this;
     const opts = await this.inputNormalizer.normalize(rawOpts);
+
     const styleArtifacts = this.genStyleArtifacts(opts);
     const component = builder.buildUsingComponentGeneratorSpec(
       this.genComponentBuilderSpec(opts, styleArtifacts)
     );
     const tests = this.genTests(opts);
     const stories = this.genStories(opts);
+
     const filesList = this.genWritableFilesList(
       opts,
       component,

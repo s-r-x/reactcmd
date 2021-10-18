@@ -9,7 +9,7 @@ import {
 } from './constants';
 import { IStylingAnalyzer } from './interface';
 
-// TODO:: css modules
+// TODO:: css modules detector
 @injectable()
 export class StylingAnalyzer implements IStylingAnalyzer {
   constructor(@inject(TOKENS.depsReader) private depsReader: IDepsReader) {}

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-
 import prettier from 'prettier';
+import { DEFAULT_PRETTIER_CONFIG } from '../readers/prettier-config/constants';
 
 interface IFormatOpts {
   parser?: prettier.Options['parser'];
@@ -13,13 +13,7 @@ export const format = (
 ): string => {
   return prettier.format(src, {
     parser,
-    semi: true,
-    trailingComma: 'none',
-    bracketSpacing: false,
-    singleQuote: false,
-    tabWidth: 2,
-    endOfLine: 'lf',
-    arrowParens: 'always',
+    ...DEFAULT_PRETTIER_CONFIG,
   });
 };
 

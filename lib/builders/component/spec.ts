@@ -14,7 +14,7 @@ const REDUX_TS_IMPORTS = `import { ${REDUX_HOC_NAME}, ${REDUX_TYPE_EXTRACTOR_NAM
 const MOBX_IMPORTS = `import { ${MOBX_HOC_NAME}} from 'mobx'`;
 const REDUX_TS_PROPS = `interface ${PROPS_TYPE_IDENTIFIER} extends ${REDUX_TYPE_EXTRACTOR_NAME}<typeof ${REDUX_CONNECTOR_NAME}> {}`;
 
-describe.only('ComponentBuilder', () => {
+describe('ComponentBuilder', () => {
   describe('buildDefaultExport', () => {
     it('should build correct export without hocs', () => {
       const builder = new Builder();

@@ -53,7 +53,7 @@ export class ComponentGenerator implements IComponentGenerator {
   private genWritableFilesList(
     opts: IGenerateComponentOptions,
     component: string,
-    styleArtifacts: Maybe<IStyleBuildArtifacts>,
+    style: Maybe<IStyleBuildArtifacts>,
     tests: Maybe<string>
   ): TStringDict {
     const rootDir = path.join(opts.dir!, opts.name);
@@ -63,9 +63,9 @@ export class ComponentGenerator implements IComponentGenerator {
       ...(tests && {
         [path.join(rootDir, `spec.${ext}`)]: tests,
       }),
-      ...(styleArtifacts?.standalone && {
-        [path.join(rootDir, styleArtifacts.standalone.filename)]:
-          styleArtifacts.standalone.content,
+      ...(style?.standalone && {
+        [path.join(rootDir, style.standalone.filename)]:
+          style.standalone.content,
       }),
     };
   }
@@ -89,7 +89,7 @@ export class ComponentGenerator implements IComponentGenerator {
   }
   private genComponentBuilderSpec(
     opts: IGenerateComponentOptions,
-    styleArtifacts: Maybe<IStyleBuildArtifacts>
+    style: Maybe<IStyleBuildArtifacts>
   ): IComponentGeneratorSpec {
     return {
       ..._.pick(opts, [
@@ -102,9 +102,9 @@ export class ComponentGenerator implements IComponentGenerator {
         'redux',
         'pure',
       ]),
-      imports: styleArtifacts?.imports,
-      hocs: styleArtifacts?.hocs,
-      jsx: styleArtifacts?.jsx,
+      imports: style?.imports,
+      hocs: style?.hocs,
+      jsx: style?.jsx,
     };
   }
 }

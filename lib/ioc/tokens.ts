@@ -16,4 +16,5 @@ export const TOKENS = {
   pkgJsonReader: Symbol.for('pkgJsonReader'),
   codeFormatterCfgReader: Symbol.for('codeFormatterCfgReader'),
   codeFormatter: Symbol.for('codeFormatter'),
+  componentStoriesBuilder: Symbol.for('componentStoriesBuilder'),
 };

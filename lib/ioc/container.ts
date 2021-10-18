@@ -35,6 +35,8 @@ import { ICodeFormatterConfigReader } from '../readers/code-formatter-config/int
 import { TOKENS } from './tokens';
 import { IFileWriter } from '../writers/file/interface';
 import { FileWriter } from '../writers/file';
+import { IComponentStoriesBuilder } from '../builders/component-stories/interface';
+import { ComponentStoriesBuilder } from '../builders/component-stories';
 
 export const createContainer = () => {
   const c = new Container();
@@ -65,6 +67,9 @@ export const createContainer = () => {
   );
   c.bind<IComponentTestsBuilder>(TOKENS.componentTestsBuilder).to(
     ComponentTestsBuilder
+  );
+  c.bind<IComponentStoriesBuilder>(TOKENS.componentStoriesBuilder).to(
+    ComponentStoriesBuilder
   );
   c.bind<IComponentGenerator>(TOKENS.cmpGen).to(ComponentGenerator);
   c.bind<IComponentGenInputNormalizer>(TOKENS.cmpGenInputNrmlz).to(

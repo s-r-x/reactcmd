@@ -1,5 +1,5 @@
 import { CssCompatibleStyleBuilder } from '..';
 
 export class CssStyleBuilder extends CssCompatibleStyleBuilder {
-  protected override fileExt = '.css';
+  protected override immutableFileExt = '.css';
 }

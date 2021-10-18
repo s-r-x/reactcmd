@@ -13,9 +13,10 @@ import path from 'path';
 import { pascalCase } from '../../utils/pascal-case';
 
 export abstract class AbstractStyleBuilder implements IStyleBuilder {
-  protected fileExt?: string;
+  protected immutableFileExt?: string;
   protected usePascalCaseForRootClass?: boolean;
   protected defaultFilename = 'styles';
+  protected isCssModulesCompatible = false;
 
   build(spec: IStyleBuildSpec): IStyleBuildArtifacts {
     return this.buildArtifacts(this.normalizeSpec(spec));
@@ -30,13 +31,15 @@ export abstract class AbstractStyleBuilder implements IStyleBuilder {
     ts = false,
     filename,
     jsxChildren = DEFAULT_JSX_CHILDREN,
+    cssModules = false,
   }: IStyleBuildSpec): TNormalizedStyleBuildSpec {
     return {
       rootClass: this.normalizeRootClass(rootClass),
       rootTag,
       ts,
       jsxChildren,
-      file: this.generateStandaloneFileMeta(filename, ts),
+      file: this.generateStandaloneFileMeta(filename, ts, cssModules),
+      cssModules,
     };
   }
   private normalizeRootClass(cls: string = DEFAULT_ROOT_CLASS): string {
@@ -47,10 +50,21 @@ export abstract class AbstractStyleBuilder implements IStyleBuilder {
   }
   private generateStandaloneFileMeta(
     filename?: string,
-    ts?: boolean
+    ts?: boolean,
+    cssModules?: boolean
   ): TNormalizedStyleBuildSpec['file'] {
-    const parsed = path.parse(filename || this.defaultFilename);
-    const ext = this.fileExt || (ts ? '.ts' : '.js');
+    filename ||= this.defaultFilename;
+    let ext: string;
+    if (this.immutableFileExt) {
+      if (cssModules && this.isCssModulesCompatible) {
+        ext = '.module' + this.immutableFileExt;
+      } else {
+        ext = this.immutableFileExt;
+      }
+    } else {
+      ext = ts ? '.ts' : '.js';
+    }
+    const parsed = path.parse(filename);
     return {
       ext,
       name: parsed.name,

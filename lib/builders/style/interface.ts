@@ -21,6 +21,7 @@ export interface IStyleBuildSpec {
   rootTag?: string;
   filename?: string;
   ts?: boolean;
+  cssModules?: boolean;
   jsxChildren?: (
     | JSXText
     | JSXExpressionContainer

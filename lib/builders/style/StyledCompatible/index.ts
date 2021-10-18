@@ -17,7 +17,6 @@ export abstract class StyledCompatibleStyleBuilder extends AbstractStyleBuilder 
     file,
     jsxChildren,
   }: TSpec): IStyleBuildArtifacts {
-    const jsxTag = `${this.nsExport}.${rootClass}`;
     const exp = j.exportDeclaration(
       false,
       j.variableDeclaration('const', [
@@ -29,6 +28,10 @@ export abstract class StyledCompatibleStyleBuilder extends AbstractStyleBuilder 
           )
         ),
       ])
+    );
+    const jsxTag = j.jsxMemberExpression(
+      j.jsxIdentifier(this.nsExport),
+      j.jsxIdentifier(rootClass)
     );
     const content = [j(this.styledImport).toSource(), j(exp).toSource()].join(
       '\n\n'
@@ -45,8 +48,8 @@ export abstract class StyledCompatibleStyleBuilder extends AbstractStyleBuilder 
         ),
       ],
       jsx: j.jsxElement(
-        j.jsxOpeningElement(j.jsxIdentifier(jsxTag), []),
-        j.jsxClosingElement(j.jsxIdentifier(jsxTag)),
+        j.jsxOpeningElement(jsxTag, []),
+        j.jsxClosingElement(jsxTag),
         jsxChildren
       ),
     };

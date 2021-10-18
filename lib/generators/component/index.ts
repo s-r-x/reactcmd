@@ -86,6 +86,7 @@ export class ComponentGenerator implements IComponentGenerator {
       return this.styleBuilderFactory(opts.style as TStylingStrategy).build({
         rootTag: opts.tag,
         ts: opts.ts,
+        cssModules: opts.cssmodules,
       });
     }
     return null;

@@ -34,11 +34,7 @@ export class RadiumStyleBuilder extends AbstractStyleBuilder {
           };
 				`,
       },
-      applyHocs(identifier) {
-        return j.callExpression(j.identifier(radiumDefaultExport), [
-          identifier,
-        ]);
-      },
+      hocs: [radiumDefaultExport],
       jsx: j.jsxElement(
         j.jsxOpeningElement(j.jsxIdentifier(tag), [
           j.jsxAttribute(

@@ -8,8 +8,6 @@ import {
   JSXFragment,
   Literal,
   JSXExpressionContainer,
-  Identifier,
-  CallExpression,
 } from 'jscodeshift';
 
 export type TStyleBuilderFactory = (
@@ -48,7 +46,6 @@ export interface IStyleBuildArtifacts {
     content: string;
   }>;
   jsx: JSXElement;
-  applyHocs?(identifier: Identifier): CallExpression;
   hocs?: string[];
 }
 export interface IStyleBuilder {

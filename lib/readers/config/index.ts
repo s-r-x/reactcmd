@@ -3,20 +3,23 @@ import { TOKENS } from '../../ioc/tokens';
 import path from 'path';
 import { Maybe } from '../../typings/utils';
 import { TCliConfigFile } from '../../typings/config';
-import { IFileSystem } from '../../file-system/interface';
 import { IConfigReader } from './interface';
 import { IEnvReader } from '../env/interface';
+import { cosmiconfig } from 'cosmiconfig';
+import { CONFIG_NAME } from './constants';
 
-export const CONFIG_NAME = 'reactcmd.config.json';
-
+const configExplorer = cosmiconfig(CONFIG_NAME);
 @injectable()
 export class ConfigReader implements IConfigReader {
-  constructor(
-    @inject(TOKENS.env) private env: IEnvReader,
-    @inject(TOKENS.fs) private fs: IFileSystem
-  ) {}
+  constructor(@inject(TOKENS.env) private env: IEnvReader) {}
   async readConfig(): Promise<Maybe<TCliConfigFile>> {
-    return await this.fs.readJSON(this.getConfigPath());
+    try {
+      const cfg = await configExplorer.search(this.env.getProjectRootDir());
+      if (!cfg || cfg.isEmpty) return null;
+      return cfg.config;
+    } catch (_e) {
+      return null;
+    }
   }
   async getSrcDir(): Promise<Maybe<string>> {
     const cfg = await this.readConfig();
@@ -27,9 +30,5 @@ export class ConfigReader implements IConfigReader {
     } else {
       return path.join(this.env.getProjectRootDir(), src);
     }
-  }
-  private getConfigPath(): string {
-    const root = this.env.getProjectRootDir();
-    return path.join(root, CONFIG_NAME);
   }
 }

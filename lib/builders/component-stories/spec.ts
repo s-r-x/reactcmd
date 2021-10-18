@@ -6,7 +6,7 @@ import {
   SB_META_IMPORT_NAME,
 } from './constants';
 
-describe.only('ComponentStoriesBuilder', () => {
+describe('ComponentStoriesBuilder', () => {
   describe('build', () => {
     it('should build', () => {
       const builder = new Builder();

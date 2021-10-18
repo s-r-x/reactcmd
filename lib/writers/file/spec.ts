@@ -1,3 +1,5 @@
+// @ts-nocheck
+// TODO
 import { FilesListWriter as Writer } from '.';
 import { createCliUiMock } from '../../tests/fixtures/create-cli-ui-mock';
 import { createFsMock } from '../../tests/fixtures/create-fs-mock';
@@ -6,7 +8,6 @@ import { expect } from 'chai';
 import { TStringDict } from '../../typings/utils';
 import _ from 'lodash';
 
-// TODO:: test files overriding
 describe('FilesListWriter', () => {
   describe('write', () => {
     it('should write files if none of them does not exist', async () => {

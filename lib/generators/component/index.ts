@@ -13,9 +13,9 @@ import { TStylingStrategy } from '../../typings/styling';
 import { Maybe, TStringDict } from '../../typings/utils';
 import { IComponentGenerator, IGenerateComponentOptions } from './interface';
 import _ from 'lodash';
-import { IFilesListWriter } from '../../writers/files-list/interface';
 import path from 'path';
 import { IComponentTestsBuilder } from '../../builders/component-tests/interface';
+import { IFileWriter } from '../../writers/file/interface';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -26,8 +26,7 @@ export class ComponentGenerator implements IComponentGenerator {
     private inputNormalizer: IComponentGenInputNormalizer,
     @inject(TOKENS.componentBuilderFacade)
     private componentBuilder: IComponentBuilderFacade,
-    @inject(TOKENS.filesListWriter)
-    private filesListWriter: IFilesListWriter,
+    @inject(TOKENS.fileWriter) private fileWriter: IFileWriter,
     @inject(TOKENS.componentTestsBuilder)
     private componentTestsBuilder: IComponentTestsBuilder
   ) {}
@@ -45,10 +44,14 @@ export class ComponentGenerator implements IComponentGenerator {
       styleArtifacts,
       tests
     );
-    await this.filesListWriter.write({
-      list: filesList,
-      shouldPromptOnOverride: true,
-    });
+    for (const file in filesList) {
+      await this.fileWriter.write({
+        path: file,
+        content: filesList[file],
+        shouldPromptOnOverride: true,
+        shouldFormat: true,
+      });
+    }
   }
   private genWritableFilesList(
     opts: IGenerateComponentOptions,

@@ -11,7 +11,7 @@ export const TOKENS = {
   componentTestsBuilder: Symbol.for('componentTestsBuilder'),
   componentBuilderFacade: Symbol.for('componentBuilderFacade'),
   cmpGenInputNrmlz: Symbol.for('cmpGenInputNrmlz'),
-  filesListWriter: Symbol.for('filesListWriter'),
+  fileWriter: Symbol.for('fileWriter'),
   cliUi: Symbol.for('cliUi'),
   pkgJsonReader: Symbol.for('pkgJsonReader'),
   codeFormatterCfgReader: Symbol.for('codeFormatterCfgReader'),

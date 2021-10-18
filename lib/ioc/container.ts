@@ -32,9 +32,9 @@ import { PkgJsonReader } from '../readers/pkg-json';
 import { IPkgJsonReader } from '../readers/pkg-json/interface';
 import { CodeFormatterConfigReader } from '../readers/code-formatter-config';
 import { ICodeFormatterConfigReader } from '../readers/code-formatter-config/interface';
-import { FilesListWriter } from '../writers/files-list';
-import { IFilesListWriter } from '../writers/files-list/interface';
 import { TOKENS } from './tokens';
+import { IFileWriter } from '../writers/file/interface';
+import { FileWriter } from '../writers/file';
 
 export const createContainer = () => {
   const c = new Container();
@@ -49,11 +49,11 @@ export const createContainer = () => {
     .to(CodeFormatter)
     .inSingletonScope();
   c.bind<ICliUi>(TOKENS.cliUi).to(CliUi);
-  c.bind<IFilesListWriter>(TOKENS.filesListWriter).to(FilesListWriter);
   c.bind<ILogger>(TOKENS.logger).to(Logger).inSingletonScope();
   c.bind<IEnvAnalyzer>(TOKENS.envAnalyzer).to(EnvAnalyzer).inSingletonScope();
   c.bind<IEnvReader>(TOKENS.env).to(EnvReader).inSingletonScope();
   c.bind<IFileSystem>(TOKENS.fs).to(FileSystem).inSingletonScope();
+  c.bind<IFileWriter>(TOKENS.fileWriter).to(FileWriter);
   c.bind<IPkgJsonReader>(TOKENS.pkgJsonReader)
     .to(PkgJsonReader)
     .inSingletonScope();

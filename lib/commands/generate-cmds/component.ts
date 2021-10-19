@@ -38,7 +38,7 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       cssmodules: { type: 'boolean', desc: 'Use CSS modules?', alias: 'cssm' },
       style: {
         type: 'string',
-        alias: 'S',
+        alias: 's',
         choices: styleChoices,
       },
       'prop-types': { type: 'boolean', desc: 'Use prop-types?', alias: 'PT' },

@@ -16,7 +16,10 @@ export class FileWriter implements IFileWriter {
   async write(spec: IWriteFileSpec): Promise<void> {
     if (spec.shouldPromptOnOverride && (await this.fs.isExists(spec.path))) {
       const isOverrideConfirmed = await this.ui.confirm({
-        message: `${spec.path} already exists. Override?`,
+        message: `${path.relative(
+          process.cwd(),
+          spec.path
+        )} already exists. Override?`,
         initial: false,
       });
       if (!isOverrideConfirmed) return;

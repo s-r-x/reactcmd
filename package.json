@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc -p ./tsconfig.build.json",
-    "dev": "tsc --watch",
+    "dev": "tsc -p ./tsconfig.dev.json --watch",
     "lint": "eslint --ext .ts lib",
     "lint.strict": "eslint --ext .ts lib --max-warnings 0",
     "lint.fix": "eslint --ext .ts --fix lib",

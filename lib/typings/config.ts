@@ -3,6 +3,6 @@ import type { IGenerateComponentOptions } from '../generators/component/interfac
 export type TCliConfigFile = {
   srcDir?: string;
   commands?: {
-    component?: IGenerateComponentOptions;
+    component?: Partial<IGenerateComponentOptions>;
   };
 };

@@ -1,2 +1,2 @@
 export const removeSpaces = (input: string): string =>
-  (input = input.replace(/\s+/g, ''));
+  input.replace(/\s+/g, '');

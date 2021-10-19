@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { IStyleBuilder } from '../interface';
 import { CssStyleBuilder } from './css';
-import { expectCodeToEq } from '../../../../tests/expect-generated-code-to-eq';
+import { expectCodeToEq } from '../../../../tests/utils/expect-code-to-eq';
 import { expect } from 'chai';
 import j from 'jscodeshift';
 import { LessStyleBuilder } from './less';

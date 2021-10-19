@@ -1,6 +1,6 @@
 import { ComponentBuilder as Builder } from '.';
 import j from 'jscodeshift';
-import { expectCodeToEq } from '../../../tests/expect-generated-code-to-eq';
+import { expectCodeToEq } from '../../../tests/utils/expect-code-to-eq';
 import {
   DEFAULT_COMPONENT_NAME,
   MOBX_HOC_NAME,

@@ -1,5 +1,5 @@
 import { ComponentStoriesBuilder as Builder } from '.';
-import { expectCodeToEq } from '../../../tests/expect-generated-code-to-eq';
+import { expectCodeToEq } from '../../../tests/utils/expect-code-to-eq';
 import {
   SB_EXAMPLE_EXPORT_NAME,
   SB_META_EXPORT_NAME,

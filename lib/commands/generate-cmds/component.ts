@@ -47,7 +47,6 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       type: 'string',
       demandOption: true,
       desc: 'Name of the component',
-      default: 'Component',
     })
     .positional('dir', {
       type: 'string',

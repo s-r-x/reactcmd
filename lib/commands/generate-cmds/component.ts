@@ -32,9 +32,9 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       redux: { type: 'boolean', desc: 'Use redux?' },
       ugly: { type: 'boolean', desc: 'Disable styling?' },
       sb: { type: 'boolean', desc: 'Create stories?' },
-      test: { type: 'boolean', desc: 'Create tests?', alias: 't' },
+      test: { type: 'boolean', desc: 'Create tests?' },
       pure: { type: 'boolean', desc: 'Wrap in memo or extends PureComponent?' },
-      tag: { type: 'string', desc: 'JSX root tag', default: 'div' },
+      tag: { type: 'string', desc: 'JSX root tag', default: 'div', alias: 't' },
       cssmodules: { type: 'boolean', desc: 'Use CSS modules?', alias: 'cssm' },
       style: {
         type: 'string',

@@ -14,3 +14,5 @@ link:
 	npm link
 unlink:
 	npm unlink
+bin-exec:
+	chmod +x ./bin/cli.js

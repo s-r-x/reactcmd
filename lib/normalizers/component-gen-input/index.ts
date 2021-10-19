@@ -54,10 +54,10 @@ export class ComponentGenInputNormalizer implements INormalizer {
     input.name = pascalCase(input.name);
   }
   async normalizeStyle(input: IOptions) {
-    if (input.nostyle) {
+    if (input.ugly) {
       input.style = undefined;
     }
-    if (!input.style && !input.nostyle) {
+    if (!input.style && !input.ugly) {
       input.style = await this.styleAnalyzer.determineStylingStrategy();
     }
   }

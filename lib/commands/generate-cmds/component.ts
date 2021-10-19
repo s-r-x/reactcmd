@@ -30,7 +30,7 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       fc: { type: 'boolean', desc: 'Functional component?' },
       mobx: { type: 'boolean', desc: 'Use mobx?' },
       redux: { type: 'boolean', desc: 'Use redux?' },
-      nostyle: { type: 'boolean', desc: 'Disable styling?' },
+      ugly: { type: 'boolean', desc: 'Disable styling?' },
       sb: { type: 'boolean', desc: 'Create stories?' },
       pure: { type: 'boolean', desc: 'Wrap in memo or extends PureComponent?' },
       test: { type: 'boolean', desc: 'Create test file?' },

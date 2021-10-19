@@ -3,7 +3,7 @@ export interface IGenerateComponentOptions {
   dir?: string;
   ts?: boolean;
   js?: boolean;
-  nostyle?: boolean;
+  ugly?: boolean;
   pure?: boolean;
   mobx?: boolean;
   tag?: string;

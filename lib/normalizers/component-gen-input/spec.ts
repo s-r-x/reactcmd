@@ -136,7 +136,7 @@ describe.only('ComponentGenInputNormalizer', () => {
     });
   });
   describe('normalizeStyle', () => {
-    it('should guess the styling strategy if no "style" and no "nostyle" flags have been passed', async () => {
+    it('should guess the styling strategy if no "style" and no "ugly" flags have been passed', async () => {
       const strategy: any = 'my-strategy';
       const nrmlz = new Nrmlz(
         createEnvAnalyzerMock(),
@@ -149,7 +149,7 @@ describe.only('ComponentGenInputNormalizer', () => {
       await nrmlz.normalizeStyle(input);
       expect(input.style).to.eq(strategy);
     });
-    it('should reset style input if "nostyle" flag has been passed', async () => {
+    it('should reset style input if "ugly" flag has been passed', async () => {
       const nrmlz = new Nrmlz(
         createEnvAnalyzerMock(),
         createStyleAnalyzerMock(),
@@ -158,14 +158,14 @@ describe.only('ComponentGenInputNormalizer', () => {
       {
         const input = createBaseInput({
           style: 'less',
-          nostyle: true,
+          ugly: true,
         });
         await nrmlz.normalizeStyle(input);
         expect(input.style).to.be.undefined;
       }
       {
         const input = createBaseInput({
-          nostyle: true,
+          ugly: true,
         });
         await nrmlz.normalizeStyle(input);
         expect(input.style).to.be.undefined;

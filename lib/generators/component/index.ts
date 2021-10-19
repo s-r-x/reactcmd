@@ -109,7 +109,7 @@ export class ComponentGenerator implements IComponentGenerator {
   private genStyleArtifacts(
     opts: IGenerateComponentOptions
   ): Maybe<IStyleBuildArtifacts> {
-    if (opts.style && !opts.nostyle) {
+    if (opts.style && !opts.ugly) {
       return this.styleBuilderFactory(opts.style as TStylingStrategy).build({
         rootTag: opts.tag,
         ts: opts.ts,

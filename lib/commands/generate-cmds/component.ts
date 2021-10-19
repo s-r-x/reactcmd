@@ -35,7 +35,7 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       pure: { type: 'boolean', desc: 'Wrap in memo or extends PureComponent?' },
       test: { type: 'boolean', desc: 'Create test file?' },
       tag: { type: 'string', desc: 'JSX root tag', default: 'div' },
-      cssmodules: { type: 'boolean', desc: 'Use CSS modules?', alias: 'CSSM' },
+      cssmodules: { type: 'boolean', desc: 'Use CSS modules?', alias: 'cssm' },
       style: {
         type: 'string',
         alias: 'S',

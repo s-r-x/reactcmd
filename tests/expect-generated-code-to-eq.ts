@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import prettier from 'prettier';
-import { DEFAULT_PRETTIER_CONFIG } from '../readers/code-formatter-config/constants';
+import { DEFAULT_PRETTIER_CONFIG } from '../lib/readers/code-formatter-config/constants';
 
 interface IFormatOpts {
   parser?: prettier.Options['parser'];

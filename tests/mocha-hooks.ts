@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import container from '../ioc/container';
+import container from '../lib/ioc/container';
 import * as chai from 'chai';
 import sinonChai from 'sinon-chai';
 

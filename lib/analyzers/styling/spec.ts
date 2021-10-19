@@ -1,4 +1,4 @@
-import { createDepsReaderMock } from '../../tests/fixtures/create-deps-reader-mock';
+import { createDepsReaderMock } from '../../../tests/fixtures/create-deps-reader-mock';
 import { StylingAnalyzer } from '.';
 import { expect } from 'chai';
 import {

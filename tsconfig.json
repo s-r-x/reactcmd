@@ -18,5 +18,5 @@
     "types": ["reflect-metadata", "mocha"],
     "sourceMap": true
   },
-  "include": ["./lib"]
+  "include": ["./lib", "./tests"]
 }

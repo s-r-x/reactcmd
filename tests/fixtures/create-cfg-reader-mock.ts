@@ -1,4 +1,4 @@
-import { IConfigReader } from '../../readers/config/interface';
+import type { IConfigReader } from '../../lib/readers/config/interface';
 
 export const createCfgReaderMock = (
   args: Partial<IConfigReader> = {}

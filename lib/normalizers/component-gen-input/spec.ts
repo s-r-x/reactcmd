@@ -1,6 +1,6 @@
 import { ComponentGenInputNormalizer as Nrmlz } from '.';
-import { createEnvAnalyzerMock } from '../../tests/fixtures/create-env-analyzer-mock';
-import { createStyleAnalyzerMock } from '../../tests/fixtures/create-style-analyzer-mock';
+import { createEnvAnalyzerMock } from '../../../tests/fixtures/create-env-analyzer-mock';
+import { createStyleAnalyzerMock } from '../../../tests/fixtures/create-style-analyzer-mock';
 import { IGenerateComponentOptions as IInput } from '../../generators/component/interface';
 import { expect } from 'chai';
 import path from 'path';

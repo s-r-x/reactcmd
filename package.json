@@ -14,7 +14,7 @@
     "lint.fix": "eslint --ext .ts --fix lib",
     "check-types": "tsc --noEmit",
     "prepublishOnly": "npm run build",
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' TS_NODE_TRANSPILE_ONLY=true NODE_ENV=test mocha -r ts-node/register -r lib/tests/mocha-hooks.ts \"lib/**/*spec.ts\""
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' TS_NODE_TRANSPILE_ONLY=true NODE_ENV=test mocha -r ts-node/register -r tests/mocha-hooks.ts \"lib/**/*spec.ts\""
   },
   "files": [
     "dist"

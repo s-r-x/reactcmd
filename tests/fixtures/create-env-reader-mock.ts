@@ -1,4 +1,4 @@
-import { IEnvReader } from '../../readers/env/interface';
+import type { IEnvReader } from '../../lib/readers/env/interface';
 
 export const createEnvReaderMock = (
   args: Partial<IEnvReader> = {}

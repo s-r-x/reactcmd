@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { expect } from 'chai';
-import { createFsMock } from '../../tests/fixtures/create-fs-mock';
+import { createFsMock } from '../../../tests/fixtures/create-fs-mock';
 import sinon from 'sinon';
 import { Maybe } from '../../typings/utils';
 import { NoRootDirError } from './errors';

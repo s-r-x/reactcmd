@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { FileSystem } from '.';
-import { createTempDir } from '../tests/fixtures/create-temp-dir';
+import { createTempDir } from '../../tests/fixtures/create-temp-dir';
 import systemFs from 'fs-extra';
 import path from 'path';
 

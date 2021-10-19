@@ -1,13 +1,13 @@
 import path from 'path/posix';
 import { ConfigReader } from '.';
-import { createEnvReaderMock } from '../../tests/fixtures/create-env-reader-mock';
+import { createEnvReaderMock } from '../../../tests/fixtures/create-env-reader-mock';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { TCliConfigFile } from '../../typings/config';
 import { IConfigReader } from './interface';
 import { Maybe } from '../../typings/utils';
 import { CONFIG_NAME } from './constants';
-import { createTempDir } from '../../tests/fixtures/create-temp-dir';
+import { createTempDir } from '../../../tests/fixtures/create-temp-dir';
 import fs from 'fs-extra';
 
 const stubReadConfig = (

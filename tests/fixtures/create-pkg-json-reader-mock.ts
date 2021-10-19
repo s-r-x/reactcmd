@@ -1,4 +1,4 @@
-import { IPkgJsonReader } from '../../readers/pkg-json/interface';
+import type { IPkgJsonReader } from '../../lib/readers/pkg-json/interface';
 
 export const createPkgJsonReaderMock = (
   args: Partial<IPkgJsonReader> = {}

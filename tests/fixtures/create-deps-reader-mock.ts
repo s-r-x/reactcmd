@@ -1,4 +1,4 @@
-import { IDepsReader } from '../../readers/deps/interface';
+import type { IDepsReader } from '../../lib/readers/deps/interface';
 
 export const createDepsReaderMock = (
   args: Partial<IDepsReader> = {}

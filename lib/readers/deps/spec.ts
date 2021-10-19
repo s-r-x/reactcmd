@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { TPkg } from '../../typings/pkg';
 import { DepsReader } from '.';
-import { createPkgJsonReaderMock } from '../../tests/fixtures/create-pkg-json-reader-mock';
+import { createPkgJsonReaderMock } from '../../../tests/fixtures/create-pkg-json-reader-mock';
 
 const pkg: TPkg = {
   dependencies: {

@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import path from 'path';
 import { EnvAnalyzer as Analyzer } from '.';
-import { createCfgReaderMock } from '../../tests/fixtures/create-cfg-reader-mock';
-import { createEnvReaderMock } from '../../tests/fixtures/create-env-reader-mock';
-import { createFsMock } from '../../tests/fixtures/create-fs-mock';
+import { createCfgReaderMock } from '../../../tests/fixtures/create-cfg-reader-mock';
+import { createEnvReaderMock } from '../../../tests/fixtures/create-env-reader-mock';
+import { createFsMock } from '../../../tests/fixtures/create-fs-mock';
 import { POSSIBLE_SRC_FOLDERS } from './constants';
 
 describe('EnvAnalyzer', () => {

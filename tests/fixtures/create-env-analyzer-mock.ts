@@ -1,4 +1,4 @@
-import { IEnvAnalyzer } from '../../analyzers/env/interface';
+import type { IEnvAnalyzer } from '../../lib/analyzers/env/interface';
 
 export const createEnvAnalyzerMock = (
   args: Partial<IEnvAnalyzer> = {}

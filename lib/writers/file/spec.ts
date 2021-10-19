@@ -7,7 +7,7 @@ import { createCodeFormatterMock } from '../../../tests/fixtures/create-code-for
 import path from 'path';
 import type { IWriteFileSpec as ISpec } from './interface';
 
-describe.only('FileWriter', () => {
+describe('FileWriter', () => {
   describe('write', () => {
     it('should format and write file', async () => {
       const spec: ISpec = {

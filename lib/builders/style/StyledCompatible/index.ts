@@ -4,11 +4,12 @@ import type {
 } from '../interface';
 import { AbstractStyleBuilder } from '../abstract';
 import j from 'jscodeshift';
+import { stringifyAst } from '../../../utils/ast';
 
 // abstract class for styled-components/linaria/emotion
 export abstract class StyledCompatibleStyleBuilder extends AbstractStyleBuilder {
   readonly nsExport = 'S';
-  protected abstract styledImport: j.ImportDeclaration;
+  abstract readonly styledImport: j.ImportDeclaration;
   protected override usePascalCaseForRootClass = true;
   protected buildArtifacts({
     rootTag: tag,
@@ -32,7 +33,7 @@ export abstract class StyledCompatibleStyleBuilder extends AbstractStyleBuilder 
       j.jsxIdentifier(this.nsExport),
       j.jsxIdentifier(rootClass)
     );
-    const content = [j(this.styledImport).toSource(), j(exp).toSource()].join(
+    const content = [stringifyAst(this.styledImport), stringifyAst(exp)].join(
       '\n\n'
     );
     return {

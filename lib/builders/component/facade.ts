@@ -14,7 +14,7 @@ export class ComponentBuilderFacade implements IComponentBuilderFacade {
     if (spec.fc) {
       builder.asFC();
     }
-    if (spec.class) {
+    if (spec.cc) {
       builder.asClassComponent();
     }
     if (spec.ts) {

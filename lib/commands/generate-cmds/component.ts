@@ -26,7 +26,7 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
     .options({
       ts: { type: 'boolean', desc: 'Use typescript?' },
       js: { type: 'boolean', desc: 'Use javascript?' },
-      class: { type: 'boolean', desc: 'Class component?' },
+      cc: { type: 'boolean', desc: 'Class component?' },
       fc: { type: 'boolean', desc: 'Functional component?' },
       mobx: { type: 'boolean', desc: 'Use mobx?' },
       redux: { type: 'boolean', desc: 'Use redux?' },

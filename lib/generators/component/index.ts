@@ -126,7 +126,7 @@ export class ComponentGenerator implements IComponentGenerator {
       ..._.pick(opts, [
         'name',
         'fc',
-        'class',
+        'cc',
         'ts',
         'tag',
         'mobx',

@@ -4,7 +4,7 @@ import type j from 'jscodeshift';
 export interface IComponentGeneratorSpec
   extends Pick<
     IGenerateComponentOptions,
-    'name' | 'fc' | 'class' | 'ts' | 'tag' | 'mobx' | 'redux' | 'pure'
+    'name' | 'fc' | 'cc' | 'ts' | 'tag' | 'mobx' | 'redux' | 'pure'
   > {
   jsx?: j.JSXElement;
   imports?: j.ImportDeclaration[];

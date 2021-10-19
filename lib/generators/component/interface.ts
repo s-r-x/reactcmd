@@ -11,7 +11,7 @@ export interface IGenerateComponentOptions {
   style?: string;
   test?: boolean;
   sb?: boolean;
-  class?: boolean;
+  cc?: boolean;
   fc?: boolean;
   cssmodules?: boolean;
 }

@@ -37,11 +37,10 @@ export class ComponentGenerator implements IComponentGenerator {
     private storiesBuilder: IComponentStoriesBuilder
   ) {}
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
-    const { componentBuilder: builder } = this;
     const opts = await this.inputNormalizer.normalize(rawOpts);
 
     const styleArtifacts = this.genStyleArtifacts(opts);
-    const component = builder.buildUsingComponentGeneratorSpec(
+    const component = this.componentBuilder.buildUsingComponentGeneratorSpec(
       this.genComponentBuilderSpec(opts, styleArtifacts)
     );
     const tests = this.genTests(opts);
@@ -96,8 +95,10 @@ export class ComponentGenerator implements IComponentGenerator {
   private genStories(opts: IGenerateComponentOptions): Maybe<string> {
     if (!opts.sb) return null;
     const { storiesBuilder: bldr } = this;
-    bldr.reset().withComponentName(opts.name);
-    bldr.withComponentImportPath('./' + opts.componentfile!);
+    bldr
+      .reset()
+      .withComponentName(opts.name)
+      .withComponentImportPath('./' + opts.componentfile!);
     if (opts.ts) {
       bldr.withTypescript();
     }

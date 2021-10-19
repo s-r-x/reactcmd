@@ -14,6 +14,7 @@ export interface IGenerateComponentOptions {
   cc?: boolean;
   fc?: boolean;
   cssmodules?: boolean;
+  classname?: string;
 }
 export interface IComponentGenerator {
   gen(args: IGenerateComponentOptions): Promise<void>;

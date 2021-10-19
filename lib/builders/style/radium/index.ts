@@ -4,17 +4,22 @@ import type {
 } from '../interface';
 import { AbstractStyleBuilder } from '../abstract';
 import j from 'jscodeshift';
+import { radiumStylesTemplate as stylesTmpl } from './templates';
 
 export class RadiumStyleBuilder extends AbstractStyleBuilder {
   readonly stylesExport = 'styles';
+  readonly radiumDefaultExport = 'Radium';
   protected buildArtifacts({
     file,
     rootTag: tag,
     rootClass,
     jsxChildren,
   }: TSpec): IStyleBuildArtifacts {
-    const radiumDefaultExport = 'Radium';
-    const { stylesExport } = this;
+    const { stylesExport, radiumDefaultExport } = this;
+    const content = stylesTmpl({
+      exportName: this.stylesExport,
+      rootClass,
+    });
     return {
       imports: [
         j.importDeclaration(
@@ -28,11 +33,7 @@ export class RadiumStyleBuilder extends AbstractStyleBuilder {
       ],
       standalone: {
         filename: file.nameWithExt,
-        content: `
-          export const ${stylesExport} = {
-            ${rootClass}: {}
-          };
-				`,
+        content,
       },
       hocs: [radiumDefaultExport],
       jsx: j.jsxElement(
@@ -40,7 +41,11 @@ export class RadiumStyleBuilder extends AbstractStyleBuilder {
           j.jsxAttribute(
             j.jsxIdentifier('style'),
             j.jsxExpressionContainer(
-              j.identifier(`${stylesExport}.${rootClass}`)
+              j.memberExpression(
+                j.identifier(stylesExport),
+                j.stringLiteral(rootClass),
+                true
+              )
             )
           ),
         ]),

@@ -4,6 +4,12 @@ import container from '../../ioc/container';
 import { TOKENS } from '../../ioc/tokens';
 import type { TStylingStrategy } from '../../typings/styling';
 import type { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
+import {
+  COMPONENT_DEFAULT_FILENAME,
+  STORIES_DEFAULT_FILENAME,
+  TEST_DEFAULT_FILENAME,
+} from '../../generators/component/constants';
+import { STYLE_DEFAULT_FILENAME } from '../../builders/style/constants';
 
 export const command = 'component <name> [dir]';
 export const aliases = ['c'];
@@ -47,25 +53,26 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       componentfile: {
         type: 'string',
         desc: 'Name of the component file',
-        default: 'index.{{ext}}',
+        default: COMPONENT_DEFAULT_FILENAME,
         alias: 'cfile',
       },
       stylefile: {
         type: 'string',
         desc: 'Name of the style file',
-        default: 'styles.{{ext}}',
+        default: STYLE_DEFAULT_FILENAME,
         alias: 'sfile',
       },
       testfile: {
         type: 'string',
         desc: 'Name of the test file',
-        default: 'test.{{ext}}',
+        default: TEST_DEFAULT_FILENAME,
         alias: 'tfile',
       },
-      sbfile: {
+      storiesfile: {
         type: 'string',
         desc: 'Name of the stories file',
-        default: 'index.stories.{{ext}}',
+        default: STORIES_DEFAULT_FILENAME,
+        alias: 'sbfile',
       },
       mobx: { type: 'boolean', desc: 'Use mobx?' },
       redux: { type: 'boolean', desc: 'Use redux?' },

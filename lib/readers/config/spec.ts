@@ -17,7 +17,7 @@ const stubReadConfig = (
   sinon.stub(reader, 'readConfig').returns(Promise.resolve(config));
 };
 
-describe.only('ConfigReader', () => {
+describe('ConfigReader', () => {
   describe('readConfig', () => {
     it('should read the cli config from the project root dir', async () => {
       const config: TCliConfigFile = {

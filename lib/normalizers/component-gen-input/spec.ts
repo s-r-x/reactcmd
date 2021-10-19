@@ -11,7 +11,7 @@ const createBaseInput = (flags: Partial<IInput> = {}): IInput => ({
   name: 'my-component',
   ...flags,
 });
-describe.only('ComponentGenInputNormalizer', () => {
+describe('ComponentGenInputNormalizer', () => {
   describe('merge with config', () => {
     it('should merge input  with user defined config', async () => {
       const config: TCliConfigFile = {

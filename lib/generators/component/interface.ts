@@ -15,6 +15,10 @@ export interface IGenerateComponentOptions {
   fc?: boolean;
   cssmodules?: boolean;
   classname?: string;
+  componentfile?: string;
+  testfile?: string;
+  storiesfile?: string;
+  stylefile?: string;
 }
 export interface IComponentGenerator {
   gen(args: IGenerateComponentOptions): Promise<void>;

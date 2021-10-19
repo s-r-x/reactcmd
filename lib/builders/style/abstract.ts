@@ -2,6 +2,7 @@ import {
   DEFAULT_JSX_CHILDREN,
   DEFAULT_ROOT_CLASS,
   DEFAULT_ROOT_TAG,
+  STYLE_DEFAULT_FILENAME,
 } from './constants';
 import path from 'path';
 import { pascalCase } from '../../utils/pascal-case';
@@ -15,7 +16,6 @@ import type {
 export abstract class AbstractStyleBuilder implements IStyleBuilder {
   protected immutableFileExt?: string;
   protected usePascalCaseForRootClass?: boolean;
-  protected defaultFilename = 'styles';
   protected isCssModulesCompatible = false;
 
   build(spec: IStyleBuildSpec): IStyleBuildArtifacts {
@@ -53,22 +53,20 @@ export abstract class AbstractStyleBuilder implements IStyleBuilder {
     ts?: boolean,
     cssModules?: boolean
   ): TNormalizedStyleBuildSpec['file'] {
-    filename ||= this.defaultFilename;
-    let ext: string;
-    if (this.immutableFileExt) {
-      if (cssModules && this.isCssModulesCompatible) {
-        ext = '.module' + this.immutableFileExt;
-      } else {
-        ext = this.immutableFileExt;
-      }
-    } else {
-      ext = ts ? '.ts' : '.js';
+    filename ||= STYLE_DEFAULT_FILENAME;
+    if (
+      cssModules &&
+      this.isCssModulesCompatible &&
+      !filename.endsWith('.module')
+    ) {
+      filename += '.module';
     }
-    const parsed = path.parse(filename);
+    const ext = this.immutableFileExt || (ts ? '.ts' : '.js');
+    const parsed = path.parse(filename + ext);
     return {
-      ext,
+      ext: parsed.ext,
       name: parsed.name,
-      nameWithExt: parsed.name + ext,
+      nameWithExt: parsed.base,
     };
   }
 }

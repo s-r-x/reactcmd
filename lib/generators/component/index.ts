@@ -1,4 +1,10 @@
 import { inject, injectable } from 'inversify';
+import { TOKENS } from '../../ioc/tokens';
+import _ from 'lodash';
+import path from 'path';
+import type { IComponentTestsBuilder } from '../../builders/component-tests/interface';
+import type { IFileWriter } from '../../writers/file/interface';
+import type { IComponentStoriesBuilder } from '../../builders/component-stories/interface';
 import type {
   IComponentBuilderFacade,
   IComponentGeneratorSpec,
@@ -7,7 +13,6 @@ import type {
   IStyleBuildArtifacts,
   TStyleBuilderFactory,
 } from '../../builders/style/interface';
-import { TOKENS } from '../../ioc/tokens';
 import type { IComponentGenInputNormalizer } from '../../normalizers/component-gen-input/interface';
 import type { TStylingStrategy } from '../../typings/styling';
 import type { Maybe, TStringDict } from '../../typings/utils';
@@ -15,12 +20,6 @@ import type {
   IComponentGenerator,
   IGenerateComponentOptions,
 } from './interface';
-import _ from 'lodash';
-import path from 'path';
-import type { IComponentTestsBuilder } from '../../builders/component-tests/interface';
-import type { IFileWriter } from '../../writers/file/interface';
-import type { IComponentStoriesBuilder } from '../../builders/component-stories/interface';
-import { COMPONENT_DEFAULT_FILENAME } from './constants';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -74,14 +73,12 @@ export class ComponentGenerator implements IComponentGenerator {
     const rootDir = path.join(opts.dir!, opts.name);
     const ext = this.getExt(opts.ts);
     return {
-      [path.join(rootDir, `${COMPONENT_DEFAULT_FILENAME}.${ext}`)]: component,
+      [path.join(rootDir, `${opts.componentfile!}.${ext}`)]: component,
       ...(tests && {
-        [path.join(rootDir, `${COMPONENT_DEFAULT_FILENAME}.spec.${ext}`)]:
-          tests,
+        [path.join(rootDir, `${opts.testfile!}.${ext}`)]: tests,
       }),
       ...(stories && {
-        [path.join(rootDir, `${COMPONENT_DEFAULT_FILENAME}.stories.${ext}`)]:
-          stories,
+        [path.join(rootDir, `${opts.storiesfile!}.${ext}`)]: stories,
       }),
       ...(style?.standalone && {
         [path.join(rootDir, style.standalone.filename)]:
@@ -93,14 +90,14 @@ export class ComponentGenerator implements IComponentGenerator {
     if (!opts.test) return null;
     return this.testsBuilder.build({
       name: opts.name,
-      importPath: './' + COMPONENT_DEFAULT_FILENAME,
+      importPath: './' + opts.componentfile!,
     });
   }
   private genStories(opts: IGenerateComponentOptions): Maybe<string> {
     if (!opts.sb) return null;
     const { storiesBuilder: bldr } = this;
     bldr.reset().withComponentName(opts.name);
-    bldr.withComponentImportPath('./' + COMPONENT_DEFAULT_FILENAME);
+    bldr.withComponentImportPath('./' + opts.componentfile!);
     if (opts.ts) {
       bldr.withTypescript();
     }
@@ -115,6 +112,7 @@ export class ComponentGenerator implements IComponentGenerator {
         ts: opts.ts,
         rootClass: opts.classname,
         cssModules: opts.cssmodules,
+        filename: opts.stylefile!,
       });
     }
     return null;

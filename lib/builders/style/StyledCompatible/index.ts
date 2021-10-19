@@ -10,7 +10,6 @@ export abstract class StyledCompatibleStyleBuilder extends AbstractStyleBuilder 
   readonly nsExport = 'S';
   protected abstract styledImport: j.ImportDeclaration;
   protected override usePascalCaseForRootClass = true;
-  protected override defaultFilename = 'styled';
   protected buildArtifacts({
     rootTag: tag,
     rootClass,

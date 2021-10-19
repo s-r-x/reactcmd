@@ -21,7 +21,7 @@ const builders: [constructor: new () => IStyleBuilder, ext: string][] = [
 ];
 builders.forEach(([Builder, ext]) => {
   const isStylus = ext === 'styl';
-  describe(`${_.capitalize(ext)}StyleBuilder`, () => {
+  describe.only(`${_.capitalize(ext)}StyleBuilder`, () => {
     describe('build', () => {
       describe('should generate correct style artifacts', () => {
         (

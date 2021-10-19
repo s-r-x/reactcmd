@@ -1,43 +1,41 @@
-// @ts-nocheck
-// TODO
-import { FilesListWriter as Writer } from '.';
+import { FileWriter as Writer } from '.';
 import { createCliUiMock } from '../../../tests/fixtures/create-cli-ui-mock';
 import { createFsMock } from '../../../tests/fixtures/create-fs-mock';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import type { TStringDict } from '../../typings/utils';
-import _ from 'lodash';
+import { createCodeFormatterMock } from '../../../tests/fixtures/create-code-formatter-mock';
+import path from 'path';
+import type { IWriteFileSpec as ISpec } from './interface';
 
-describe('FilesListWriter', () => {
+describe.only('FileWriter', () => {
   describe('write', () => {
-    it('should write files if none of them does not exist', async () => {
+    it('should format and write file', async () => {
+      const spec: ISpec = {
+        path: 'path.txt',
+        content: 'content',
+        shouldFormat: true,
+        shouldPromptOnOverride: true,
+      };
       const fsWriteStub = sinon.stub().returns(Promise.resolve());
-      const confirmStub = sinon.stub().returns(Promise.resolve(false));
+      const confirmStub = sinon.stub().returns(Promise.resolve(true));
+      const formatMock = sinon.stub().returns(Promise.resolve(spec.content));
       const writer = new Writer(
         createFsMock({
-          isExists: () => Promise.resolve(false),
+          isExists: () => Promise.resolve(true),
           writeFile: fsWriteStub,
         }),
         createCliUiMock({
           confirm: confirmStub,
-        })
+        }),
+        createCodeFormatterMock({ format: formatMock })
       );
-      const list: TStringDict = {
-        'file.txt': 'content',
-        'some.json': 'content2',
-      };
-      await writer.write({
-        list,
-      });
+      await writer.write(spec);
 
-      expect(confirmStub).to.not.have.been.called;
-      expect(fsWriteStub.callCount).to.eq(_.size(list));
-      let call = 0;
-      for (const file in list) {
-        expect(fsWriteStub.getCall(call).calledWith(file, list[file])).to.be
-          .true;
-        call++;
-      }
+      expect(confirmStub).to.have.been.called;
+      expect(formatMock).to.have.been.calledWith(spec.content, {
+        ext: path.extname(spec.path),
+      });
+      expect(fsWriteStub).to.have.been.calledWith(spec.path, spec.content);
     });
   });
 });

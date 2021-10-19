@@ -1,4 +1,4 @@
-import { Options } from 'prettier';
+import type { Options } from 'prettier';
 
 export const DEFAULT_PRETTIER_CONFIG: Options = {
   semi: true,

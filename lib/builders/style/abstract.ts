@@ -3,14 +3,14 @@ import {
   DEFAULT_ROOT_CLASS,
   DEFAULT_ROOT_TAG,
 } from './constants';
-import {
+import path from 'path';
+import { pascalCase } from '../../utils/pascal-case';
+import type {
   IStyleBuildSpec,
   IStyleBuildArtifacts,
   IStyleBuilder,
   TNormalizedStyleBuildSpec,
 } from './interface';
-import path from 'path';
-import { pascalCase } from '../../utils/pascal-case';
 
 export abstract class AbstractStyleBuilder implements IStyleBuilder {
   protected immutableFileExt?: string;

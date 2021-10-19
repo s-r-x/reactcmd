@@ -1,6 +1,9 @@
 import { injectable } from 'inversify';
-import { ComponentBuilder } from '.';
-import { IComponentBuilderFacade, IComponentGeneratorSpec } from './interface';
+import type { ComponentBuilder } from '.';
+import type {
+  IComponentBuilderFacade,
+  IComponentGeneratorSpec,
+} from './interface';
 
 @injectable()
 export class ComponentBuilderFacade implements IComponentBuilderFacade {

@@ -1,5 +1,6 @@
-import { ICodeFormatterConfigReader } from './interface';
-import prettier, { Options } from 'prettier';
+import type { ICodeFormatterConfigReader } from './interface';
+import type { Options } from 'prettier';
+import prettier from 'prettier';
 import { DEFAULT_PRETTIER_CONFIG } from './constants';
 import { injectable } from 'inversify';
 

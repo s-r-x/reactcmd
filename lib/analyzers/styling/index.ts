@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import { TOKENS } from '../../ioc/tokens';
-import { IDepsReader } from '../../readers/deps/interface';
-import { TPkgDeps } from '../../typings/pkg';
-import { TStylingStrategy } from '../../typings/styling';
 import {
   DEFAULT_STYLING_STRATEGY,
   LIB_TO_STYLING_STRATEGY_MAP,
 } from './constants';
-import { IStylingAnalyzer } from './interface';
+import type { IStylingAnalyzer } from './interface';
+import type { IDepsReader } from '../../readers/deps/interface';
+import type { TPkgDeps } from '../../typings/pkg';
+import type { TStylingStrategy } from '../../typings/styling';
 
 // TODO:: css modules detector
 @injectable()

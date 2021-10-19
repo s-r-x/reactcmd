@@ -1,14 +1,14 @@
 import { inject, injectable } from 'inversify';
-import { IFileSystem } from '../../file-system/interface';
 import { TOKENS } from '../../ioc/tokens';
-import { IEnvReader } from '../../readers/env/interface';
-import { TLang } from '../../typings';
-import { IEnvAnalyzer } from './interface';
 import _ from 'lodash';
 import path from 'path';
 import { POSSIBLE_COMPONENTS_FOLDERS, POSSIBLE_SRC_FOLDERS } from './constants';
-import { IConfigReader } from '../../readers/config/interface';
-import { Maybe } from '../../typings/utils';
+import type { IConfigReader } from '../../readers/config/interface';
+import type { Maybe } from '../../typings/utils';
+import type { IFileSystem } from '../../file-system/interface';
+import type { IEnvReader } from '../../readers/env/interface';
+import type { TLang } from '../../typings';
+import type { IEnvAnalyzer } from './interface';
 
 @injectable()
 export class EnvAnalyzer implements IEnvAnalyzer {

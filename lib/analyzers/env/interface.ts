@@ -1,5 +1,5 @@
-import { TLang } from '../../typings';
-import { Maybe } from '../../typings/utils';
+import type { TLang } from '../../typings';
+import type { Maybe } from '../../typings/utils';
 
 export interface IEnvAnalyzer {
   determineSourceDir(): Promise<string>;

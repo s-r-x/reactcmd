@@ -1,8 +1,8 @@
 import { injectable, inject } from 'inversify';
 import { NoRootDirError } from './errors';
 import { TOKENS } from '../../ioc/tokens';
-import { IEnvReader } from './interface';
-import { IFileSystem } from '../../file-system/interface';
+import type { IEnvReader } from './interface';
+import type { IFileSystem } from '../../file-system/interface';
 
 @injectable()
 export class EnvReader implements IEnvReader {

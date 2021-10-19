@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
-import { IFileSystem } from '../../file-system/interface';
+import type { IFileSystem } from '../../file-system/interface';
 import { TOKENS } from '../../ioc/tokens';
-import { TPkg } from '../../typings/pkg';
-import { IEnvReader } from '../env/interface';
-import { IPkgJsonReader } from './interface';
+import type { TPkg } from '../../typings/pkg';
+import type { IEnvReader } from '../env/interface';
+import type { IPkgJsonReader } from './interface';
 import path from 'path';
 
 @injectable()

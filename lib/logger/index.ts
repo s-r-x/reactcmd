@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { injectable } from 'inversify';
-import { ILogger } from './interface';
+import type { ILogger } from './interface';
 
 @injectable()
 export class Logger implements ILogger {

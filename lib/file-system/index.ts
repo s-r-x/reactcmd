@@ -1,8 +1,8 @@
 import fs from 'fs-extra';
 import { injectable } from 'inversify';
 import findPkgDir from 'pkg-dir';
-import { Maybe } from '../typings/utils';
-import { IFileSystem } from './interface';
+import type { Maybe } from '../typings/utils';
+import type { IFileSystem } from './interface';
 
 @injectable()
 export class FileSystem implements IFileSystem {

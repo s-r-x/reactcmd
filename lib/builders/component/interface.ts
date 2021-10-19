@@ -1,5 +1,5 @@
-import { IGenerateComponentOptions } from '../../generators/component/interface';
-import j from 'jscodeshift';
+import type { IGenerateComponentOptions } from '../../generators/component/interface';
+import type j from 'jscodeshift';
 
 export interface IComponentGeneratorSpec
   extends Pick<

@@ -1,4 +1,4 @@
-import { Options } from 'prettier';
+import type { Options } from 'prettier';
 import { CodeFormatterConfigReader as Reader } from '.';
 import { createTempDir } from '../../../tests/fixtures/create-temp-dir';
 import fs from 'fs-extra';

@@ -1,11 +1,11 @@
 import { inject, injectable } from 'inversify';
 import path from 'path';
-import { IEnvAnalyzer } from '../../analyzers/env/interface';
-import { IStylingAnalyzer } from '../../analyzers/styling/interface';
-import { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
+import type { IEnvAnalyzer } from '../../analyzers/env/interface';
+import type { IStylingAnalyzer } from '../../analyzers/styling/interface';
+import type { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
 import { TOKENS } from '../../ioc/tokens';
 import { pascalCase } from '../../utils/pascal-case';
-import { IComponentGenInputNormalizer } from './interface';
+import type { IComponentGenInputNormalizer } from './interface';
 
 @injectable()
 export class ComponentGenInputNormalizer

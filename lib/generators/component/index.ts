@@ -1,22 +1,25 @@
 import { inject, injectable } from 'inversify';
-import {
+import type {
   IComponentBuilderFacade,
   IComponentGeneratorSpec,
 } from '../../builders/component/interface';
-import {
+import type {
   IStyleBuildArtifacts,
   TStyleBuilderFactory,
 } from '../../builders/style/interface';
 import { TOKENS } from '../../ioc/tokens';
-import { IComponentGenInputNormalizer } from '../../normalizers/component-gen-input/interface';
-import { TStylingStrategy } from '../../typings/styling';
-import { Maybe, TStringDict } from '../../typings/utils';
-import { IComponentGenerator, IGenerateComponentOptions } from './interface';
+import type { IComponentGenInputNormalizer } from '../../normalizers/component-gen-input/interface';
+import type { TStylingStrategy } from '../../typings/styling';
+import type { Maybe, TStringDict } from '../../typings/utils';
+import type {
+  IComponentGenerator,
+  IGenerateComponentOptions,
+} from './interface';
 import _ from 'lodash';
 import path from 'path';
-import { IComponentTestsBuilder } from '../../builders/component-tests/interface';
-import { IFileWriter } from '../../writers/file/interface';
-import { IComponentStoriesBuilder } from '../../builders/component-stories/interface';
+import type { IComponentTestsBuilder } from '../../builders/component-tests/interface';
+import type { IFileWriter } from '../../writers/file/interface';
+import type { IComponentStoriesBuilder } from '../../builders/component-stories/interface';
 import { COMPONENT_DEFAULT_FILENAME } from './constants';
 
 @injectable()

@@ -1,4 +1,4 @@
-import { TPkg } from '../../typings/pkg';
+import type { TPkg } from '../../typings/pkg';
 
 export interface IPkgJsonReader {
   read(): Promise<TPkg>;

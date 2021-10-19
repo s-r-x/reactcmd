@@ -1,4 +1,4 @@
-import {
+import type {
   IStyleBuildArtifacts,
   TNormalizedStyleBuildSpec as TSpec,
 } from '../interface';

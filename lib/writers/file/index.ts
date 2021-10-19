@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
-import { ICliUi } from '../../cli-ui/interface';
-import { ICodeFormatter } from '../../code-formatter/interface';
-import { IFileSystem } from '../../file-system/interface';
+import type { ICliUi } from '../../cli-ui/interface';
+import type { ICodeFormatter } from '../../code-formatter/interface';
+import type { IFileSystem } from '../../file-system/interface';
 import { TOKENS } from '../../ioc/tokens';
-import { IFileWriter, IWriteFileSpec } from './interface';
+import type { IFileWriter, IWriteFileSpec } from './interface';
 import path from 'path';
 
 @injectable()

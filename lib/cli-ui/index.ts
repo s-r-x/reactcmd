@@ -1,4 +1,4 @@
-import { ICliUi, IConfirmOptions } from './interface';
+import type { ICliUi, IConfirmOptions } from './interface';
 import inquirer from 'inquirer';
 import { injectable } from 'inversify';
 

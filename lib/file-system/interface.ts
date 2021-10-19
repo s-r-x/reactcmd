@@ -1,4 +1,4 @@
-import { Maybe } from '../typings/utils';
+import type { Maybe } from '../typings/utils';
 
 export interface IFileSystem {
   findClosestPkgDir(cwd: string): Maybe<string>;

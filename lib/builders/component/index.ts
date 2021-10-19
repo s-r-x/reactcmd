@@ -1,7 +1,6 @@
 import { injectable } from 'inversify';
 import j from 'jscodeshift';
 import _ from 'lodash';
-import { Maybe, TStringDict } from '../../typings/utils';
 import { stringifyAst } from '../../utils/ast';
 import {
   DEFAULT_COMPONENT_NAME,
@@ -19,6 +18,7 @@ import {
   USE_MOBX_BY_DEFAULT,
   USE_REDUX_BY_DEFAULT,
 } from './constants';
+import type { Maybe, TStringDict } from '../../typings/utils';
 
 @injectable()
 export class ComponentBuilder {

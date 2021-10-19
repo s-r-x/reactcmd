@@ -1,4 +1,3 @@
-import { IComponentStoriesBuilder } from './interface';
 import j from 'jscodeshift';
 import { stringifyAst } from '../../utils/ast';
 import {
@@ -7,6 +6,7 @@ import {
   SB_META_IMPORT_NAME,
 } from './constants';
 import { injectable } from 'inversify';
+import type { IComponentStoriesBuilder } from './interface';
 
 @injectable()
 export class ComponentStoriesBuilder implements IComponentStoriesBuilder {

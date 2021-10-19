@@ -5,7 +5,7 @@ import { createCliUiMock } from '../../../tests/fixtures/create-cli-ui-mock';
 import { createFsMock } from '../../../tests/fixtures/create-fs-mock';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { TStringDict } from '../../typings/utils';
+import type { TStringDict } from '../../typings/utils';
 import _ from 'lodash';
 
 describe('FilesListWriter', () => {

@@ -1,4 +1,4 @@
-import { IGenerateComponentOptions } from '../generators/component/interface';
+import type { IGenerateComponentOptions } from '../generators/component/interface';
 
 export type TCliConfigFile = {
   srcDir?: string;

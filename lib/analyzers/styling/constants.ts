@@ -1,4 +1,4 @@
-import { TStylingStrategy } from '../../typings/styling';
+import type { TStylingStrategy } from '../../typings/styling';
 
 export const DEFAULT_STYLING_STRATEGY: TStylingStrategy = 'css';
 

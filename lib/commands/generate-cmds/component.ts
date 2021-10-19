@@ -1,9 +1,9 @@
-import { Arguments, CommandBuilder } from 'yargs';
-import { ComponentGenerator } from '../../generators/component';
+import type { Arguments, CommandBuilder } from 'yargs';
+import type { ComponentGenerator } from '../../generators/component';
 import container from '../../ioc/container';
 import { TOKENS } from '../../ioc/tokens';
-import { TStylingStrategy } from '../../typings/styling';
-import { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
+import type { TStylingStrategy } from '../../typings/styling';
+import type { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
 
 export const command = 'component <name> [dir]';
 export const aliases = ['c'];

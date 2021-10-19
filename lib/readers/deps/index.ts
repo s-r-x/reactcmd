@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 import { TOKENS } from '../../ioc/tokens';
-import { TPkgDeps } from '../../typings/pkg';
-import { IDepsReader } from './interface';
-import { IPkgJsonReader } from '../pkg-json/interface';
+import type { TPkgDeps } from '../../typings/pkg';
+import type { IDepsReader } from './interface';
+import type { IPkgJsonReader } from '../pkg-json/interface';
 
 @injectable()
 export class DepsReader implements IDepsReader {

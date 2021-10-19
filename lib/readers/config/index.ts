@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
 import { TOKENS } from '../../ioc/tokens';
 import path from 'path';
-import { Maybe } from '../../typings/utils';
-import { TCliConfigFile } from '../../typings/config';
-import { IConfigReader } from './interface';
-import { IEnvReader } from '../env/interface';
+import type { Maybe } from '../../typings/utils';
+import type { TCliConfigFile } from '../../typings/config';
+import type { IConfigReader } from './interface';
+import type { IEnvReader } from '../env/interface';
 import { cosmiconfig } from 'cosmiconfig';
 import { CONFIG_NAME } from './constants';
 

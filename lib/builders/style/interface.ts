@@ -1,7 +1,7 @@
-import { TStylingStrategy } from '../../typings/styling';
-import { Maybe } from '../../typings/utils';
-import { ImportDeclaration } from 'jscodeshift';
-import {
+import type { TStylingStrategy } from '../../typings/styling';
+import type { Maybe } from '../../typings/utils';
+import type { ImportDeclaration } from 'jscodeshift';
+import type {
   JSXElement,
   JSXText,
   JSXSpreadChild,

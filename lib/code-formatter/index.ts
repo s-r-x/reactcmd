@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import { TOKENS } from '../ioc/tokens';
-import { ICodeFormatterConfigReader } from '../readers/code-formatter-config/interface';
-import {
+import type { ICodeFormatterConfigReader } from '../readers/code-formatter-config/interface';
+import type {
   ICodeFormatOptions,
   ICodeFormatter,
   TPrettierParser,
 } from './interface';
 import { format } from 'prettier';
-import { Maybe } from '../typings/utils';
+import type { Maybe } from '../typings/utils';
 
 @injectable()
 export class CodeFormatter implements ICodeFormatter {

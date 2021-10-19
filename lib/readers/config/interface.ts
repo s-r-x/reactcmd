@@ -1,5 +1,5 @@
-import { Maybe } from '../../typings/utils';
-import { TCliConfigFile } from '../../typings/config';
+import type { Maybe } from '../../typings/utils';
+import type { TCliConfigFile } from '../../typings/config';
 
 export interface IConfigReader {
   readConfig(): Promise<Maybe<TCliConfigFile>>;

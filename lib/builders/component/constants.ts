@@ -1,5 +1,5 @@
 import j from 'jscodeshift';
-import { TStringDict } from '../../typings/utils';
+import type { TStringDict } from '../../typings/utils';
 
 export const DEFAULT_COMPONENT_NAME = 'Component';
 export const DEFAULT_TAG = 'div';

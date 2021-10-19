@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import type { ComponentBuilder } from '.';
+import { ComponentBuilder } from '.';
 import type {
   IComponentBuilderFacade,
   IComponentGeneratorSpec,

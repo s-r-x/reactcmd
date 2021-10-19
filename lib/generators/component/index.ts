@@ -38,37 +38,28 @@ export class ComponentGenerator implements IComponentGenerator {
   ) {}
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const opts = await this.inputNormalizer.normalize(rawOpts);
+    const filesList = this.genWritableFilesList(opts);
+    await this.writeFiles(filesList);
+  }
 
-    const styleArtifacts = this.genStyleArtifacts(opts);
-    const component = this.componentBuilder.buildUsingComponentGeneratorSpec(
-      this.genComponentBuilderSpec(opts, styleArtifacts)
-    );
-    const tests = this.genTests(opts);
-    const stories = this.genStories(opts);
-
-    const filesList = this.genWritableFilesList(
-      opts,
-      component,
-      styleArtifacts,
-      tests,
-      stories
-    );
-    for (const file in filesList) {
+  private async writeFiles(files: TStringDict) {
+    for (const file in files) {
       await this.fileWriter.write({
         path: file,
-        content: filesList[file],
+        content: files[file],
         shouldPromptOnOverride: true,
         shouldFormat: true,
       });
     }
   }
-  private genWritableFilesList(
-    opts: IGenerateComponentOptions,
-    component: string,
-    style: Maybe<IStyleBuildArtifacts>,
-    tests: Maybe<string>,
-    stories: Maybe<string>
-  ): TStringDict {
+  private genWritableFilesList(opts: IGenerateComponentOptions): TStringDict {
+    const style = this.genStyleArtifacts(opts);
+    const component = this.componentBuilder.buildUsingComponentGeneratorSpec(
+      this.genComponentBuilderSpec(opts, style)
+    );
+    const tests = this.genTests(opts);
+    const stories = this.genStories(opts);
+
     const rootDir = path.join(opts.dir!, opts.name);
     const ext = this.getExt(opts.ts);
     return {

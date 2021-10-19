@@ -12,6 +12,7 @@ import type {
   IStyleBuilder,
   TNormalizedStyleBuildSpec,
 } from './interface';
+import { removeSpaces } from '../../utils/remove-spaces';
 
 export abstract class AbstractStyleBuilder implements IStyleBuilder {
   protected immutableFileExt?: string;
@@ -44,9 +45,9 @@ export abstract class AbstractStyleBuilder implements IStyleBuilder {
   }
   private normalizeRootClass(cls: string = DEFAULT_ROOT_CLASS): string {
     if (this.usePascalCaseForRootClass) {
-      return pascalCase(cls);
+      cls = pascalCase(cls);
     }
-    return cls;
+    return removeSpaces(cls);
   }
   private generateStandaloneFileMeta(
     filename?: string,

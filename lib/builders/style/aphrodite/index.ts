@@ -4,6 +4,7 @@ import type {
 } from '../interface';
 import { AbstractStyleBuilder } from '../abstract';
 import j from 'jscodeshift';
+import { aphroditeStylesTemplate as stylesTmpl } from './templates';
 
 export class AphroditeStyleBuilder extends AbstractStyleBuilder {
   readonly stylesExport = 'styles';
@@ -14,16 +15,14 @@ export class AphroditeStyleBuilder extends AbstractStyleBuilder {
     jsxChildren,
   }: TSpec): IStyleBuildArtifacts {
     const { stylesExport } = this;
+    const content = stylesTmpl({
+      exportName: this.stylesExport,
+      rootClass,
+    });
     return {
       standalone: {
         filename: file.nameWithExt,
-        content: `
-          import { StyleSheet } from 'aphrodite';
-
-          export const ${stylesExport} = StyleSheet.create({
-            ${rootClass}: {}
-          });
-				`,
+        content,
       },
       imports: [
         j.importDeclaration(
@@ -41,7 +40,11 @@ export class AphroditeStyleBuilder extends AbstractStyleBuilder {
             j.jsxIdentifier('className'),
             j.jsxExpressionContainer(
               j.callExpression(j.identifier('css'), [
-                j.identifier(`${stylesExport}.${rootClass}`),
+                j.memberExpression(
+                  j.identifier(stylesExport),
+                  j.stringLiteral(rootClass),
+                  true
+                ),
               ])
             )
           ),

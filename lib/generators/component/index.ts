@@ -43,28 +43,35 @@ export class ComponentGenerator implements IComponentGenerator {
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const opts = await this.inputNormalizer.normalize(rawOpts);
     const filesList = this.genWritableFilesList(opts);
-    if (!opts.dry) {
-      await this.writeFiles(filesList);
+    const writtenFiles: string[] = opts.dry
+      ? Object.keys(filesList)
+      : await this.writeFiles(filesList);
+    if (!_.isEmpty(writtenFiles)) {
+      this.printFilesList(writtenFiles);
     }
-    this.printFilesList(filesList);
   }
 
-  private printFilesList(files: TStringDict) {
-    const payload = Object.keys(files)
+  private printFilesList(files: string[]) {
+    const payload = files
       .map(file => path.relative(process.cwd(), file))
       .map(file => chalk.green('+') + ' ' + chalk.underline(file))
       .join('\n');
     this.logger.log(payload);
   }
-  private async writeFiles(files: TStringDict) {
+  private async writeFiles(files: TStringDict): Promise<string[]> {
+    const acc: string[] = [];
     for (const file in files) {
-      await this.fileWriter.write({
+      const success = await this.fileWriter.write({
         path: file,
         content: files[file],
         shouldPromptOnOverride: true,
         shouldFormat: true,
       });
+      if (success) {
+        acc.push(file);
+      }
     }
+    return acc;
   }
   private genWritableFilesList(opts: IGenerateComponentOptions): TStringDict {
     const style = this.genStyleArtifacts(opts);

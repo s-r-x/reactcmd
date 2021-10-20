@@ -21,6 +21,8 @@ import type {
   IGenerateComponentOptions,
 } from './interface';
 import { TTestLib, TTestRunner } from '../../typings/testing';
+import { ILogger } from '../../logger/interface';
+import chalk from 'chalk';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -35,14 +37,25 @@ export class ComponentGenerator implements IComponentGenerator {
     @inject(TOKENS.componentTestsBuilder)
     private testsBuilder: IComponentTestsBuilder,
     @inject(TOKENS.componentStoriesBuilder)
-    private storiesBuilder: IComponentStoriesBuilder
+    private storiesBuilder: IComponentStoriesBuilder,
+    @inject(TOKENS.logger) private logger: ILogger
   ) {}
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const opts = await this.inputNormalizer.normalize(rawOpts);
     const filesList = this.genWritableFilesList(opts);
-    await this.writeFiles(filesList);
+    if (!opts.dry) {
+      await this.writeFiles(filesList);
+    }
+    this.printFilesList(filesList);
   }
 
+  private printFilesList(files: TStringDict) {
+    const payload = Object.keys(files)
+      .map(file => path.relative(process.cwd(), file))
+      .map(file => chalk.green('+') + ' ' + chalk.underline(file))
+      .join('\n');
+    this.logger.log(payload);
+  }
   private async writeFiles(files: TStringDict) {
     for (const file in files) {
       await this.fileWriter.write({

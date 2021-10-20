@@ -21,6 +21,7 @@ export interface IGenerateComponentOptions {
   testfile?: string;
   storiesfile?: string;
   stylefile?: string;
+  dry?: boolean;
 }
 export interface IComponentGenerator {
   gen(args: IGenerateComponentOptions): Promise<void>;

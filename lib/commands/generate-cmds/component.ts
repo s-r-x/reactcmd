@@ -91,6 +91,10 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
         desc: 'Test runner. Detected automatically',
         choices: testRunnerChoices,
       },
+      dry: {
+        type: 'boolean',
+        desc: 'Do not write generated files to disk',
+      },
     })
     .positional('name', {
       type: 'string',

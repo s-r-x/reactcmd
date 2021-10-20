@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import { injectable } from 'inversify';
-import type { IUi, IConfirmOptions, ISelectOptions } from './interface';
+import type { IUi, IConfirmOptions } from './interface';
 
 @injectable()
 export class Ui implements IUi {
@@ -17,12 +17,12 @@ export class Ui implements IUi {
     });
     return result[name] as boolean;
   }
-  async select<T extends string = string>({
+  select: IUi['select'] = async ({
     name = 'select-name',
     message,
     options,
     initial,
-  }: ISelectOptions): Promise<T> {
+  }) => {
     const result: any = await inquirer.prompt({
       type: 'list',
       name,
@@ -31,5 +31,5 @@ export class Ui implements IUi {
       default: initial,
     });
     return result[name];
-  }
+  };
 }

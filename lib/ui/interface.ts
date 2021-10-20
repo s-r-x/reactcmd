@@ -4,17 +4,15 @@ export interface IConfirmOptions {
   initial?: boolean;
 }
 
-interface ISelectOption {
-  value?: string;
-  name: string;
-}
-export interface ISelectOptions {
-  name?: string;
-  message: string;
-  options: ISelectOption[];
-  initial?: string;
-}
 export interface IUi {
   confirm(options: IConfirmOptions): Promise<boolean>;
-  select<T extends string = string>(options: ISelectOptions): Promise<T>;
+  select<T extends string = string>(options: {
+    name?: string;
+    message: string;
+    options: {
+      value: T;
+      name?: string;
+    }[];
+    initial?: T;
+  }): Promise<T>;
 }

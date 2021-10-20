@@ -6,10 +6,10 @@ import { enablePrettyErrors } from '../utils/enable-pretty-errors';
 
 enablePrettyErrors();
 yargs(hideBin(process.argv))
-  // Use the commands directory to scaffold.
-  .commandDir('commands')
+  .scriptName('rcmd')
+  .commandDir('commands', {
+    recurse: true,
+  })
   .demandCommand()
-  // Enable strict mode.
   .strict()
-  // Useful aliases.
   .alias({ h: 'help' }).argv;

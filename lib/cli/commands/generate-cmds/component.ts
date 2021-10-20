@@ -2,7 +2,6 @@ import type { Arguments, CommandBuilder } from 'yargs';
 import type { ComponentGenerator } from '../../../generators/component';
 import container from '../../../ioc/container';
 import { TOKENS } from '../../../ioc/tokens';
-import type { TStylingStrategy } from '../../../typings/styling';
 import type { IGenerateComponentOptions as IOptions } from '../../../generators/component/interface';
 import {
   COMPONENT_DEFAULT_FILENAME,
@@ -11,23 +10,12 @@ import {
 } from '../../../generators/component/constants';
 import { STYLE_DEFAULT_FILENAME } from '../../../builders/style/constants';
 import { TTestLib, TTestRunner } from '../../../typings/testing';
+import { AVAILABLE_STYLING_OPTIONS } from '../../../constants/styling';
 
 export const command = 'component <name> [dir]';
 export const aliases = ['c'];
 export const desc = 'Generate new component';
 
-const styleChoices: TStylingStrategy[] = [
-  'sc',
-  'emotion',
-  'aphrodite',
-  'radium',
-  'styled-jsx',
-  'linaria',
-  'less',
-  'css',
-  'stylus',
-  'sass',
-];
 const testLibChoices: TTestLib[] = ['rtl', 'enzyme'];
 const testRunnerChoices: TTestRunner[] = ['jest'];
 
@@ -38,7 +26,7 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
         type: 'string',
         alias: 's',
         desc: 'Styling. Detected automatically',
-        choices: styleChoices,
+        choices: AVAILABLE_STYLING_OPTIONS,
       },
       cssmodules: { type: 'boolean', desc: 'Use CSS modules?', alias: 'cssm' },
       classname: {

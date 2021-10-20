@@ -6,6 +6,7 @@ export const TOKENS = {
   cfgReader: Symbol.for('cfgReader'),
   depsReader: Symbol.for('depsReader'),
   styleAnlz: Symbol.for('styleAnlz'),
+  testAnlz: Symbol.for('testAnlz'),
   styBldrFctry: Symbol.for('styleBuilderFact'),
   cmpGen: Symbol.for('cmpGen'),
   componentTestsBuilder: Symbol.for('componentTestsBuilder'),

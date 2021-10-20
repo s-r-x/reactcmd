@@ -5,6 +5,6 @@ export const createDepsReaderMock = (
 ): IDepsReader => ({
   readDeps: () => Promise.resolve({}),
   readDevDeps: () => Promise.resolve({}),
-  readAllDepsAndMerge: () => Promise.resolve({}),
+  readAllDeps: () => Promise.resolve({}),
   ...args,
 });

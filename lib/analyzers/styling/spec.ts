@@ -13,28 +13,27 @@ describe('StylingAnalyzer', () => {
         const expected = LIB_TO_STYLING_STRATEGY_MAP[lib];
         it(`should return ${expected} with "${lib}" dep`, async () => {
           const depsReader = createDepsReaderMock({
-            readAllDepsAndMerge: () =>
+            readAllDeps: () =>
               Promise.resolve({
                 [lib]: '',
               }),
           });
           const analyzer = new StylingAnalyzer(depsReader);
-          const strategy = await analyzer.determineStylingStrategy();
-          const expected = LIB_TO_STYLING_STRATEGY_MAP[lib];
-          expect(strategy).to.eq(expected);
+          expect(await analyzer.determineStylingStrategy()).to.eq(expected);
         });
       }
     });
     it(`should return ${DEFAULT_STYLING_STRATEGY} styling strategy when there are no supported libs in pkg deps`, async () => {
       const depsReader = createDepsReaderMock({
-        readAllDepsAndMerge: () =>
+        readAllDeps: () =>
           Promise.resolve({
             'unsupported-styling-lib': '',
           }),
       });
       const analyzer = new StylingAnalyzer(depsReader);
-      const strategy = await analyzer.determineStylingStrategy();
-      expect(strategy).to.eq(DEFAULT_STYLING_STRATEGY);
+      expect(await analyzer.determineStylingStrategy()).to.eq(
+        DEFAULT_STYLING_STRATEGY
+      );
     });
   });
 });

@@ -18,7 +18,7 @@ const createReader = () => {
   const reader = new DepsReader(mocks.pkg);
   return { mocks, reader };
 };
-describe.only('DepsReader', () => {
+describe('DepsReader', () => {
   describe('readDeps', () => {
     it('should return dependencies from package.json', async () => {
       const { reader } = createReader();

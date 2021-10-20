@@ -37,6 +37,8 @@ import type { IFileWriter } from '../writers/file/interface';
 import { FileWriter } from '../writers/file';
 import type { IComponentStoriesBuilder } from '../builders/component-stories/interface';
 import { ComponentStoriesBuilder } from '../builders/component-stories';
+import { TestingAnalyzer } from '../analyzers/testing';
+import type { ITestingAnalyzer } from '../analyzers/testing/interface';
 
 export const createContainer = () => {
   const c = new Container();
@@ -61,6 +63,7 @@ export const createContainer = () => {
     .inSingletonScope();
   c.bind<IConfigReader>(TOKENS.cfgReader).to(ConfigReader);
   c.bind<IDepsReader>(TOKENS.depsReader).to(DepsReader);
+  c.bind<ITestingAnalyzer>(TOKENS.testAnlz).to(TestingAnalyzer);
   c.bind<IStylingAnalyzer>(TOKENS.styleAnlz).to(StylingAnalyzer);
   c.bind<TStyleBuilderFactory>(TOKENS.styBldrFctry).toConstantValue(
     styleBuilderFactory

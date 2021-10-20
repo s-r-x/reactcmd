@@ -7,11 +7,13 @@ import type { IConfigReader } from './interface';
 import type { IEnvReader } from '../env/interface';
 import { cosmiconfig } from 'cosmiconfig';
 import { CONFIG_NAME } from './constants';
+import { Memoize } from 'typescript-memoize';
 
 const configExplorer = cosmiconfig(CONFIG_NAME);
 @injectable()
 export class ConfigReader implements IConfigReader {
   constructor(@inject(TOKENS.env) private env: IEnvReader) {}
+  @Memoize()
   async readConfig(): Promise<Maybe<TCliConfigFile>> {
     try {
       const cfg = await configExplorer.search(this.env.getProjectRootDir());

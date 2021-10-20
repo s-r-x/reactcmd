@@ -20,7 +20,6 @@ export class EnvAnalyzer implements IEnvAnalyzer {
   async determineComponentsDir(): Promise<Maybe<string>> {
     const src = await this.determineSourceDir();
     const list = await this.fs.readDir(src);
-    // TODO:: read from config first?
     if (_.isEmpty(list)) return null;
     for (const option in POSSIBLE_COMPONENTS_FOLDERS) {
       if (list.has(option)) {

@@ -5,8 +5,8 @@ export interface IConfirmOptions {
 }
 
 interface ISelectOption {
+  value?: string;
   name: string;
-  message?: string;
 }
 export interface ISelectOptions {
   name?: string;

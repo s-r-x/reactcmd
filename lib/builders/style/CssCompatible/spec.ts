@@ -12,6 +12,7 @@ import {
   DEFAULT_STYLUS_CSS_RULES,
 } from '../constants';
 import { StylusStyleBuilder } from './stylus';
+import { stringifyAst } from '../../../utils/ast';
 
 const builders: [constructor: new () => IStyleBuilder, ext: string][] = [
   [CssStyleBuilder, 'css'],
@@ -68,8 +69,8 @@ builders.forEach(([Builder, ext]) => {
           `;
             }
 
-            const jsx = j(result.jsx).toSource();
-            const imports = j(result.imports!).toSource();
+            const jsx = stringifyAst(result.jsx);
+            const imports = stringifyAst(result.imports!);
             const styles = result.standalone!.content;
             expect(result.standalone!.filename).to.eq(expectedFilename);
             expectCodeToEq(jsx, expectedJsx);

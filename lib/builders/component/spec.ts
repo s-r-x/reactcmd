@@ -9,6 +9,7 @@ import {
   REDUX_HOC_NAME,
   REDUX_TYPE_EXTRACTOR_NAME,
 } from './constants';
+import { stringifyAst } from '../../utils/ast';
 
 const REDUX_TS_IMPORTS = `import { ${REDUX_HOC_NAME}, ${REDUX_TYPE_EXTRACTOR_NAME} } from 'react-redux'`;
 const MOBX_IMPORTS = `import { ${MOBX_HOC_NAME}} from 'mobx'`;
@@ -19,7 +20,7 @@ describe('ComponentBuilder', () => {
     it('should build correct export without hocs', () => {
       const builder = new Builder();
       const exp = builder.withComponentName('MyComponent').buildDefaultExport();
-      expectCodeToEq(j(exp).toSource(), 'export default MyComponent');
+      expectCodeToEq(stringifyAst(exp as any), 'export default MyComponent');
     });
     it('should build correct export and apply memo HOC if the component is pure and FC', () => {
       expectCodeToEq(
@@ -115,7 +116,7 @@ describe('ComponentBuilder', () => {
         src,
         `
             const ${DEFAULT_COMPONENT_NAME} = props => {
-              return ${j(Builder.buildDefaultJsx(tag)).toSource()};
+              return ${stringifyAst(Builder.buildDefaultJsx(tag))};
             }
           `
       );
@@ -127,7 +128,7 @@ describe('ComponentBuilder', () => {
           src,
           `
             const ${DEFAULT_COMPONENT_NAME}: React.FC<${PROPS_TYPE_IDENTIFIER}> = props => {
-              return ${j(Builder.buildDefaultJsx()).toSource()};
+              return ${stringifyAst(Builder.buildDefaultJsx())};
             }
           `
         );
@@ -138,7 +139,7 @@ describe('ComponentBuilder', () => {
           src,
           `
             const ${DEFAULT_COMPONENT_NAME} = props => {
-              return ${j(Builder.buildDefaultJsx()).toSource()};
+              return ${stringifyAst(Builder.buildDefaultJsx())};
             }
           `
         );
@@ -155,7 +156,7 @@ describe('ComponentBuilder', () => {
           `
             class ${DEFAULT_COMPONENT_NAME} extends React.Component<${PROPS_TYPE_IDENTIFIER}> {
               render() {
-                return ${j(Builder.buildDefaultJsx()).toSource()};
+                return ${stringifyAst(Builder.buildDefaultJsx())};
               }
             }
           `
@@ -172,7 +173,7 @@ describe('ComponentBuilder', () => {
           `
             class ${DEFAULT_COMPONENT_NAME} extends React.PureComponent<${PROPS_TYPE_IDENTIFIER}> {
               render() {
-                return ${j(Builder.buildDefaultJsx()).toSource()};
+                return ${stringifyAst(Builder.buildDefaultJsx())};
               }
             }
           `
@@ -187,7 +188,7 @@ describe('ComponentBuilder', () => {
           `
             class ${DEFAULT_COMPONENT_NAME} extends React.Component {
               render() {
-                return ${j(Builder.buildDefaultJsx()).toSource()};
+                return ${stringifyAst(Builder.buildDefaultJsx())};
               }
             }
           `
@@ -229,7 +230,7 @@ describe('ComponentBuilder', () => {
         j.jsxClosingElement(j.jsxIdentifier('span')),
         [j.stringLiteral('final')]
       );
-      const expectJsx = j(jsx).toSource();
+      const expectJsx = stringifyAst(jsx);
       const builder = Builder.new()
         .withComponentName(name)
         .withTypescript()

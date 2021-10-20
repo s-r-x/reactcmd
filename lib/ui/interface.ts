@@ -3,6 +3,6 @@ export interface IConfirmOptions {
   message: string;
   initial?: boolean;
 }
-export interface ICliUi {
+export interface IUi {
   confirm(options: IConfirmOptions): Promise<boolean>;
 }

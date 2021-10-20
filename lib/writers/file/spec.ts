@@ -1,5 +1,5 @@
 import { FileWriter as Writer } from '.';
-import { createCliUiMock } from '../../../tests/fixtures/create-cli-ui-mock';
+import { createUiMock } from '../../../tests/fixtures/create-ui-mock';
 import { createFsMock } from '../../../tests/fixtures/create-fs-mock';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -24,7 +24,7 @@ describe('FileWriter', () => {
           isExists: () => Promise.resolve(true),
           writeFile: fsWriteStub,
         }),
-        createCliUiMock({
+        createUiMock({
           confirm: confirmStub,
         }),
         createCodeFormatterMock({ format: formatMock })

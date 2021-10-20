@@ -1,9 +1,9 @@
-import type { ICliUi, IConfirmOptions } from './interface';
 import inquirer from 'inquirer';
 import { injectable } from 'inversify';
+import type { IUi, IConfirmOptions } from './interface';
 
 @injectable()
-export class CliUi implements ICliUi {
+export class Ui implements IUi {
   async confirm({
     name = 'confirm-name',
     message,

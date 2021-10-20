@@ -10,8 +10,8 @@ import { ComponentBuilderFacade } from '../builders/component/facade';
 import type { IComponentBuilderFacade } from '../builders/component/interface';
 import { styleBuilderFactory } from '../builders/style/factory';
 import type { TStyleBuilderFactory } from '../builders/style/interface';
-import { CliUi } from '../cli-ui';
-import type { ICliUi } from '../cli-ui/interface';
+import { Ui } from '../ui';
+import type { IUi } from '../ui/interface';
 import { CodeFormatter } from '../code-formatter';
 import type { ICodeFormatter } from '../code-formatter/interface';
 import { FileSystem } from '../file-system';
@@ -52,7 +52,7 @@ export const createContainer = () => {
   c.bind<ICodeFormatter>(TOKENS.codeFormatter)
     .to(CodeFormatter)
     .inSingletonScope();
-  c.bind<ICliUi>(TOKENS.cliUi).to(CliUi);
+  c.bind<IUi>(TOKENS.ui).to(Ui);
   c.bind<ILogger>(TOKENS.logger).to(Logger).inSingletonScope();
   c.bind<IEnvAnalyzer>(TOKENS.envAnalyzer).to(EnvAnalyzer).inSingletonScope();
   c.bind<IEnvReader>(TOKENS.env).to(EnvReader).inSingletonScope();

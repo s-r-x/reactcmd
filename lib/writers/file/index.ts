@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import type { ICliUi } from '../../cli-ui/interface';
+import type { IUi } from '../../ui/interface';
 import type { ICodeFormatter } from '../../code-formatter/interface';
 import type { IFileSystem } from '../../file-system/interface';
 import { TOKENS } from '../../ioc/tokens';
@@ -10,7 +10,7 @@ import path from 'path';
 export class FileWriter implements IFileWriter {
   constructor(
     @inject(TOKENS.fs) private fs: IFileSystem,
-    @inject(TOKENS.cliUi) private ui: ICliUi,
+    @inject(TOKENS.ui) private ui: IUi,
     @inject(TOKENS.codeFormatter) private codeFormatter: ICodeFormatter
   ) {}
   async write(spec: IWriteFileSpec): Promise<boolean> {

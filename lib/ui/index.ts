@@ -17,12 +17,12 @@ export class Ui implements IUi {
     });
     return result[name] as boolean;
   }
-  async select({
+  async select<T extends string = string>({
     name = 'select-name',
     message,
     options,
     initial,
-  }: ISelectOptions): Promise<string> {
+  }: ISelectOptions): Promise<T> {
     const result: any = await inquirer.prompt({
       type: 'list',
       name,

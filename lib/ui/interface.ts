@@ -16,5 +16,5 @@ export interface ISelectOptions {
 }
 export interface IUi {
   confirm(options: IConfirmOptions): Promise<boolean>;
-  select(options: ISelectOptions): Promise<string>;
+  select<T extends string = string>(options: ISelectOptions): Promise<T>;
 }

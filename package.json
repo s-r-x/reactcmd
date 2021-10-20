@@ -63,6 +63,7 @@
     "lodash": "^4.17.21",
     "pkg-dir": "^5.0.0",
     "prettier": "^2.4.1",
+    "pretty-error": "^3.0.4",
     "reflect-metadata": "^0.1.13",
     "typescript-memoize": "^1.0.1",
     "yargs": "^17.2.1"

@@ -8,6 +8,7 @@ import type { IEnvAnalyzer } from '../../analyzers/env/interface';
 import type { IStylingAnalyzer } from '../../analyzers/styling/interface';
 import type { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
 import { ITestingAnalyzer } from '../../analyzers/testing/interface';
+import { removeSpaces } from '../../utils/remove-spaces';
 
 @injectable()
 export class ComponentGenInputNormalizer implements INormalizer {
@@ -53,7 +54,7 @@ export class ComponentGenInputNormalizer implements INormalizer {
     }
   }
   normalizeComponentName(input: IOptions) {
-    input.name = pascalCase(input.name);
+    input.name = removeSpaces(pascalCase(input.name));
   }
   async normalizeTesting(input: IOptions) {
     if (input.test) {

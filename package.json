@@ -1,8 +1,7 @@
 {
   "name": "rcmd",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Missing react cli",
   "bin": {
     "rcmd": "./bin/cli.js"
   },

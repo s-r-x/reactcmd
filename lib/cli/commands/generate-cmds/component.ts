@@ -14,7 +14,7 @@ import { TTestLib, TTestRunner } from '../../../typings/testing';
 
 export const command = 'component <name> [dir]';
 export const aliases = ['c'];
-export const desc = 'Generate component';
+export const desc = 'Generate new component';
 
 const styleChoices: TStylingStrategy[] = [
   'sc',

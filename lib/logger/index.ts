@@ -4,6 +4,9 @@ import type { ILogger } from './interface';
 
 @injectable()
 export class Logger implements ILogger {
+  log(msg: string) {
+    console.log(msg);
+  }
   success(msg: string) {
     console.log(chalk.green(msg));
   }

@@ -25,6 +25,9 @@
     "cli",
     "react-cli"
   ],
+  "engines": {
+    "node": ">= 8.10.0"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.2.22",

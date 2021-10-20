@@ -61,10 +61,14 @@ export const createContainer = () => {
   c.bind<IPkgJsonReader>(TOKENS.pkgJsonReader)
     .to(PkgJsonReader)
     .inSingletonScope();
-  c.bind<IConfigReader>(TOKENS.cfgReader).to(ConfigReader);
-  c.bind<IDepsReader>(TOKENS.depsReader).to(DepsReader);
-  c.bind<ITestingAnalyzer>(TOKENS.testAnlz).to(TestingAnalyzer);
-  c.bind<IStylingAnalyzer>(TOKENS.styleAnlz).to(StylingAnalyzer);
+  c.bind<IConfigReader>(TOKENS.cfgReader).to(ConfigReader).inSingletonScope();
+  c.bind<IDepsReader>(TOKENS.depsReader).to(DepsReader).inSingletonScope();
+  c.bind<ITestingAnalyzer>(TOKENS.testAnlz)
+    .to(TestingAnalyzer)
+    .inSingletonScope();
+  c.bind<IStylingAnalyzer>(TOKENS.styleAnlz)
+    .to(StylingAnalyzer)
+    .inSingletonScope();
   c.bind<TStyleBuilderFactory>(TOKENS.styBldrFctry).toConstantValue(
     styleBuilderFactory
   );

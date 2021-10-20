@@ -91,7 +91,6 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
         desc: 'Test runner. Detected automatically',
         choices: testRunnerChoices,
       },
-      'prop-types': { type: 'boolean', desc: 'Use prop-types?', alias: 'PT' },
     })
     .positional('name', {
       type: 'string',
@@ -101,7 +100,7 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
     .positional('dir', {
       type: 'string',
       demandOption: true,
-      desc: 'Directory to create the component',
+      desc: 'Directory of the component',
     });
 
 export const handler = async (argv: Arguments<IOptions>): Promise<void> => {

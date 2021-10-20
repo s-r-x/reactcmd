@@ -20,6 +20,7 @@ import type {
   IComponentGenerator,
   IGenerateComponentOptions,
 } from './interface';
+import { TTestLib, TTestRunner } from '../../typings/testing';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -81,6 +82,8 @@ export class ComponentGenerator implements IComponentGenerator {
     return this.testsBuilder.build({
       name: opts.name,
       importPath: './' + opts.componentfile!,
+      runner: opts.testrunner as TTestRunner,
+      lib: opts.testlib as TTestLib,
     });
   }
   private genStories(opts: IGenerateComponentOptions): Maybe<string> {

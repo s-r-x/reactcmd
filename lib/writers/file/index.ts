@@ -13,7 +13,7 @@ export class FileWriter implements IFileWriter {
     @inject(TOKENS.cliUi) private ui: ICliUi,
     @inject(TOKENS.codeFormatter) private codeFormatter: ICodeFormatter
   ) {}
-  async write(spec: IWriteFileSpec): Promise<void> {
+  async write(spec: IWriteFileSpec): Promise<boolean> {
     if (spec.shouldPromptOnOverride && (await this.fs.isExists(spec.path))) {
       const isOverrideConfirmed = await this.ui.confirm({
         message: `${path.relative(
@@ -22,7 +22,7 @@ export class FileWriter implements IFileWriter {
         )} already exists. Override?`,
         initial: false,
       });
-      if (!isOverrideConfirmed) return;
+      if (!isOverrideConfirmed) return false;
     }
     const finalContent = spec.shouldFormat
       ? await this.codeFormatter.format(spec.content, {
@@ -30,5 +30,6 @@ export class FileWriter implements IFileWriter {
         })
       : spec.content;
     await this.fs.writeFile(spec.path, finalContent);
+    return true;
   }
 }

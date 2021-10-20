@@ -5,5 +5,5 @@ export interface IWriteFileSpec {
   shouldFormat?: boolean;
 }
 export interface IFileWriter {
-  write(spec: IWriteFileSpec): Promise<void>;
+  write(spec: IWriteFileSpec): Promise<boolean>;
 }

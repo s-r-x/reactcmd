@@ -14,7 +14,7 @@ import type { TStylingStrategy } from '../../typings/styling';
 export class StylingAnalyzer implements IStylingAnalyzer {
   constructor(@inject(TOKENS.depsReader) private depsReader: IDepsReader) {}
   async determineStylingStrategy(): Promise<TStylingStrategy> {
-    const deps = await this.depsReader.readAllDepsAndMerge();
+    const deps = await this.depsReader.readAllDeps();
     return this.determineStrategyByPkg(deps);
   }
 

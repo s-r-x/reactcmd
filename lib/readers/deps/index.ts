@@ -17,11 +17,11 @@ export class DepsReader implements IDepsReader {
     const pkg = await this.pkgReader.read();
     return pkg.devDependencies || {};
   }
-  async readAllDepsAndMerge(): Promise<TPkgDeps> {
-    const [deps, allDeps] = await Promise.all([
-      this.readDeps(),
-      this.readDevDeps(),
-    ]);
-    return { ...deps, ...allDeps };
+  async readAllDeps(): Promise<TPkgDeps> {
+    const pkg = await this.pkgReader.read();
+    return {
+      ...pkg.dependencies,
+      ...pkg.devDependencies,
+    };
   }
 }

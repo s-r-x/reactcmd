@@ -18,7 +18,7 @@ const createReader = () => {
   const reader = new DepsReader(mocks.pkg);
   return { mocks, reader };
 };
-describe('DepsReader', () => {
+describe.only('DepsReader', () => {
   describe('readDeps', () => {
     it('should return dependencies from package.json', async () => {
       const { reader } = createReader();
@@ -31,6 +31,16 @@ describe('DepsReader', () => {
       const { reader } = createReader();
       const deps = await reader.readDevDeps();
       expect(deps).to.deep.eq(pkg.devDependencies);
+    });
+  });
+  describe('readAllDeps', () => {
+    it('should return dev and prod dependencies from package.json', async () => {
+      const { reader } = createReader();
+      const deps = await reader.readAllDeps();
+      expect(deps).to.deep.eq({
+        ...pkg.dependencies,
+        ...pkg.devDependencies,
+      });
     });
   });
 });

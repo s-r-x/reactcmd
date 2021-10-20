@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import path from 'path';
 import { createCfgReaderMock } from '../../../tests/fixtures/create-cfg-reader-mock';
 import type { TCliConfigFile } from '../../typings/config';
+import { createTestAnalyzerMock } from '../../../tests/fixtures/create-test-analyzer-mock';
 
 const createBaseInput = (flags: Partial<IInput> = {}): IInput => ({
   name: 'my-component',
@@ -27,7 +28,8 @@ describe('ComponentGenInputNormalizer', () => {
         createStyleAnalyzerMock(),
         createCfgReaderMock({
           readConfig: () => Promise.resolve(config),
-        })
+        }),
+        createTestAnalyzerMock()
       );
       const input: IInput = {
         name: 'name',
@@ -44,7 +46,8 @@ describe('ComponentGenInputNormalizer', () => {
         createStyleAnalyzerMock(),
         createCfgReaderMock({
           readConfig: () => Promise.resolve(null),
-        })
+        }),
+        createTestAnalyzerMock()
       );
       const input: IInput = {
         name: 'name',
@@ -64,7 +67,8 @@ describe('ComponentGenInputNormalizer', () => {
           determineComponentsDir: () => Promise.resolve(components),
         }),
         createStyleAnalyzerMock(),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       const input: IInput = createBaseInput();
       await nrmlz.normalizeDir(input);
@@ -76,7 +80,8 @@ describe('ComponentGenInputNormalizer', () => {
           determineSourceDir: () => Promise.resolve(src),
         }),
         createStyleAnalyzerMock(),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       const input: IInput = createBaseInput();
       await nrmlz.normalizeDir(input);
@@ -86,7 +91,8 @@ describe('ComponentGenInputNormalizer', () => {
       const nrmlz = new Nrmlz(
         createEnvAnalyzerMock(),
         createStyleAnalyzerMock(),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       const input: IInput = createBaseInput({
         dir: '/dir',
@@ -98,7 +104,8 @@ describe('ComponentGenInputNormalizer', () => {
       const nrmlz = new Nrmlz(
         createEnvAnalyzerMock(),
         createStyleAnalyzerMock(),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       const dir = './lib/my-dir';
       const input: IInput = createBaseInput({
@@ -113,7 +120,8 @@ describe('ComponentGenInputNormalizer', () => {
           determineSourceDir: () => Promise.resolve(src),
         }),
         createStyleAnalyzerMock(),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       const dir = 'lib/my-dir';
       const input: IInput = createBaseInput({
@@ -128,7 +136,8 @@ describe('ComponentGenInputNormalizer', () => {
       const nrmlz = new Nrmlz(
         createEnvAnalyzerMock(),
         createStyleAnalyzerMock(),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       const input = createBaseInput();
       nrmlz.normalizeComponentName(input);
@@ -143,7 +152,8 @@ describe('ComponentGenInputNormalizer', () => {
         createStyleAnalyzerMock({
           determineStylingStrategy: () => Promise.resolve(strategy),
         }),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       const input = createBaseInput();
       await nrmlz.normalizeStyle(input);
@@ -153,7 +163,8 @@ describe('ComponentGenInputNormalizer', () => {
       const nrmlz = new Nrmlz(
         createEnvAnalyzerMock(),
         createStyleAnalyzerMock(),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       {
         const input = createBaseInput({
@@ -179,7 +190,8 @@ describe('ComponentGenInputNormalizer', () => {
           determineLang: () => Promise.resolve('ts'),
         }),
         createStyleAnalyzerMock(),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       const input = createBaseInput();
       await nrmlz.normalizeLang(input);
@@ -190,7 +202,8 @@ describe('ComponentGenInputNormalizer', () => {
       const nrmlz = new Nrmlz(
         createEnvAnalyzerMock(),
         createStyleAnalyzerMock(),
-        createCfgReaderMock()
+        createCfgReaderMock(),
+        createTestAnalyzerMock()
       );
       const input = createBaseInput({
         js: true,

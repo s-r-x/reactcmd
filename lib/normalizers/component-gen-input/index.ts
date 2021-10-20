@@ -15,8 +15,8 @@ export class ComponentGenInputNormalizer implements INormalizer {
   constructor(
     @inject(TOKENS.envAnalyzer) private envAnalyzer: IEnvAnalyzer,
     @inject(TOKENS.styleAnlz) private styleAnalyzer: IStylingAnalyzer,
-    @inject(TOKENS.testAnlz) private testAnalyzer: ITestingAnalyzer,
-    @inject(TOKENS.cfgReader) private cfgReader: IConfigReader
+    @inject(TOKENS.cfgReader) private cfgReader: IConfigReader,
+    @inject(TOKENS.testAnlz) private testAnalyzer: ITestingAnalyzer
   ) {}
   async normalize(rawInput: IOptions): Promise<IOptions> {
     const input = await this.mergeWithConfig(rawInput);

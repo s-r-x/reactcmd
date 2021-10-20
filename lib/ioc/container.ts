@@ -39,6 +39,8 @@ import type { IComponentStoriesBuilder } from '../builders/component-stories/int
 import { ComponentStoriesBuilder } from '../builders/component-stories';
 import { TestingAnalyzer } from '../analyzers/testing';
 import type { ITestingAnalyzer } from '../analyzers/testing/interface';
+import type { IConfigSetuper } from '../setupers/config/interface';
+import { ConfigSetuper } from '../setupers/config';
 
 export const createContainer = () => {
   const c = new Container();
@@ -82,6 +84,7 @@ export const createContainer = () => {
   c.bind<IComponentGenInputNormalizer>(TOKENS.cmpGenInputNrmlz).to(
     ComponentGenInputNormalizer
   );
+  c.bind<IConfigSetuper>(TOKENS.cfgSetuper).to(ConfigSetuper);
   return c;
 };
 

@@ -18,4 +18,5 @@ export const TOKENS = {
   codeFormatterCfgReader: Symbol.for('codeFormatterCfgReader'),
   codeFormatter: Symbol.for('codeFormatter'),
   componentStoriesBuilder: Symbol.for('componentStoriesBuilder'),
+  cfgSetuper: Symbol.for('cfgSetuper'),
 };

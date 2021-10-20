@@ -1,5 +1,4 @@
-import { LIB_TO_STYLING_STRATEGY_MAP } from '../analyzers/styling/constants';
-import { TStylingStrategy } from '../typings/styling';
+import type { TStylingStrategy } from '../typings/styling';
 
 export const AVAILABLE_STYLING_OPTIONS: TStylingStrategy[] = [
   'sc',

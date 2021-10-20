@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TOKENS } from '../../ioc/tokens';
 import _ from 'lodash';
 import path from 'path';
+import chalk from 'chalk';
 import type { IComponentTestsBuilder } from '../../builders/component-tests/interface';
 import type { IFileWriter } from '../../writers/file/interface';
 import type { IComponentStoriesBuilder } from '../../builders/component-stories/interface';
@@ -20,9 +21,8 @@ import type {
   IComponentGenerator,
   IGenerateComponentOptions,
 } from './interface';
-import { TTestLib, TTestRunner } from '../../typings/testing';
-import { ILogger } from '../../logger/interface';
-import chalk from 'chalk';
+import type { TTestLib, TTestRunner } from '../../typings/testing';
+import type { ILogger } from '../../logger/interface';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {

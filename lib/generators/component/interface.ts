@@ -13,6 +13,8 @@ export interface IGenerateComponentOptions {
   sb?: boolean;
   cc?: boolean;
   fc?: boolean;
+  testlib?: string;
+  testrunner?: string;
   cssmodules?: boolean;
   classname?: string;
   componentfile?: string;

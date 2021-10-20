@@ -10,6 +10,7 @@ import {
   TEST_DEFAULT_FILENAME,
 } from '../../generators/component/constants';
 import { STYLE_DEFAULT_FILENAME } from '../../builders/style/constants';
+import { TTestLib, TTestRunner } from '../../typings/testing';
 
 export const command = 'component <name> [dir]';
 export const aliases = ['c'];
@@ -27,6 +28,9 @@ const styleChoices: TStylingStrategy[] = [
   'stylus',
   'sass',
 ];
+const testLibChoices: TTestLib[] = ['rtl', 'enzyme'];
+const testRunnerChoices: TTestRunner[] = ['jest'];
+
 export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
   yargs
     .options({
@@ -76,6 +80,16 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       },
       mobx: { type: 'boolean', desc: 'Use mobx?' },
       redux: { type: 'boolean', desc: 'Use redux?' },
+      testlib: {
+        type: 'string',
+        desc: 'Testing library',
+        choices: testLibChoices,
+      },
+      testrunner: {
+        type: 'string',
+        desc: 'Test runner',
+        choices: testRunnerChoices,
+      },
       'prop-types': { type: 'boolean', desc: 'Use prop-types?', alias: 'PT' },
     })
     .positional('name', {

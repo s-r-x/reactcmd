@@ -7,12 +7,14 @@ import type { IComponentGenInputNormalizer as INormalizer } from './interface';
 import type { IEnvAnalyzer } from '../../analyzers/env/interface';
 import type { IStylingAnalyzer } from '../../analyzers/styling/interface';
 import type { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
+import { ITestingAnalyzer } from '../../analyzers/testing/interface';
 
 @injectable()
 export class ComponentGenInputNormalizer implements INormalizer {
   constructor(
     @inject(TOKENS.envAnalyzer) private envAnalyzer: IEnvAnalyzer,
     @inject(TOKENS.styleAnlz) private styleAnalyzer: IStylingAnalyzer,
+    @inject(TOKENS.testAnlz) private testAnalyzer: ITestingAnalyzer,
     @inject(TOKENS.cfgReader) private cfgReader: IConfigReader
   ) {}
   async normalize(rawInput: IOptions): Promise<IOptions> {
@@ -52,6 +54,16 @@ export class ComponentGenInputNormalizer implements INormalizer {
   }
   normalizeComponentName(input: IOptions) {
     input.name = pascalCase(input.name);
+  }
+  async normalizeTesting(input: IOptions) {
+    if (input.test) {
+      if (!input.testlib) {
+        input.testlib = await this.testAnalyzer.determineTestLib();
+      }
+      if (!input.testrunner) {
+        input.testrunner = await this.testAnalyzer.determineTestRunner();
+      }
+    }
   }
   async normalizeStyle(input: IOptions) {
     if (input.ugly) {

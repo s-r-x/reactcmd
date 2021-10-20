@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "outDir": "./bin",
+    "outDir": "./build",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noImplicitOverride": true,

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Missing react cli",
   "bin": {
-    "rcmd": "./bin/cli.js"
+    "rcmd": "./build/cli.js"
   },
   "scripts": {
     "build": "tsc -p ./tsconfig.build.json",

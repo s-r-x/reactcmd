@@ -15,4 +15,4 @@ link:
 unlink:
 	npm unlink
 bin-exec:
-	chmod +x ./bin/cli.js
+	chmod +x ./build/cli.js

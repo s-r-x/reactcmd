@@ -7,6 +7,6 @@ export const LIB_TO_TEST_RUNNER_MAP: Record<string, TTestRunner> = {
   jest: 'jest',
 };
 export const LIB_TO_TEST_LIB_MAP: Record<string, TTestLib> = {
-  enzyme: 'enzyme',
   '@testing-library/react': 'rtl',
+  enzyme: 'enzyme',
 };

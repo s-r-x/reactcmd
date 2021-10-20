@@ -6,7 +6,7 @@ export const LIB_TO_STYLING_STRATEGY_MAP: Record<
   TStylingStrategy | string,
   TStylingStrategy
 > = {
-  'styled-components': 'styled-components',
+  'styled-components': 'sc',
   '@linaria/react': 'linaria',
   '@emotion/react': 'emotion',
   aphrodite: 'aphrodite',

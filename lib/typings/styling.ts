@@ -1,5 +1,5 @@
 export type TStylingStrategy =
-  | 'styled-components'
+  | 'sc'
   | 'linaria'
   | 'aphrodite'
   | 'radium'

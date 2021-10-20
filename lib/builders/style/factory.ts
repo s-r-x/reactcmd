@@ -21,7 +21,7 @@ const implementations: Record<TStylingStrategy, new () => IStyleBuilder> = {
   sass: ScssStyleBuilder,
   stylus: StylusStyleBuilder,
   'styled-jsx': StyledJsxStyleBuilder,
-  'styled-components': ScStyleBuilder,
+  sc: ScStyleBuilder,
 };
 const DEFAULT_IMPLEMENTATION = CssStyleBuilder;
 

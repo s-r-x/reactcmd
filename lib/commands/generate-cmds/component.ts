@@ -17,7 +17,7 @@ export const aliases = ['c'];
 export const desc = 'Generate component';
 
 const styleChoices: TStylingStrategy[] = [
-  'styled-components',
+  'sc',
   'emotion',
   'aphrodite',
   'radium',

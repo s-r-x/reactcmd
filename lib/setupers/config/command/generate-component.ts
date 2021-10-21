@@ -23,6 +23,7 @@ import _ from 'lodash';
 export class GenerateComponentCmdSetuper extends CfgCmdSetuper<'generateComponent'> {
   protected cmdName: TCliConfigCmdName = 'generateComponent';
   protected async setupCommand(cfg: TCfg) {
+    this.setLang(cfg);
     await this.selectStyling(cfg);
     await this.selectTestLib(cfg);
     await this.selectComponentFilename(cfg);
@@ -31,6 +32,11 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper<'generateComponen
     await this.selectTestFilename(cfg);
   }
 
+  private setLang(cfg: TCfg) {
+    if (cfg.lang && !this.getField(cfg, 'lang')) {
+      this.setField(cfg, 'lang', cfg.lang);
+    }
+  }
   private async selectStyling(cfg: TCfg) {
     const initial = await this.styleAnalyzer.determineStylingStrategy();
     const style = await this.ui.select<TStylingStrategy>({

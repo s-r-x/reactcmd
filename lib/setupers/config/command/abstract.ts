@@ -40,4 +40,10 @@ export abstract class CfgCmdSetuper<T extends TCliConfigCmdName>
   ) {
     cfg.commands[this.cmdName]![key] = value;
   }
+  protected getField<TK extends keyof NonNullable<TCommands[T]>>(
+    cfg: TConfig,
+    key: TK
+  ) {
+    return cfg.commands[this.cmdName]![key];
+  }
 }

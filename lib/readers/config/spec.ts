@@ -6,9 +6,9 @@ import { expect } from 'chai';
 import type { TCliConfigFile } from '../../typings/config';
 import type { IConfigReader } from './interface';
 import type { Maybe } from '../../typings/utils';
-import { CONFIG_NAME } from './constants';
 import { createTempDir } from '../../../tests/fixtures/create-temp-dir';
 import fs from 'fs-extra';
+import { CONFIG_NAME } from '../../constants/config';
 
 const stubReadConfig = (
   reader: IConfigReader,

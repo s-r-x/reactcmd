@@ -6,8 +6,8 @@ import type { TCliConfigFile } from '../../typings/config';
 import type { IConfigReader } from './interface';
 import type { IEnvReader } from '../env/interface';
 import { cosmiconfig } from 'cosmiconfig';
-import { CONFIG_NAME } from './constants';
 import { Memoize } from 'typescript-memoize';
+import { CONFIG_NAME } from '../../constants/config';
 
 const configExplorer = cosmiconfig(CONFIG_NAME, {
   searchPlaces: ['package.json', `.${CONFIG_NAME}rc`, `.${CONFIG_NAME}rc.json`],

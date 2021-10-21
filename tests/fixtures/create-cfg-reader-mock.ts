@@ -5,5 +5,6 @@ export const createCfgReaderMock = (
 ): IConfigReader => ({
   readConfig: () => Promise.resolve(null),
   getSrcDir: () => Promise.resolve(null),
+  getConfigPath: () => Promise.resolve(null),
   ...args,
 });

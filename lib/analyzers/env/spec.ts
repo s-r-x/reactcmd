@@ -4,9 +4,10 @@ import { EnvAnalyzer as Analyzer } from '.';
 import { createCfgReaderMock } from '../../../tests/fixtures/create-cfg-reader-mock';
 import { createEnvReaderMock } from '../../../tests/fixtures/create-env-reader-mock';
 import { createFsMock } from '../../../tests/fixtures/create-fs-mock';
+import { AVAILABLE_LANGS } from '../../constants/lang';
 import { POSSIBLE_SRC_FOLDERS } from './constants';
 
-describe('EnvAnalyzer', () => {
+describe.only('EnvAnalyzer', () => {
   describe('determineLang', () => {
     it('should determine typescript if there is tsconfig.json file in the root folder', async () => {
       const analyzer = new Analyzer(
@@ -18,6 +19,22 @@ describe('EnvAnalyzer', () => {
       );
       const lang = await analyzer.determineLang();
       expect(lang).to.eq('ts');
+    });
+    it('should determine language from the config, if there is one', async () => {
+      for (const lang of AVAILABLE_LANGS) {
+        const analyzer = new Analyzer(
+          createEnvReaderMock(),
+          createFsMock(),
+          createCfgReaderMock({
+            readConfig: () =>
+              Promise.resolve({
+                lang,
+              }),
+          })
+        );
+        const result = await analyzer.determineLang();
+        expect(result).to.eq(lang);
+      }
     });
     it('should determine typescript if there are any files that starts with tsconfig in the root folder', async () => {
       const analyzer = new Analyzer(

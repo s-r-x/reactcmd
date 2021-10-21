@@ -44,6 +44,10 @@ export class EnvAnalyzer implements IEnvAnalyzer {
   }
   async determineLang(): Promise<TLang> {
     const rootDir = this.env.getProjectRootDir();
+    const cfg = await this.cfgReader.readConfig();
+    if (cfg?.lang) {
+      return cfg.lang;
+    }
     const list = await this.fs.readDir(rootDir);
     if (!_.isEmpty(list)) {
       if (list.has('tsconfig.json')) {

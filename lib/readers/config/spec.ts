@@ -19,19 +19,21 @@ const stubReadConfig = (
 
 describe.only('ConfigReader', () => {
   describe('readConfig', () => {
-    it('should read the cli config from the project root dir', async () => {
-      const config: TCliConfigFile = {
-        srcDir: '/src',
-        commands: {},
-      };
-      const [dir] = await createTempDir();
-      const configPath = path.join(dir, `.${CONFIG_NAME}rc`);
-      await fs.outputJSON(configPath, config);
-      const env = createEnvReaderMock({
-        getProjectRootDir: sinon.stub().returns(dir),
+    [`.${CONFIG_NAME}rc`, `.${CONFIG_NAME}rc.json`].forEach(baseName => {
+      it(`should read the cli config from ${baseName}`, async () => {
+        const config: TCliConfigFile = {
+          srcDir: '/src',
+          commands: {},
+        };
+        const [dir] = await createTempDir();
+        const configPath = path.join(dir, baseName);
+        await fs.outputJSON(configPath, config);
+        const env = createEnvReaderMock({
+          getProjectRootDir: sinon.stub().returns(dir),
+        });
+        const reader = new ConfigReader(env);
+        expect(await reader.readConfig()).to.deep.eq(config);
       });
-      const reader = new ConfigReader(env);
-      expect(await reader.readConfig()).to.deep.eq(config);
     });
     it('should read the cli config from the package.json in project root dir', async () => {
       const config: TCliConfigFile = {

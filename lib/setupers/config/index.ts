@@ -8,6 +8,7 @@ import type { TCliConfigFile } from '../../typings/config';
 import type { IUi } from '../../ui/interface';
 import type {
   ICfgSetuper,
+  ICfgSetuperOptions,
   TCfgCmdSetuperFactory,
   TCfgCmdSetuperName,
 } from './interface';
@@ -23,7 +24,7 @@ export class ConfigSetuper implements ICfgSetuper {
     @inject(TOKENS.cfgReader) private cfgReader: IConfigReader
   ) {}
   private config: TCliConfigFile = { commands: {} };
-  async setup(): Promise<void> {
+  async setup(opts: ICfgSetuperOptions): Promise<void> {
     await this.readInitialConfig();
     const cmdSetuper = this.cfgCmdSetuperFactory(
       await this.selectCommandToSetup()
@@ -31,7 +32,11 @@ export class ConfigSetuper implements ICfgSetuper {
     await this.maybeSelectLanguage();
     await this.maybeSelectSrcDir();
     await cmdSetuper.setup(this.config);
-    console.log(util.inspect(this.config, { depth: 10 }));
+    if (opts.dry) {
+      console.log(util.inspect(this.config, { depth: 10 }));
+    } else {
+      console.log('TODO:: write config to disk');
+    }
   }
   private async readInitialConfig() {
     const cfg = await this.cfgReader.readConfig();

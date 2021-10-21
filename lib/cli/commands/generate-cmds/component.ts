@@ -20,7 +20,6 @@ export const command = 'component <name> [dir]';
 export const aliases = ['c'];
 export const desc = 'Generate new component';
 
-// @ts-ignore
 export const builder: CommandBuilder = yargs =>
   yargs
     .options({

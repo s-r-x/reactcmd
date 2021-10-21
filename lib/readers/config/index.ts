@@ -16,9 +16,13 @@ export class ConfigReader implements IConfigReader {
   @Memoize()
   async readConfig(): Promise<Maybe<TCliConfigFile>> {
     try {
-      const cfg = await configExplorer.search(this.env.getProjectRootDir());
-      if (!cfg || cfg.isEmpty) return null;
-      return cfg.config;
+      const res = await configExplorer.search(this.env.getProjectRootDir());
+      if (!res || res.isEmpty || !res.config) return null;
+      const cfg: TCliConfigFile = res.config;
+      if (!cfg.commands) {
+        cfg.commands = {};
+      }
+      return cfg;
     } catch (_e) {
       return null;
     }

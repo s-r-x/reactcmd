@@ -11,6 +11,7 @@ import type {
   TCfgCmdSetuperFactory,
   TCfgCmdSetuperName,
 } from './interface';
+import util from 'util';
 
 @injectable()
 export class ConfigSetuper implements ICfgSetuper {
@@ -21,7 +22,7 @@ export class ConfigSetuper implements ICfgSetuper {
     private cfgCmdSetuperFactory: TCfgCmdSetuperFactory,
     @inject(TOKENS.cfgReader) private cfgReader: IConfigReader
   ) {}
-  private config: TCliConfigFile = {};
+  private config!: TCliConfigFile;
   async setup(): Promise<void> {
     await this.readInitialConfig();
     const cmdSetuper = this.cfgCmdSetuperFactory(
@@ -30,6 +31,7 @@ export class ConfigSetuper implements ICfgSetuper {
     await this.maybeSelectLanguage();
     await this.maybeSelectSrcDir();
     await cmdSetuper.setup(this.config);
+    console.log(util.inspect(this.config, { depth: 10 }));
   }
   private async readInitialConfig() {
     const cfg = await this.cfgReader.readConfig();

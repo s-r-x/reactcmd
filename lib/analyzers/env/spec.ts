@@ -28,6 +28,7 @@ describe.only('EnvAnalyzer', () => {
           createCfgReaderMock({
             readConfig: () =>
               Promise.resolve({
+                commands: {},
                 lang,
               }),
           })

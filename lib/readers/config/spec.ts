@@ -22,6 +22,7 @@ describe('ConfigReader', () => {
     it('should read the cli config from the project root dir', async () => {
       const config: TCliConfigFile = {
         srcDir: '/src',
+        commands: {},
       };
       const [dir] = await createTempDir();
       const configPath = path.join(dir, `.${CONFIG_NAME}rc`);
@@ -45,6 +46,7 @@ describe('ConfigReader', () => {
     it('should return srcDir from the cli config as it is if path is absolute', async () => {
       const config: TCliConfigFile = {
         srcDir: '/src',
+        commands: {},
       };
       const reader = new ConfigReader(createEnvReaderMock());
       stubReadConfig(reader, config);
@@ -55,6 +57,7 @@ describe('ConfigReader', () => {
       const root = '/root';
       const config: TCliConfigFile = {
         srcDir: './src',
+        commands: {},
       };
       const reader = new ConfigReader(
         createEnvReaderMock({

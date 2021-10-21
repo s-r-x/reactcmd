@@ -29,7 +29,7 @@ export class ComponentGenInputNormalizer implements INormalizer {
   async mergeWithConfig(rawInput: IOptions): Promise<IOptions> {
     const cfg = await this.cfgReader.readConfig();
     const input: IOptions = {
-      ...cfg?.commands?.generate?.component,
+      ...cfg?.commands?.generateComponent,
       ...rawInput,
     };
     return input;

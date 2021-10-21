@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import type { TCliConfigFile as TCfg } from '../../../typings/config';
+import type { TCliConfigFile as TBaseCfg } from '../../../typings/config';
 import { CfgCmdSetuper } from './abstract';
 import {
   COMPONENT_DEFAULT_FILENAME,
@@ -14,21 +14,25 @@ import {
   AVAILABLE_STYLING_OPTIONS,
   CSS_MODULES_SUPPORTED_STYLINGS,
 } from '../../../constants/styling';
+import _ from 'lodash';
+
+type TCfg = NonNullable<NonNullable<TBaseCfg['commands']>['generateComponent']>;
 
 @injectable()
 export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
-  async setup(cfg: TCfg) {
-    await this.selectStyling(cfg);
-    await this.selectTestLib(cfg);
-    await this.selectComponentFilename(cfg);
-    await this.selectStyleFilename(cfg);
-    await this.selectSbFilename(cfg);
-    await this.selectTestFilename(cfg);
+  protected cmdNestedPropPath = 'generate.component';
+  private readonly cfgPropPath = 'commands.generate.component';
+  async setup(cfg: TBaseCfg) {
+    this.normalizeIncomingConfig(cfg);
+    const cmdConfig: TCfg = _.get(cfg, this.cfgPropPath);
+    await this.selectStyling(cmdConfig);
+    await this.selectTestLib(cmdConfig);
+    await this.selectComponentFilename(cmdConfig);
+    await this.selectStyleFilename(cmdConfig);
+    await this.selectSbFilename(cmdConfig);
+    await this.selectTestFilename(cmdConfig);
   }
 
-  //private setLang(cfg: TCfg) {
-  //  if(cfg.lang && !cfg.commands.)
-  //}
   private async selectStyling(cfg: TCfg) {
     const initial = await this.styleAnalyzer.determineStylingStrategy();
     const style = await this.ui.select<TStylingStrategy>({
@@ -39,13 +43,13 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
       })),
       initial,
     });
-    console.log(style);
+    this.setField(cfg, 'style', style);
     if (CSS_MODULES_SUPPORTED_STYLINGS.includes(style)) {
       const useCssModules = await this.ui.confirm({
         message: 'Use CSS modules?',
         initial: true,
       });
-      console.log(useCssModules);
+      this.setField(cfg, 'cssmodules', useCssModules);
     }
   }
   private async selectTestLib(cfg: TCfg) {
@@ -58,7 +62,7 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
         name: value === 'rtl' ? 'React Testing Library' : value,
       })),
     });
-    console.log(testLib);
+    this.setField(cfg, 'testlib', testLib);
   }
   private async selectComponentFilename(cfg: TCfg) {
     const name = await this.ui.textInput({
@@ -67,7 +71,7 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
       trim: true,
       returnInitialIfEmpty: true,
     });
-    console.log(name);
+    this.setField(cfg, 'componentfile', name);
   }
   private async selectStyleFilename(cfg: TCfg) {
     const name = await this.ui.textInput({
@@ -76,7 +80,7 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
       trim: true,
       returnInitialIfEmpty: true,
     });
-    console.log(name);
+    this.setField(cfg, 'stylefile', name);
   }
   private async selectTestFilename(cfg: TCfg) {
     const name = await this.ui.textInput({
@@ -85,7 +89,7 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
       trim: true,
       returnInitialIfEmpty: true,
     });
-    console.log(name);
+    this.setField(cfg, 'testfile', name);
   }
   private async selectSbFilename(cfg: TCfg) {
     const name = await this.ui.textInput({
@@ -94,6 +98,9 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
       trim: true,
       returnInitialIfEmpty: true,
     });
-    console.log(name);
+    this.setField(cfg, 'storiesfile', name);
+  }
+  private setField<T extends keyof TCfg>(cfg: TCfg, key: T, value: TCfg[T]) {
+    cfg[key] = value;
   }
 }

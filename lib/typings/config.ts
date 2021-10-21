@@ -4,9 +4,7 @@ import type { IGenerateComponentOptions } from '../generators/component/interfac
 export type TCliConfigFile = {
   lang?: TLang;
   srcDir?: string;
-  commands?: {
-    generate?: {
-      component?: Partial<IGenerateComponentOptions>;
-    };
+  commands: {
+    generateComponent?: Partial<IGenerateComponentOptions>;
   };
 };

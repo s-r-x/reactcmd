@@ -16,7 +16,7 @@ export class ConfigReader implements IConfigReader {
   @Memoize()
   async readConfig(): Promise<Maybe<TCliConfigFile>> {
     try {
-      const res = await configExplorer.search(this.env.getProjectRootDir());
+      const res = await this.searchConfig();
       if (!res || res.isEmpty || !res.config) return null;
       const cfg: TCliConfigFile = res.config;
       if (!cfg.commands) {
@@ -27,6 +27,11 @@ export class ConfigReader implements IConfigReader {
       return null;
     }
   }
+  @Memoize()
+  async getConfigPath(): Promise<Maybe<string>> {
+    const cfg = await this.searchConfig();
+    return cfg?.filepath ?? null;
+  }
   async getSrcDir(): Promise<Maybe<string>> {
     const cfg = await this.readConfig();
     const src = cfg?.srcDir;
@@ -36,5 +41,8 @@ export class ConfigReader implements IConfigReader {
     } else {
       return path.join(this.env.getProjectRootDir(), src);
     }
+  }
+  private async searchConfig() {
+    return await configExplorer.search(this.env.getProjectRootDir());
   }
 }

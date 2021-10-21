@@ -17,7 +17,7 @@ const stubReadConfig = (
   sinon.stub(reader, 'readConfig').returns(Promise.resolve(config));
 };
 
-describe('ConfigReader', () => {
+describe.only('ConfigReader', () => {
   describe('readConfig', () => {
     it('should read the cli config from the project root dir', async () => {
       const config: TCliConfigFile = {
@@ -33,6 +33,23 @@ describe('ConfigReader', () => {
       const reader = new ConfigReader(env);
       expect(await reader.readConfig()).to.deep.eq(config);
     });
+    it('should read the cli config from the package.json in project root dir', async () => {
+      const config: TCliConfigFile = {
+        srcDir: '/src',
+        commands: {},
+      };
+      const [dir] = await createTempDir();
+      const pkg = {
+        [CONFIG_NAME]: config,
+      };
+      const configPath = path.join(dir, 'package.json');
+      await fs.outputJSON(configPath, pkg);
+      const env = createEnvReaderMock({
+        getProjectRootDir: sinon.stub().returns(dir),
+      });
+      const reader = new ConfigReader(env);
+      expect(await reader.readConfig()).to.deep.eq(config);
+    });
     it('should return null if there is no config', async () => {
       const [dir] = await createTempDir();
       const env = createEnvReaderMock({
@@ -40,6 +57,31 @@ describe('ConfigReader', () => {
       });
       const reader = new ConfigReader(env);
       expect(await reader.readConfig()).to.be.null;
+    });
+  });
+  describe('getConfigPath', () => {
+    it('should return filepath of the cli config', async () => {
+      const config: TCliConfigFile = { commands: {} };
+      const [dir] = await createTempDir();
+      const configPath = path.join(dir, `.${CONFIG_NAME}rc`);
+      await fs.outputJSON(configPath, config);
+      const env = createEnvReaderMock({
+        getProjectRootDir: sinon.stub().returns(dir),
+      });
+      const reader = new ConfigReader(env);
+      expect(configPath).to.eq(await reader.getConfigPath());
+    });
+    it('should return filepath of the cli config from the package.json', async () => {
+      const config: TCliConfigFile = { commands: {} };
+      const [dir] = await createTempDir();
+      const pkg = { [CONFIG_NAME]: config };
+      const configPath = path.join(dir, 'package.json');
+      await fs.outputJSON(configPath, pkg);
+      const env = createEnvReaderMock({
+        getProjectRootDir: sinon.stub().returns(dir),
+      });
+      const reader = new ConfigReader(env);
+      expect(await reader.readConfig()).to.deep.eq(config);
     });
   });
   describe('getSrcDir', () => {

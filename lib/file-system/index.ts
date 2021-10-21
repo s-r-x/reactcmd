@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import { injectable } from 'inversify';
 import findPkgDir from 'pkg-dir';
-import type { Maybe } from '../typings/utils';
+import type { Maybe, TAnyDict } from '../typings/utils';
 import type { IFileSystem } from './interface';
 
 @injectable()
@@ -37,5 +37,8 @@ export class FileSystem implements IFileSystem {
   }
   async writeFile(path: string, content: string): Promise<void> {
     await fs.outputFile(path, content);
+  }
+  async writeJSON(path: string, json: TAnyDict): Promise<void> {
+    await fs.outputJSON(path, json);
   }
 }

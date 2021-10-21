@@ -7,5 +7,6 @@ export const createFsMock = (args: Partial<IFileSystem> = {}): IFileSystem => ({
   findClosestPkgDir: () => null,
   readDir: () => Promise.resolve(new Set()),
   writeFile: () => Promise.resolve(),
+  writeJSON: () => Promise.resolve(),
   ...args,
 });

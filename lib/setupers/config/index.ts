@@ -24,16 +24,12 @@ export class ConfigSetuper implements ICfgSetuper {
   private config: TCliConfigFile = {};
   async setup(): Promise<void> {
     await this.readInitialConfig();
-    const setuper = this.cfgCmdSetuperFactory(
+    const cmdSetuper = this.cfgCmdSetuperFactory(
       await this.selectCommandToSetup()
     );
-    if (!this.config.lang) {
-      await this.selectLanguage();
-    }
-    if (!this.config.srcDir) {
-      await this.selectSrcDir();
-    }
-    await setuper.setup(this.config);
+    await this.maybeSelectLanguage();
+    await this.maybeSelectSrcDir();
+    await cmdSetuper.setup(this.config);
   }
   private async readInitialConfig() {
     const cfg = await this.cfgReader.readConfig();
@@ -47,7 +43,8 @@ export class ConfigSetuper implements ICfgSetuper {
       options: CFG_CMD_SETUPERS_SELECT_LIST,
     });
   }
-  private async selectSrcDir() {
+  private async maybeSelectSrcDir() {
+    if (this.config.srcDir) return;
     const initial = await this.envAnalyzer.determineSourceDir();
     this.config.srcDir = await this.ui.textInput({
       trim: true,
@@ -56,7 +53,8 @@ export class ConfigSetuper implements ICfgSetuper {
       initial,
     });
   }
-  private async selectLanguage() {
+  private async maybeSelectLanguage() {
+    if (this.config.lang) return;
     const initial = await this.envAnalyzer.determineLang();
     this.config.lang = await this.ui.select<TLang>({
       message: 'Language:',

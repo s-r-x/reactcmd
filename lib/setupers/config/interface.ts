@@ -5,7 +5,7 @@ export interface ICfgSetuper {
   setup(): Promise<void>;
 }
 export interface ICfgCmdSetuper {
-  setup(config: TConfig): Promise<TConfig>;
+  setup(config: TConfig): Promise<void>;
 }
 export type TCfgCmdSetuperFactory = (
   name: TCfgCmdSetuperName

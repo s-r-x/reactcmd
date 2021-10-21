@@ -17,9 +17,11 @@ describe('ComponentGenInputNormalizer', () => {
     it('should merge input  with user defined config', async () => {
       const config: TCliConfigFile = {
         commands: {
-          component: {
-            dir: 'dir',
-            redux: true,
+          generate: {
+            component: {
+              dir: 'dir',
+              redux: true,
+            },
           },
         },
       };
@@ -38,7 +40,7 @@ describe('ComponentGenInputNormalizer', () => {
       const newInput = await nrmlz.mergeWithConfig(input);
       expect(newInput.dir).to.eq(input.dir);
       expect(newInput.name).to.eq(input.name);
-      expect(newInput.redux).to.eq(config.commands!.component!.redux);
+      expect(newInput.redux).to.eq(config.commands!.generate!.component!.redux);
     });
     it('should return input  as it is if there is no config', async () => {
       const nrmlz = new Nrmlz(

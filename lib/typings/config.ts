@@ -5,6 +5,8 @@ export type TCliConfigFile = {
   lang?: TLang;
   srcDir?: string;
   commands?: {
-    component?: Partial<IGenerateComponentOptions>;
+    generate?: {
+      component?: Partial<IGenerateComponentOptions>;
+    };
   };
 };

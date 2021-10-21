@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import type { TCliConfigFile } from '../../../typings/config';
+import type { TCliConfigFile as TCfg } from '../../../typings/config';
 import { CfgCmdSetuper } from './abstract';
 import {
   COMPONENT_DEFAULT_FILENAME,
@@ -17,17 +17,19 @@ import {
 
 @injectable()
 export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
-  async setup(cfg: TCliConfigFile) {
-    await this.selectStyling();
-    await this.selectTestLib();
-    await this.selectComponentFilename();
-    await this.selectStyleFilename();
-    await this.selectSbFilename();
-    await this.selectTestFilename();
-    return cfg;
+  async setup(cfg: TCfg) {
+    await this.selectStyling(cfg);
+    await this.selectTestLib(cfg);
+    await this.selectComponentFilename(cfg);
+    await this.selectStyleFilename(cfg);
+    await this.selectSbFilename(cfg);
+    await this.selectTestFilename(cfg);
   }
 
-  private async selectStyling() {
+  //private setLang(cfg: TCfg) {
+  //  if(cfg.lang && !cfg.commands.)
+  //}
+  private async selectStyling(cfg: TCfg) {
     const initial = await this.styleAnalyzer.determineStylingStrategy();
     const style = await this.ui.select<TStylingStrategy>({
       message: 'Styling:',
@@ -46,7 +48,7 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
       console.log(useCssModules);
     }
   }
-  private async selectTestLib() {
+  private async selectTestLib(cfg: TCfg) {
     const initial = await this.testAnalyzer.determineTestLib();
     const testLib = await this.ui.select<TTestLib>({
       message: 'Testing library:',
@@ -58,7 +60,7 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
     });
     console.log(testLib);
   }
-  private async selectComponentFilename() {
+  private async selectComponentFilename(cfg: TCfg) {
     const name = await this.ui.textInput({
       message: 'Filename of the component(without file extension):',
       initial: COMPONENT_DEFAULT_FILENAME,
@@ -67,7 +69,7 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
     });
     console.log(name);
   }
-  private async selectStyleFilename() {
+  private async selectStyleFilename(cfg: TCfg) {
     const name = await this.ui.textInput({
       message: 'Filename of the style(without file extension):',
       initial: STYLE_DEFAULT_FILENAME,
@@ -76,7 +78,7 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
     });
     console.log(name);
   }
-  private async selectTestFilename() {
+  private async selectTestFilename(cfg: TCfg) {
     const name = await this.ui.textInput({
       message: 'Filename of the test(without file extension):',
       initial: TEST_DEFAULT_FILENAME,
@@ -85,7 +87,7 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
     });
     console.log(name);
   }
-  private async selectSbFilename() {
+  private async selectSbFilename(cfg: TCfg) {
     const name = await this.ui.textInput({
       message: 'Filename of the stories(without file extension):',
       initial: STORIES_DEFAULT_FILENAME,

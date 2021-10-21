@@ -15,5 +15,5 @@ export abstract class CfgCmdSetuper implements ICfgCmdSetuper {
     @inject(TOKENS.envAnalyzer) protected envAnalyzer: IEnvAnalyzer,
     @inject(TOKENS.testAnlz) protected testAnalyzer: ITestingAnalyzer
   ) {}
-  abstract setup(config: TConfig): Promise<TConfig>;
+  abstract setup(config: TConfig): Promise<void>;
 }

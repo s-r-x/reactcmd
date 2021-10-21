@@ -20,15 +20,25 @@ export class Ui implements IUi {
   async textInput({
     name = 'text-input-name',
     message,
-    initial,
+    initial = '',
+    trim,
+    returnInitialIfEmpty,
   }: ITextInputOptions): Promise<string> {
-    const result = await inquirer.prompt({
-      type: 'input',
-      name,
-      default: initial,
-      message,
-    });
-    return result[name] as string;
+    let result = await inquirer
+      .prompt({
+        type: 'input',
+        name,
+        default: initial,
+        message,
+      })
+      .then(v => v[name] as string);
+    if (trim) {
+      result = result.trim();
+    }
+    if (returnInitialIfEmpty && !result) {
+      return initial;
+    }
+    return result;
   }
   select: IUi['select'] = async ({
     name = 'select-name',

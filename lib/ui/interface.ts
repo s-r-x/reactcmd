@@ -5,7 +5,10 @@ interface ISharedUiOptions<TInitial> {
 }
 
 export interface IConfirmOptions extends ISharedUiOptions<boolean> {}
-export interface ITextInputOptions extends ISharedUiOptions<string> {}
+export interface ITextInputOptions extends ISharedUiOptions<string> {
+  trim?: boolean;
+  returnInitialIfEmpty?: boolean;
+}
 export interface ISelectOptions<T extends string> extends ISharedUiOptions<T> {
   name?: string;
   message: string;

@@ -1,5 +1,8 @@
 import { injectable } from 'inversify';
-import type { TCliConfigFile as TBaseCfg } from '../../../typings/config';
+import type {
+  TCliConfigCmdName,
+  TCliConfigFile as TCfg,
+} from '../../../typings/config';
 import { CfgCmdSetuper } from './abstract';
 import {
   COMPONENT_DEFAULT_FILENAME,
@@ -9,28 +12,23 @@ import {
 import { STYLE_DEFAULT_FILENAME } from '../../../builders/style/constants';
 import { AVAILABLE_TEST_LIBS } from '../../../constants/testing';
 import type { TTestLib } from '../../../typings/testing';
-import { TStylingStrategy } from '../../../typings/styling';
+import type { TStylingStrategy } from '../../../typings/styling';
 import {
   AVAILABLE_STYLING_OPTIONS,
   CSS_MODULES_SUPPORTED_STYLINGS,
 } from '../../../constants/styling';
 import _ from 'lodash';
 
-type TCfg = NonNullable<NonNullable<TBaseCfg['commands']>['generateComponent']>;
-
 @injectable()
-export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
-  protected cmdNestedPropPath = 'generate.component';
-  private readonly cfgPropPath = 'commands.generate.component';
-  async setup(cfg: TBaseCfg) {
-    this.normalizeIncomingConfig(cfg);
-    const cmdConfig: TCfg = _.get(cfg, this.cfgPropPath);
-    await this.selectStyling(cmdConfig);
-    await this.selectTestLib(cmdConfig);
-    await this.selectComponentFilename(cmdConfig);
-    await this.selectStyleFilename(cmdConfig);
-    await this.selectSbFilename(cmdConfig);
-    await this.selectTestFilename(cmdConfig);
+export class GenerateComponentCmdSetuper extends CfgCmdSetuper<'generateComponent'> {
+  protected cmdName: TCliConfigCmdName = 'generateComponent';
+  protected async setupCommand(cfg: TCfg) {
+    await this.selectStyling(cfg);
+    await this.selectTestLib(cfg);
+    await this.selectComponentFilename(cfg);
+    await this.selectStyleFilename(cfg);
+    await this.selectSbFilename(cfg);
+    await this.selectTestFilename(cfg);
   }
 
   private async selectStyling(cfg: TCfg) {
@@ -99,8 +97,5 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper {
       returnInitialIfEmpty: true,
     });
     this.setField(cfg, 'storiesfile', name);
-  }
-  private setField<T extends keyof TCfg>(cfg: TCfg, key: T, value: TCfg[T]) {
-    cfg[key] = value;
   }
 }

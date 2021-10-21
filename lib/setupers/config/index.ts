@@ -22,7 +22,7 @@ export class ConfigSetuper implements ICfgSetuper {
     private cfgCmdSetuperFactory: TCfgCmdSetuperFactory,
     @inject(TOKENS.cfgReader) private cfgReader: IConfigReader
   ) {}
-  private config!: TCliConfigFile;
+  private config: TCliConfigFile = { commands: {} };
   async setup(): Promise<void> {
     await this.readInitialConfig();
     const cmdSetuper = this.cfgCmdSetuperFactory(

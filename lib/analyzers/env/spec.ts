@@ -7,7 +7,7 @@ import { createFsMock } from '../../../tests/fixtures/create-fs-mock';
 import { AVAILABLE_LANGS } from '../../constants/lang';
 import { POSSIBLE_SRC_FOLDERS } from './constants';
 
-describe.only('EnvAnalyzer', () => {
+describe('EnvAnalyzer', () => {
   describe('determineLang', () => {
     it('should determine typescript if there is tsconfig.json file in the root folder', async () => {
       const analyzer = new Analyzer(

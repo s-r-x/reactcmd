@@ -13,7 +13,6 @@ export const setupersModule = new ContainerModule(bind => {
   bind<ICfgSetuper>(TOKENS.cfgSetuper).to(ConfigSetuper);
   CFG_CMD_SETUPERS.forEach(([Setuper, name]) => {
     bind<ICfgCmdSetuper>(TOKENS.cfgCmdSetuper)
-      // @ts-ignore
       .to(Setuper)
       .whenTargetNamed(name);
   });

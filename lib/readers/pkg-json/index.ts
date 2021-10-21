@@ -15,8 +15,11 @@ export class PkgJsonReader implements IPkgJsonReader {
   ) {}
   @Memoize()
   async read(): Promise<TPkg> {
-    const rootDir = this.env.getProjectRootDir();
-    const pkg = await this.fs.readJSON(path.join(rootDir, 'package.json'));
+    const pkg = await this.fs.readJSON(this.getPath());
     return pkg || {};
+  }
+  getPath(): string {
+    const rootDir = this.env.getProjectRootDir();
+    return path.join(rootDir, 'package.json');
   }
 }

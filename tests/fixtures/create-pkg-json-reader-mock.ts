@@ -4,5 +4,6 @@ export const createPkgJsonReaderMock = (
   args: Partial<IPkgJsonReader> = {}
 ): IPkgJsonReader => ({
   read: () => Promise.resolve({}),
+  getPath: () => '',
   ...args,
 });

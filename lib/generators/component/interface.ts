@@ -1,20 +1,22 @@
+import { TLang } from '../../typings';
+import { TStylingStrategy } from '../../typings/styling';
+import { TTestLib, TTestRunner } from '../../typings/testing';
+
 export interface IGenerateComponentOptions {
   name: string;
   dir?: string;
-  ts?: boolean;
-  js?: boolean;
   ugly?: boolean;
   pure?: boolean;
   mobx?: boolean;
   tag?: string;
   redux?: boolean;
-  style?: string;
+  style?: TStylingStrategy;
   test?: boolean;
   sb?: boolean;
   cc?: boolean;
   fc?: boolean;
-  testlib?: string;
-  testrunner?: string;
+  testlib?: TTestLib;
+  testrunner?: TTestRunner;
   cssmodules?: boolean;
   classname?: string;
   componentfile?: string;
@@ -22,6 +24,7 @@ export interface IGenerateComponentOptions {
   storiesfile?: string;
   stylefile?: string;
   dry?: boolean;
+  lang?: TLang;
 }
 export interface IComponentGenerator {
   gen(args: IGenerateComponentOptions): Promise<void>;

@@ -195,8 +195,7 @@ describe('ComponentGenInputNormalizer', () => {
       );
       const input = createBaseInput();
       await nrmlz.normalizeLang(input);
-      expect(input.js).to.be.false;
-      expect(input.ts).to.be.true;
+      expect(input.lang).to.eq('ts');
     });
     it('should not touch the input otherwise', async () => {
       const nrmlz = new Nrmlz(
@@ -206,12 +205,10 @@ describe('ComponentGenInputNormalizer', () => {
         createTestAnalyzerMock()
       );
       const input = createBaseInput({
-        js: true,
-        ts: true,
+        lang: 'js',
       });
       await nrmlz.normalizeLang(input);
-      expect(input.js).to.be.true;
-      expect(input.ts).to.be.true;
+      expect(input.lang).to.eq('js');
     });
   });
 });

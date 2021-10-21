@@ -75,10 +75,8 @@ export class ComponentGenInputNormalizer implements INormalizer {
     }
   }
   async normalizeLang(input: IOptions) {
-    if (!input.js && !input.ts) {
-      const lang = await this.envAnalyzer.determineLang();
-      input.js = lang === 'js';
-      input.ts = lang === 'ts';
+    if (!input.lang) {
+      input.lang = await this.envAnalyzer.determineLang();
     }
   }
 }

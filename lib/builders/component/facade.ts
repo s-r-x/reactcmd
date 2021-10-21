@@ -17,7 +17,7 @@ export class ComponentBuilderFacade implements IComponentBuilderFacade {
     if (spec.cc) {
       builder.asClassComponent();
     }
-    if (spec.ts) {
+    if (spec.lang === 'ts') {
       builder.withTypescript();
     }
     if (spec.tag) {

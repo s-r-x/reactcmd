@@ -23,6 +23,7 @@ import type {
 } from './interface';
 import type { TTestLib, TTestRunner } from '../../typings/testing';
 import type { ILogger } from '../../logger/interface';
+import { TLang } from '../../typings';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -82,7 +83,7 @@ export class ComponentGenerator implements IComponentGenerator {
     const stories = this.genStories(opts);
 
     const rootDir = path.join(opts.dir!, opts.name);
-    const ext = this.getExt(opts.ts);
+    const ext = this.getExt(opts.lang);
     return {
       [path.join(rootDir, `${opts.componentfile!}.${ext}`)]: component,
       ...(tests && {
@@ -113,7 +114,7 @@ export class ComponentGenerator implements IComponentGenerator {
       .reset()
       .withComponentName(opts.name)
       .withComponentImportPath('./' + opts.componentfile!);
-    if (opts.ts) {
+    if (opts.lang === 'ts') {
       bldr.withTypescript();
     }
     return bldr.build();
@@ -124,7 +125,7 @@ export class ComponentGenerator implements IComponentGenerator {
     if (opts.style && !opts.ugly) {
       return this.styleBuilderFactory(opts.style as TStylingStrategy).build({
         rootTag: opts.tag,
-        ts: opts.ts,
+        ts: opts.lang === 'ts',
         rootClass: opts.classname,
         cssModules: opts.cssmodules,
         filename: opts.stylefile!,
@@ -141,7 +142,7 @@ export class ComponentGenerator implements IComponentGenerator {
         'name',
         'fc',
         'cc',
-        'ts',
+        'lang',
         'tag',
         'mobx',
         'redux',
@@ -152,7 +153,7 @@ export class ComponentGenerator implements IComponentGenerator {
       jsx: style?.jsx,
     };
   }
-  private getExt(ts?: boolean): string {
-    return ts ? 'tsx' : 'jsx';
+  private getExt(lang?: TLang): string {
+    return lang === 'ts' ? 'tsx' : 'jsx';
   }
 }

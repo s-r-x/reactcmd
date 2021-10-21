@@ -9,17 +9,19 @@ import {
   TEST_DEFAULT_FILENAME,
 } from '../../../generators/component/constants';
 import { STYLE_DEFAULT_FILENAME } from '../../../builders/style/constants';
-import { TTestLib, TTestRunner } from '../../../typings/testing';
 import { AVAILABLE_STYLING_OPTIONS } from '../../../constants/styling';
+import { AVAILABLE_LANGS } from '../../../constants/lang';
+import {
+  AVAILABLE_TEST_LIBS,
+  AVAILABLE_TEST_RUNNERS,
+} from '../../../constants/testing';
 
 export const command = 'component <name> [dir]';
 export const aliases = ['c'];
 export const desc = 'Generate new component';
 
-const testLibChoices: TTestLib[] = ['rtl', 'enzyme'];
-const testRunnerChoices: TTestRunner[] = ['jest'];
-
-export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
+// @ts-ignore
+export const builder: CommandBuilder = yargs =>
   yargs
     .options({
       style: {
@@ -41,8 +43,6 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       test: { type: 'boolean', desc: 'Create tests?' },
       cc: { type: 'boolean', desc: 'Class component?' },
       fc: { type: 'boolean', desc: 'Functional component?' },
-      ts: { type: 'boolean', desc: 'Use typescript? Detected automatically' },
-      js: { type: 'boolean', desc: 'Use javascript?' },
       componentfile: {
         type: 'string',
         desc: 'Name of the component file',
@@ -72,12 +72,18 @@ export const builder: CommandBuilder<IOptions, IOptions> = yargs =>
       testlib: {
         type: 'string',
         desc: 'Testing library. Detected automatically',
-        choices: testLibChoices,
+        choices: AVAILABLE_TEST_LIBS,
       },
       testrunner: {
         type: 'string',
         desc: 'Test runner. Detected automatically',
-        choices: testRunnerChoices,
+        choices: AVAILABLE_TEST_RUNNERS,
+      },
+      lang: {
+        type: 'string',
+        desc: 'Language. Detected automatically',
+        choices: AVAILABLE_LANGS,
+        alias: 'l',
       },
       dry: {
         type: 'boolean',

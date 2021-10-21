@@ -1,65 +1,67 @@
 import { inject, injectable } from 'inversify';
-import { IEnvAnalyzer } from '../../analyzers/env/interface';
-import { IStylingAnalyzer } from '../../analyzers/styling/interface';
-import {
-  AVAILABLE_STYLING_OPTIONS,
-  CSS_MODULES_SUPPORTED_STYLINGS,
-} from '../../constants/styling';
 import { TOKENS } from '../../ioc/tokens';
-import { TLang } from '../../typings';
-import { TCliConfigFile } from '../../typings/config';
-import { TStylingStrategy } from '../../typings/styling';
-import { IUi } from '../../ui/interface';
-import { IConfigSetuper } from './interface';
+import { CFG_CMD_SETUPERS_SELECT_LIST } from './constants';
+import type { IEnvAnalyzer } from '../../analyzers/env/interface';
+import type { IConfigReader } from '../../readers/config/interface';
+import type { TLang } from '../../typings';
+import type { TCliConfigFile } from '../../typings/config';
+import type { IUi } from '../../ui/interface';
+import type {
+  ICfgSetuper,
+  TCfgCmdSetuperFactory,
+  TCfgCmdSetuperName,
+} from './interface';
 
 @injectable()
-export class ConfigSetuper implements IConfigSetuper {
+export class ConfigSetuper implements ICfgSetuper {
   constructor(
     @inject(TOKENS.ui) private ui: IUi,
-    @inject(TOKENS.styleAnlz) private styleAnalyzer: IStylingAnalyzer,
-    @inject(TOKENS.envAnalyzer) private envAnalyzer: IEnvAnalyzer
+    @inject(TOKENS.envAnalyzer) private envAnalyzer: IEnvAnalyzer,
+    @inject(TOKENS.cfgCmdSetuperFctry)
+    private cfgCmdSetuperFactory: TCfgCmdSetuperFactory,
+    @inject(TOKENS.cfgReader) private cfgReader: IConfigReader
   ) {}
   private config: TCliConfigFile = {};
   async setup(): Promise<void> {
-    await this.selectSrcDir();
-    await this.selectLanguage();
-    await this.selectStyling();
-  }
-  private async selectStyling() {
-    const initial = await this.styleAnalyzer.determineStylingStrategy();
-    const style = await this.ui.select<TStylingStrategy>({
-      message: 'Styling:',
-      options: AVAILABLE_STYLING_OPTIONS.map(value => ({
-        value,
-        name: value === 'sc' ? 'styled-components' : value,
-      })),
-      initial,
-    });
-    console.log(style);
-    if (CSS_MODULES_SUPPORTED_STYLINGS.includes(style)) {
-      const useCssModules = await this.ui.confirm({
-        message: 'Use CSS modules?',
-        initial: true,
-      });
-      console.log(useCssModules);
+    await this.readInitialConfig();
+    const setuper = this.cfgCmdSetuperFactory(
+      await this.selectCommandToSetup()
+    );
+    if (!this.config.lang) {
+      await this.selectLanguage();
     }
+    if (!this.config.srcDir) {
+      await this.selectSrcDir();
+    }
+    await setuper.setup(this.config);
+  }
+  private async readInitialConfig() {
+    const cfg = await this.cfgReader.readConfig();
+    if (cfg) {
+      this.config = cfg;
+    }
+  }
+  private async selectCommandToSetup(): Promise<TCfgCmdSetuperName> {
+    return await this.ui.select<TCfgCmdSetuperName>({
+      message: 'Select command to setup:',
+      options: CFG_CMD_SETUPERS_SELECT_LIST,
+    });
   }
   private async selectSrcDir() {
     const initial = await this.envAnalyzer.determineSourceDir();
-    const result = await this.ui.textInput({
+    this.config.srcDir = await this.ui.textInput({
+      trim: true,
       message:
-        'Source folder (absolute or relative to the project root folder)',
+        'Source folder (absolute or relative to the project root folder):',
       initial,
     });
-    console.log(result);
   }
   private async selectLanguage() {
     const initial = await this.envAnalyzer.determineLang();
-    const lang = await this.ui.select<TLang>({
+    this.config.lang = await this.ui.select<TLang>({
       message: 'Language:',
       options: [{ value: 'ts' }, { value: 'js' }],
       initial,
     });
-    console.log(lang);
   }
 }

@@ -21,4 +21,5 @@ export const TOKENS = {
   cfgSetuper: Symbol.for('cfgSetuper'),
   cfgCmdSetuper: Symbol.for('cfgCmdSetuper'),
   cfgCmdSetuperFctry: Symbol.for('cfgCmdSetuperFctry'),
+  cfgWriter: Symbol.for('cfgWriter'),
 };

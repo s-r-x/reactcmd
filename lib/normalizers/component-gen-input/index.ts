@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify';
 import path from 'path';
 import { TOKENS } from '../../ioc/tokens';
 import { pascalCase } from '../../utils/pascal-case';
-import type { IConfigReader } from '../../readers/config/interface';
 import type { IComponentGenInputNormalizer as INormalizer } from './interface';
 import type { IEnvAnalyzer } from '../../analyzers/env/interface';
 import type { IStylingAnalyzer } from '../../analyzers/styling/interface';
@@ -15,24 +14,15 @@ export class ComponentGenInputNormalizer implements INormalizer {
   constructor(
     @inject(TOKENS.envAnalyzer) private envAnalyzer: IEnvAnalyzer,
     @inject(TOKENS.styleAnlz) private styleAnalyzer: IStylingAnalyzer,
-    @inject(TOKENS.cfgReader) private cfgReader: IConfigReader,
     @inject(TOKENS.testAnlz) private testAnalyzer: ITestingAnalyzer
   ) {}
   async normalize(rawInput: IOptions): Promise<IOptions> {
-    const input = await this.mergeWithConfig(rawInput);
+    const input = await { ...rawInput };
     this.normalizeComponentName(input);
     this.normalizePaths(input);
     await this.normalizeStyle(input);
     await this.normalizeDir(input);
     await this.normalizeLang(input);
-    return input;
-  }
-  async mergeWithConfig(rawInput: IOptions): Promise<IOptions> {
-    const cfg = await this.cfgReader.readConfig();
-    const input: IOptions = {
-      ...cfg?.commands?.generateComponent,
-      ...rawInput,
-    };
     return input;
   }
   normalizePaths(input: IOptions) {

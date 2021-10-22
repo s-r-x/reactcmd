@@ -47,7 +47,7 @@ export class ComponentGenerator implements IComponentGenerator {
     const writtenFiles: string[] = opts.dry
       ? Object.keys(filesList)
       : await this.writeFiles(filesList, opts.y);
-    if (!_.isEmpty(writtenFiles)) {
+    if (!opts.quite && !_.isEmpty(writtenFiles)) {
       this.printFilesList(writtenFiles);
     }
   }

@@ -46,7 +46,7 @@ export class ComponentGenerator implements IComponentGenerator {
     const filesList = this.genWritableFilesList(opts);
     const writtenFiles: string[] = opts.dry
       ? Object.keys(filesList)
-      : await this.writeFiles(filesList);
+      : await this.writeFiles(filesList, opts.y);
     if (!_.isEmpty(writtenFiles)) {
       this.printFilesList(writtenFiles);
     }
@@ -59,13 +59,16 @@ export class ComponentGenerator implements IComponentGenerator {
       .join('\n');
     this.logger.log(payload);
   }
-  private async writeFiles(files: TStringDict): Promise<string[]> {
+  private async writeFiles(
+    files: TStringDict,
+    autoConfirm?: boolean
+  ): Promise<string[]> {
     const acc: string[] = [];
     for (const file in files) {
       const success = await this.fileWriter.write({
         path: file,
         content: files[file],
-        shouldPromptOnOverride: true,
+        shouldPromptOnOverride: !autoConfirm,
         shouldFormat: true,
       });
       if (success) {

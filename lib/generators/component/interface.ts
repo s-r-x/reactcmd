@@ -25,6 +25,7 @@ export interface IGenerateComponentOptions {
   stylefile?: string;
   dry?: boolean;
   lang?: TLang;
+  y?: boolean;
 }
 export interface IComponentGenerator {
   gen(args: IGenerateComponentOptions): Promise<void>;

@@ -88,6 +88,10 @@ export const builder: CommandBuilder = yargs =>
         type: 'boolean',
         desc: 'Do not write generated files to disk',
       },
+      y: {
+        type: 'boolean',
+        desc: 'Auto confirm all prompts',
+      },
     })
     .positional('name', {
       type: 'string',

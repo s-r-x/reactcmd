@@ -13,6 +13,8 @@ import type {
   TCfgCmdSetuperName,
 } from './interface';
 import util from 'util';
+import { IConfigWriter } from '../../writers/config/interface';
+import { ILogger } from '../../logger/interface';
 
 @injectable()
 export class ConfigSetuper implements ICfgSetuper {
@@ -21,7 +23,9 @@ export class ConfigSetuper implements ICfgSetuper {
     @inject(TOKENS.envAnalyzer) private envAnalyzer: IEnvAnalyzer,
     @inject(TOKENS.cfgCmdSetuperFctry)
     private cfgCmdSetuperFactory: TCfgCmdSetuperFactory,
-    @inject(TOKENS.cfgReader) private cfgReader: IConfigReader
+    @inject(TOKENS.cfgReader) private cfgReader: IConfigReader,
+    @inject(TOKENS.cfgWriter) private cfgWriter: IConfigWriter,
+    @inject(TOKENS.logger) private logger: ILogger
   ) {}
   private config: TCliConfigFile = { commands: {} };
   async setup(opts: ICfgSetuperOptions): Promise<void> {
@@ -33,9 +37,9 @@ export class ConfigSetuper implements ICfgSetuper {
     await this.maybeSelectSrcDir();
     await cmdSetuper.setup(this.config);
     if (opts.dry) {
-      console.log(util.inspect(this.config, { depth: 10 }));
+      this.logger.log(util.inspect(this.config, { depth: 5 }));
     } else {
-      console.log('TODO:: write config to disk');
+      await this.cfgWriter.write(this.config);
     }
   }
   private async readInitialConfig() {

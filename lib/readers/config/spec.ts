@@ -17,7 +17,7 @@ const stubReadConfig = (
   sinon.stub(reader, 'readConfig').returns(Promise.resolve(config));
 };
 
-describe.only('ConfigReader', () => {
+describe('ConfigReader', () => {
   describe('readConfig', () => {
     [`.${CONFIG_NAME}rc`, `.${CONFIG_NAME}rc.json`].forEach(baseName => {
       it(`should read the cli config from ${baseName}`, async () => {

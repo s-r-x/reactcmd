@@ -139,5 +139,4 @@ export const builder: CommandBuilder = async yargs => {
 export const handler = async (argv: Arguments<IOptions>): Promise<void> => {
   const generator = container.get<ComponentGenerator>(TOKENS.cmpGen);
   await generator.gen(argv);
-  process.exit(0);
 };

@@ -24,12 +24,10 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper<'generateComponen
   protected cmdName: TCliConfigCmdName = 'generateComponent';
   protected async setupCommand(cfg: TCfg) {
     this.setLang(cfg);
-    await this.selectStyling(cfg);
-    await this.selectTestLib(cfg);
     await this.selectComponentFilename(cfg);
-    await this.selectStyleFilename(cfg);
-    await this.selectSbFilename(cfg);
-    await this.selectTestFilename(cfg);
+    await this.selectStyling(cfg);
+    await this.selectTesing(cfg);
+    await this.selectStories(cfg);
   }
 
   private setLang(cfg: TCfg) {
@@ -38,70 +36,81 @@ export class GenerateComponentCmdSetuper extends CfgCmdSetuper<'generateComponen
     }
   }
   private async selectStyling(cfg: TCfg) {
-    const initial = await this.styleAnalyzer.determineStylingStrategy();
-    const style = await this.ui.select<TStylingStrategy>({
-      message: 'Styling:',
-      options: AVAILABLE_STYLING_OPTIONS.map(value => ({
-        value,
-        name: value === 'sc' ? 'styled-components' : value,
-      })),
-      initial,
+    const style = await this.ui.select<TStylingStrategy | 'none'>({
+      message: 'Default styling:',
+      options: [
+        { value: 'none' },
+        ...AVAILABLE_STYLING_OPTIONS.map(value => ({
+          value,
+          name: value === 'sc' ? 'styled-components' : value,
+        })),
+      ],
+      initial: await this.styleAnalyzer.determineStylingStrategy(),
     });
+    if (style === 'none') {
+      this.setField(cfg, 'ugly', true);
+      this.setField(cfg, 'style', undefined);
+      return;
+    }
     this.setField(cfg, 'style', style);
     if (CSS_MODULES_SUPPORTED_STYLINGS.includes(style)) {
       const useCssModules = await this.ui.confirm({
         message: 'Use CSS modules?',
-        initial: true,
       });
       this.setField(cfg, 'cssmodules', useCssModules);
     }
+    const filename = await this.ui.textInput({
+      message: 'Filename of the style(without file extension):',
+      initial: STYLE_DEFAULT_FILENAME,
+      trim: true,
+      returnInitialIfEmpty: true,
+    });
+    this.setField(cfg, 'stylefile', filename);
   }
-  private async selectTestLib(cfg: TCfg) {
-    const initial = await this.testAnalyzer.determineTestLib();
+  private async selectTesing(cfg: TCfg) {
+    const shouldCreatesTest = await this.ui.confirm({
+      message: 'Create test suite by default?',
+    });
+    this.setField(cfg, 'test', shouldCreatesTest);
+    if (!shouldCreatesTest) return;
     const testLib = await this.ui.select<TTestLib>({
       message: 'Testing library:',
-      initial,
+      initial: await this.testAnalyzer.determineTestLib(),
       options: AVAILABLE_TEST_LIBS.map(value => ({
         value,
         name: value === 'rtl' ? 'React Testing Library' : value,
       })),
     });
     this.setField(cfg, 'testlib', testLib);
+    const filename = await this.ui.textInput({
+      message: 'Default test filename(without file extension):',
+      initial: TEST_DEFAULT_FILENAME,
+      trim: true,
+      returnInitialIfEmpty: true,
+    });
+    this.setField(cfg, 'testfile', filename);
   }
   private async selectComponentFilename(cfg: TCfg) {
     const name = await this.ui.textInput({
-      message: 'Filename of the component(without file extension):',
+      message: 'Default component filename(without file extension):',
       initial: COMPONENT_DEFAULT_FILENAME,
       trim: true,
       returnInitialIfEmpty: true,
     });
     this.setField(cfg, 'componentfile', name);
   }
-  private async selectStyleFilename(cfg: TCfg) {
-    const name = await this.ui.textInput({
-      message: 'Filename of the style(without file extension):',
-      initial: STYLE_DEFAULT_FILENAME,
-      trim: true,
-      returnInitialIfEmpty: true,
+  private async selectStories(cfg: TCfg) {
+    const shouldCreateStories = await this.ui.confirm({
+      message: 'Create stories by default?',
     });
-    this.setField(cfg, 'stylefile', name);
-  }
-  private async selectTestFilename(cfg: TCfg) {
-    const name = await this.ui.textInput({
-      message: 'Filename of the test(without file extension):',
-      initial: TEST_DEFAULT_FILENAME,
-      trim: true,
-      returnInitialIfEmpty: true,
-    });
-    this.setField(cfg, 'testfile', name);
-  }
-  private async selectSbFilename(cfg: TCfg) {
-    const name = await this.ui.textInput({
-      message: 'Filename of the stories(without file extension):',
+    this.setField(cfg, 'sb', shouldCreateStories);
+    if (!shouldCreateStories) return;
+    const filename = await this.ui.textInput({
+      message: 'Default stories filename(without file extension):',
       initial: STORIES_DEFAULT_FILENAME,
       trim: true,
       returnInitialIfEmpty: true,
     });
-    this.setField(cfg, 'storiesfile', name);
+    this.setField(cfg, 'storiesfile', filename);
   }
 }

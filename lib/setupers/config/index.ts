@@ -56,21 +56,19 @@ export class ConfigSetuper implements ICfgSetuper {
   }
   private async maybeSelectSrcDir() {
     if (this.config.srcDir) return;
-    const initial = await this.envAnalyzer.determineSourceDir();
     this.config.srcDir = await this.ui.textInput({
       trim: true,
       message:
-        'Source folder (absolute or relative to the project root folder):',
-      initial,
+        'Project source folder (absolute or relative to the project root folder):',
+      initial: await this.envAnalyzer.determineSourceDir(),
     });
   }
   private async maybeSelectLanguage() {
     if (this.config.lang) return;
-    const initial = await this.envAnalyzer.determineLang();
     this.config.lang = await this.ui.select<TLang>({
       message: 'Language:',
       options: [{ value: 'ts' }, { value: 'js' }],
-      initial,
+      initial: await this.envAnalyzer.determineLang(),
     });
   }
 }

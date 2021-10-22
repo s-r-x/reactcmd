@@ -1,14 +1,14 @@
 import { Arguments, CommandBuilder } from 'yargs';
-import container from '../../../ioc/container';
-import { TOKENS } from '../../../ioc/tokens';
+import container from '../../ioc/container';
+import { TOKENS } from '../../ioc/tokens';
 import type {
   ICfgSetuper,
   ICfgSetuperOptions as IOpts,
-} from '../../../setupers/config/interface';
+} from '../../setupers/config/interface';
 
-export const command = 'config';
+export const command = 'setup config';
 export const aliases = ['c'];
-export const desc = 'Setup rcmd config';
+export const desc = 'Setup config';
 
 export const builder: CommandBuilder<IOpts, IOpts> = yargs =>
   yargs.options({

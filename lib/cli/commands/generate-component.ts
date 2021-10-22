@@ -1,23 +1,23 @@
 import type { Arguments, CommandBuilder } from 'yargs';
-import type { ComponentGenerator } from '../../../generators/component';
-import container from '../../../ioc/container';
-import { TOKENS } from '../../../ioc/tokens';
-import type { IGenerateComponentOptions as IOptions } from '../../../generators/component/interface';
+import type { ComponentGenerator } from '../../generators/component';
+import container from '../../ioc/container';
+import { TOKENS } from '../../ioc/tokens';
+import type { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
 import {
   COMPONENT_DEFAULT_FILENAME,
   STORIES_DEFAULT_FILENAME,
   TEST_DEFAULT_FILENAME,
-} from '../../../generators/component/constants';
-import { STYLE_DEFAULT_FILENAME } from '../../../builders/style/constants';
-import { AVAILABLE_STYLING_OPTIONS } from '../../../constants/styling';
-import { AVAILABLE_LANGS } from '../../../constants/lang';
+} from '../../generators/component/constants';
+import { STYLE_DEFAULT_FILENAME } from '../../builders/style/constants';
+import { AVAILABLE_STYLING_OPTIONS } from '../../constants/styling';
+import { AVAILABLE_LANGS } from '../../constants/lang';
 import {
   AVAILABLE_TEST_LIBS,
   AVAILABLE_TEST_RUNNERS,
-} from '../../../constants/testing';
-import type { IConfigReader } from '../../../readers/config/interface';
+} from '../../constants/testing';
+import type { IConfigReader } from '../../readers/config/interface';
 
-export const command = 'component <name> [dir]';
+export const command = 'generate component <name> [dir]';
 export const aliases = ['c'];
 export const desc = 'Generate new component';
 

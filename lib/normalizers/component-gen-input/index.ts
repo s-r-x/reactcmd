@@ -7,7 +7,7 @@ import type { IComponentGenInputNormalizer as INormalizer } from './interface';
 import type { IEnvAnalyzer } from '../../analyzers/env/interface';
 import type { IStylingAnalyzer } from '../../analyzers/styling/interface';
 import type { IGenerateComponentOptions as IOptions } from '../../generators/component/interface';
-import { ITestingAnalyzer } from '../../analyzers/testing/interface';
+import type { ITestingAnalyzer } from '../../analyzers/testing/interface';
 import { removeSpaces } from '../../utils/remove-spaces';
 
 @injectable()
@@ -21,6 +21,7 @@ export class ComponentGenInputNormalizer implements INormalizer {
   async normalize(rawInput: IOptions): Promise<IOptions> {
     const input = await this.mergeWithConfig(rawInput);
     this.normalizeComponentName(input);
+    this.normalizePaths(input);
     await this.normalizeStyle(input);
     await this.normalizeDir(input);
     await this.normalizeLang(input);
@@ -33,6 +34,12 @@ export class ComponentGenInputNormalizer implements INormalizer {
       ...rawInput,
     };
     return input;
+  }
+  normalizePaths(input: IOptions) {
+    input.testfile = input.testfile!.trim();
+    input.stylefile = input.stylefile!.trim();
+    input.storiesfile = input.storiesfile!.trim();
+    input.componentfile = input.componentfile!.trim();
   }
   async normalizeDir(input: IOptions) {
     const srcDir = await this.envAnalyzer.determineSourceDir();

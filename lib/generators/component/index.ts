@@ -23,7 +23,7 @@ import type {
 } from './interface';
 import type { TTestLib, TTestRunner } from '../../typings/testing';
 import type { ILogger } from '../../logger/interface';
-import { TLang } from '../../typings';
+import type { TLang } from '../../typings';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {

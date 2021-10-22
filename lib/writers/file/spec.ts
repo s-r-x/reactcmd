@@ -37,5 +37,23 @@ describe('FileWriter', () => {
       });
       expect(fsWriteStub).to.have.been.calledWith(spec.path, spec.content);
     });
+    it('should write json', async () => {
+      const spec: ISpec = {
+        path: 'path.json',
+        content: { hi: 'there' },
+      };
+      const fsWriteStub = sinon.stub().returns(Promise.resolve());
+      const writer = new Writer(
+        createFsMock({
+          isExists: () => Promise.resolve(true),
+          writeJSON: fsWriteStub,
+        }),
+        createUiMock(),
+        createCodeFormatterMock()
+      );
+      await writer.write(spec);
+
+      expect(fsWriteStub).to.have.been.calledWith(spec.path, spec.content);
+    });
   });
 });

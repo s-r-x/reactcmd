@@ -24,6 +24,10 @@ export class FileWriter implements IFileWriter {
       });
       if (!isOverrideConfirmed) return false;
     }
+    if (typeof spec.content === 'object') {
+      await this.fs.writeJSON(spec.path, spec.content);
+      return true;
+    }
     const finalContent = spec.shouldFormat
       ? await this.codeFormatter.format(spec.content, {
           ext: path.extname(spec.path),

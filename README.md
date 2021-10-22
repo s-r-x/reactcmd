@@ -5,7 +5,7 @@ Missing react cli.
 ## Install
 
 ```sh
-npm i -g reactcmd
+npm i -g @strax77/reactcmd
 ```
 
 ## Commands

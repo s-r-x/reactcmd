@@ -1,6 +1,6 @@
 {
-  "name": "reactcmd",
-  "version": "1.0.0",
+  "name": "@strax77/reactcmd",
+  "version": "0.1.0",
   "description": "Missing react cli",
   "bin": {
     "reactcmd": "./build/cli/index.js"

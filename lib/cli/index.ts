@@ -7,6 +7,7 @@ import { enablePrettyErrors } from '../utils/enable-pretty-errors';
 enablePrettyErrors();
 yargs(hideBin(process.argv))
   .scriptName('rcmd')
+  .demandCommand()
   .commandDir('commands')
   .strict()
   .alias({ h: 'help' }).argv;

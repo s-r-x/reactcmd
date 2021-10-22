@@ -17,7 +17,7 @@ export class ComponentGenInputNormalizer implements INormalizer {
     @inject(TOKENS.testAnlz) private testAnalyzer: ITestingAnalyzer
   ) {}
   async normalize(rawInput: IOptions): Promise<IOptions> {
-    const input = await { ...rawInput };
+    const input = { ...rawInput };
     this.normalizeComponentName(input);
     this.normalizePaths(input);
     await this.normalizeStyle(input);

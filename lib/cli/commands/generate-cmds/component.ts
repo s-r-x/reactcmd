@@ -44,14 +44,24 @@ export const builder: CommandBuilder = async yargs => {
         type: 'string',
         desc: 'CSS class',
         alias: 'cn',
+        default: cfg?.classname,
       },
-      ugly: { type: 'boolean', desc: 'Disable styling?' },
-      tag: { type: 'string', desc: 'JSX tag', default: 'div', alias: 't' },
-      pure: { type: 'boolean', desc: 'Memoize the component?' },
-      sb: { type: 'boolean', desc: 'Create stories?' },
-      test: { type: 'boolean', desc: 'Create tests?' },
-      cc: { type: 'boolean', desc: 'Class component?' },
-      fc: { type: 'boolean', desc: 'Functional component?' },
+      ugly: { type: 'boolean', desc: 'Disable styling?', default: cfg?.ugly },
+      tag: {
+        type: 'string',
+        desc: 'JSX tag',
+        default: cfg?.tag ?? 'div',
+        alias: 't',
+      },
+      pure: {
+        type: 'boolean',
+        desc: 'Memoize the component?',
+        default: cfg?.pure,
+      },
+      sb: { type: 'boolean', desc: 'Create stories?', default: cfg?.sb },
+      test: { type: 'boolean', desc: 'Create tests?', default: cfg?.test },
+      cc: { type: 'boolean', desc: 'Class component?', default: cfg?.cc },
+      fc: { type: 'boolean', desc: 'Functional component?', default: cfg?.fc },
       componentfile: {
         type: 'string',
         desc: 'Name of the component file',
@@ -76,12 +86,20 @@ export const builder: CommandBuilder = async yargs => {
         default: cfg?.storiesfile ?? STORIES_DEFAULT_FILENAME,
         alias: 'sbfile',
       },
-      mobx: { type: 'boolean', desc: 'Wrap in mobx observer?' },
-      redux: { type: 'boolean', desc: 'Wrap in redux connect?' },
+      mobx: {
+        type: 'boolean',
+        desc: 'Wrap in mobx observer?',
+        default: cfg?.mobx,
+      },
+      redux: {
+        type: 'boolean',
+        desc: 'Wrap in redux connect?',
+        default: cfg?.redux,
+      },
       testlib: {
         type: 'string',
         desc: 'Testing library. Detected automatically',
-        default: cfg?.testlib ?? undefined,
+        default: cfg?.testlib,
         choices: AVAILABLE_TEST_LIBS,
       },
       testrunner: {
@@ -99,10 +117,12 @@ export const builder: CommandBuilder = async yargs => {
       dry: {
         type: 'boolean',
         desc: 'Do not write generated files to disk',
+        default: cfg?.dry,
       },
       y: {
         type: 'boolean',
         desc: 'Auto confirm all prompts',
+        default: cfg?.y,
       },
     })
     .positional('name', {

@@ -15,21 +15,31 @@ import {
   AVAILABLE_TEST_LIBS,
   AVAILABLE_TEST_RUNNERS,
 } from '../../../constants/testing';
+import type { IConfigReader } from '../../../readers/config/interface';
 
 export const command = 'component <name> [dir]';
 export const aliases = ['c'];
 export const desc = 'Generate new component';
 
-export const builder: CommandBuilder = yargs =>
-  yargs
+export const builder: CommandBuilder = async yargs => {
+  const cfgReader = container.get<IConfigReader>(TOKENS.cfgReader);
+  const baseCfg = await cfgReader.readConfig();
+  const cfg = baseCfg?.commands.generateComponent;
+  return yargs
     .options({
       style: {
         type: 'string',
         alias: 's',
         desc: 'Styling. Detected automatically',
+        default: cfg?.style,
         choices: AVAILABLE_STYLING_OPTIONS,
       },
-      cssmodules: { type: 'boolean', desc: 'Use CSS modules?', alias: 'cssm' },
+      cssmodules: {
+        type: 'boolean',
+        desc: 'Use CSS modules?',
+        alias: 'cssm',
+        default: cfg?.cssmodules,
+      },
       classname: {
         type: 'string',
         desc: 'CSS class',
@@ -45,25 +55,25 @@ export const builder: CommandBuilder = yargs =>
       componentfile: {
         type: 'string',
         desc: 'Name of the component file',
-        default: COMPONENT_DEFAULT_FILENAME,
+        default: cfg?.componentfile ?? COMPONENT_DEFAULT_FILENAME,
         alias: 'cfile',
       },
       stylefile: {
         type: 'string',
         desc: 'Name of the style file',
-        default: STYLE_DEFAULT_FILENAME,
+        default: cfg?.stylefile ?? STYLE_DEFAULT_FILENAME,
         alias: 'sfile',
       },
       testfile: {
         type: 'string',
         desc: 'Name of the test file',
-        default: TEST_DEFAULT_FILENAME,
+        default: cfg?.testfile ?? TEST_DEFAULT_FILENAME,
         alias: 'tfile',
       },
       storiesfile: {
         type: 'string',
         desc: 'Name of the stories file',
-        default: STORIES_DEFAULT_FILENAME,
+        default: cfg?.storiesfile ?? STORIES_DEFAULT_FILENAME,
         alias: 'sbfile',
       },
       mobx: { type: 'boolean', desc: 'Wrap in mobx observer?' },
@@ -71,6 +81,7 @@ export const builder: CommandBuilder = yargs =>
       testlib: {
         type: 'string',
         desc: 'Testing library. Detected automatically',
+        default: cfg?.testlib ?? undefined,
         choices: AVAILABLE_TEST_LIBS,
       },
       testrunner: {
@@ -82,6 +93,7 @@ export const builder: CommandBuilder = yargs =>
         type: 'string',
         desc: 'Language. Detected automatically',
         choices: AVAILABLE_LANGS,
+        default: cfg?.lang ?? baseCfg?.lang ?? undefined,
         alias: 'l',
       },
       dry: {
@@ -100,9 +112,9 @@ export const builder: CommandBuilder = yargs =>
     })
     .positional('dir', {
       type: 'string',
-      demandOption: true,
       desc: 'Directory of the component',
     });
+};
 
 export const handler = async (argv: Arguments<IOptions>): Promise<void> => {
   const generator = container.get<ComponentGenerator>(TOKENS.cmpGen);

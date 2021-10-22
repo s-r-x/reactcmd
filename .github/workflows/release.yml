@@ -1,0 +1,39 @@
+name: Release
+on:
+  push:
+    branches: ['master']
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/bootstrap
+      - run: npm run lint.strict
+  preBuild:
+    name: preBuild
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/bootstrap
+      - run: npm run build
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/bootstrap
+      - run: npm run test
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [lint, test, preBuild]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/bootstrap
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run semantic-release

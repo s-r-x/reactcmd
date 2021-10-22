@@ -1,0 +1,21 @@
+name: "Bootstrap"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version: "16.4"
+    - uses: actions/cache@v2
+      id: npm_cache
+      with:
+        path: ./node_modules
+        key: deps-${{ hashFiles('package-lock.json') }}
+    - name: Install dependencies
+      run: |
+        if echo ${{ steps.npm_cache.outputs.cache-hit }} | grep -c "true"
+        then
+          echo "Cache hit - skipping dependency installation"
+        else
+          npm ci
+        fi
+      shell: bash

@@ -7,32 +7,6 @@ Missing react cli.
 ```sh
 npm i -g reactcmd
 ```
-## Config
-reactcmd uses [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) to search for the configuration file. Supported formats:
-- `.reactcmdrc` or `.reactcmdrc.json` file in the project root folder
-- `reactcmd` key in package.json
-
-#### Example config:
-
-```json
-{
-	"srcDir": "./src",
-	"lang": "ts",
-	"commands": {
-		// set default value for any "reactcmd generate component" flag 
-		"generateComponent": {
-			"style": "less",
-			"pure": true,
-		}
-		// ...
-	}
-}
-```
-
-#### Setup config using short Q&A:
-```sh
-reactcmd setup config
-```
 
 ## Commands
 
@@ -80,4 +54,29 @@ Options:
   -q, --quite                   Suppress output                        [boolean]
   -h, --help                    Show help                              [boolean]
 
+```
+
+## Config
+reactcmd uses [cosmiconfig](https://github.com/davidtheclark/cosmiconfig) to search for the configuration file. Supported formats:
+- `.reactcmdrc` or `.reactcmdrc.json` file in the project root folder
+- `reactcmd` key in package.json
+
+#### Example config:
+
+```json
+{
+  "srcDir": "./src",
+  "lang": "ts",
+  "commands": {
+    "generateComponent": {
+      "style": "less",
+      "pure": true,
+    }
+  }
+}
+```
+
+#### Setup config using short Q&A:
+```sh
+reactcmd setup config
 ```

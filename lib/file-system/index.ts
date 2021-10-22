@@ -39,6 +39,8 @@ export class FileSystem implements IFileSystem {
     await fs.outputFile(path, content);
   }
   async writeJSON(path: string, json: TAnyDict): Promise<void> {
-    await fs.outputJSON(path, json);
+    await fs.outputJSON(path, json, {
+      spaces: 2,
+    });
   }
 }

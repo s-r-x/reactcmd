@@ -20,9 +20,12 @@ export class ComponentGenInputNormalizer implements INormalizer {
     const input = { ...rawInput };
     this.normalizeComponentName(input);
     this.normalizePaths(input);
-    await this.normalizeStyle(input);
-    await this.normalizeDir(input);
-    await this.normalizeLang(input);
+    await Promise.all([
+      this.normalizeStyle(input),
+      this.normalizeDir(input),
+      this.normalizeLang(input),
+      this.normalizeTesting(input),
+    ]);
     return input;
   }
   normalizePaths(input: IOptions) {

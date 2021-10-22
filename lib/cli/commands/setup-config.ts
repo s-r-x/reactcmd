@@ -7,7 +7,6 @@ import type {
 } from '../../setupers/config/interface';
 
 export const command = 'setup config';
-export const aliases = ['sc'];
 export const desc = 'Setup config';
 
 export const builder: CommandBuilder<IOpts, IOpts> = yargs =>

@@ -51,7 +51,7 @@ describe('E2E:: generate component', () => {
     await yargs
       .command(command, desc, builder as any, handler)
       .parseAsync(
-        `generate component ${componentName} --tag=${tag} --pure --redux --cfile=${componentfile} --sbfile=${storiesfile} --cssm --lang=ts --sb --tfile=${testfile}`
+        `generate component ${componentName} --q --tag=${tag} --pure --redux --cfile=${componentfile} --sbfile=${storiesfile} --cssm --lang=ts --sb --tfile=${testfile}`
       );
     process.chdir(path.join(cwd, srcDir, componentName));
     const filesList = await fs.readdir('.');

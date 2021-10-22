@@ -124,6 +124,11 @@ export const builder: CommandBuilder = async yargs => {
         desc: 'Auto confirm all prompts',
         default: cfg?.y,
       },
+      quite: {
+        type: 'boolean',
+        desc: 'Suppress output',
+        alias: 'q',
+      },
     })
     .positional('name', {
       type: 'string',

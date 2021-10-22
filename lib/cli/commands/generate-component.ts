@@ -18,7 +18,7 @@ import {
 import type { IConfigReader } from '../../readers/config/interface';
 
 export const command = 'generate component <name> [dir]';
-export const aliases = ['c'];
+export const aliases = ['gc'];
 export const desc = 'Generate new component';
 
 export const builder: CommandBuilder = async yargs => {

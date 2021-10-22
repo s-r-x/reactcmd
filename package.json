@@ -16,9 +16,6 @@
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' TS_NODE_TRANSPILE_ONLY=true NODE_ENV=test mocha -r ts-node/register -r tests/mocha-hooks.ts \"lib/**/*spec.ts\" \"tests/**/*spec.ts\"",
     "semantic-release": "semantic-release"
   },
-  "files": [
-    "build"
-  ],
   "author": "Ilya Strus <strax1990@gmail.com>",
   "keywords": [
     "react",

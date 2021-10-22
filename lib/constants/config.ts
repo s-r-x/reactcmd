@@ -1,4 +1,4 @@
-export const CONFIG_NAME = 'rcmd';
+export const CONFIG_NAME = 'reactcmd';
 export const SUPPORTED_CONFIG_SOURCES = [
   `.${CONFIG_NAME}rc`,
   'package.json',

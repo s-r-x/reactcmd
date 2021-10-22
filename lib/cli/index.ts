@@ -6,7 +6,7 @@ import { enablePrettyErrors } from '../utils/enable-pretty-errors';
 
 enablePrettyErrors();
 yargs(hideBin(process.argv))
-  .scriptName('rcmd')
+  .scriptName('reactcmd')
   .demandCommand()
   .commandDir('commands')
   .strict()

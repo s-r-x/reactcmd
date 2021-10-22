@@ -13,6 +13,6 @@ test:
 link:
 	npm link
 unlink:
-	npm unlink rcmd
+	npm unlink reactcmd
 bin-exec:
 	chmod +x ./build/cli/index.js

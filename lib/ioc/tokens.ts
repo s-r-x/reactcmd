@@ -23,4 +23,5 @@ export const TOKENS = {
   cfgCmdSetuperFctry: Symbol.for('cfgCmdSetuperFctry'),
   cfgWriter: Symbol.for('cfgWriter'),
   pkgJsonWriter: Symbol.for('pkgJsonWriter'),
+  nextPageGen: Symbol.for('nextPageGen'),
 };

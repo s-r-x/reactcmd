@@ -1,8 +1,10 @@
 import type { Arguments, CommandBuilder } from 'yargs';
-import type { ComponentGenerator } from '../../../generators/component';
 import container from '../../../ioc/container';
 import { TOKENS } from '../../../ioc/tokens';
-import type { IGenerateComponentOptions as IOptions } from '../../../generators/component/interface';
+import type {
+  IComponentGenerator,
+  IGenerateComponentOptions as IOptions,
+} from '../../../generators/component/interface';
 import {
   COMPONENT_DEFAULT_FILENAME,
   STORIES_DEFAULT_FILENAME,
@@ -142,6 +144,6 @@ export const builder: CommandBuilder = async yargs => {
 };
 
 export const handler = async (argv: Arguments<IOptions>): Promise<void> => {
-  const generator = container.get<ComponentGenerator>(TOKENS.cmpGen);
+  const generator = container.get<IComponentGenerator>(TOKENS.cmpGen);
   await generator.gen(argv);
 };

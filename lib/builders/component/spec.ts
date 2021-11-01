@@ -197,6 +197,21 @@ describe('ComponentBuilder', () => {
     });
   });
   describe('buildVariablesDeclaration', () => {
+    it(`should include include extra declarations`, () => {
+      const src = Builder.new()
+        .withExtraVarDeclarations([
+          j.variableDeclaration('let', [
+            j.variableDeclarator(j.identifier('myvar'), j.stringLiteral('hi')),
+          ]),
+        ])
+        .buildVariablesDeclaration();
+      expectCodeToEq(
+        src,
+        `
+        let myvar = "hi";
+      `
+      );
+    });
     it(`should include redux ${REDUX_CONNECTOR_NAME} when using with redux`, () => {
       const src = Builder.new().withRedux().buildVariablesDeclaration();
       expectCodeToEq(

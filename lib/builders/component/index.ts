@@ -24,6 +24,7 @@ import type { Maybe, TStringDict } from '../../typings/utils';
 export class ComponentBuilder {
   private imports: j.ImportDeclaration[] = DEFAULT_IMPORTS;
   private hocs: string[] = [];
+  private varDeclarations: (j.VariableDeclaration | j.ExportDeclaration)[] = [];
   private jsx: Maybe<j.JSXElement> = null;
   private componentName = DEFAULT_COMPONENT_NAME;
   private isClass = IS_CLASS_BY_DEFAULT;
@@ -90,6 +91,12 @@ export class ComponentBuilder {
     this.componentName = name;
     return this;
   }
+  withExtraVarDeclarations(
+    decl: (j.VariableDeclaration | j.ExportDeclaration)[]
+  ) {
+    this.varDeclarations = decl;
+    return this;
+  }
   asClassComponent() {
     this.isClass = true;
     return this;
@@ -121,19 +128,23 @@ export class ComponentBuilder {
     return stringifyAst(this.finalImports);
   }
   buildVariablesDeclaration(): string {
-    if (!this.useRedux) return '';
-    const connectorDeclaration = j.variableDeclaration('const', [
-      j.variableDeclarator(
-        j.identifier(REDUX_CONNECTOR_NAME),
-        j.callExpression(j.identifier(REDUX_HOC_NAME), [
-          j.arrowFunctionExpression(
-            [j.identifier('state')],
-            j.identifier('state')
-          ),
-        ])
-      ),
-    ]);
-    return stringifyAst(connectorDeclaration);
+    return stringifyAst(
+      [
+        ...this.varDeclarations,
+        this.useRedux &&
+          (j.variableDeclaration('const', [
+            j.variableDeclarator(
+              j.identifier(REDUX_CONNECTOR_NAME),
+              j.callExpression(j.identifier(REDUX_HOC_NAME), [
+                j.arrowFunctionExpression(
+                  [j.identifier('state')],
+                  j.identifier('state')
+                ),
+              ])
+            ),
+          ]) as any),
+      ].filter(Boolean)
+    );
   }
   buildPropsDeclaration(): string {
     const props = j.tsInterfaceDeclaration(

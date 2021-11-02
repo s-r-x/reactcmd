@@ -7,12 +7,12 @@ import {
 } from '../../lib/cli/commands/generate-cmds/component';
 import fs from 'fs-extra';
 import path from 'path';
-
 import { createTempDir } from '../fixtures/create-temp-dir';
-import { TPkg } from '../../lib/typings/pkg';
-import { TCliConfigFile } from '../../lib/typings/config';
+import type { TPkg } from '../../lib/typings/pkg';
+import type { TCliConfigFile } from '../../lib/typings/config';
 import { DEFAULT_CONFIG_FILE } from '../../lib/constants/config';
 import { expect } from 'chai';
+
 describe('E2E:: generate component', () => {
   it('should generate new component', async () => {
     const [cwd] = await createTempDir(true);
@@ -46,8 +46,10 @@ describe('E2E:: generate component', () => {
         enzyme: '1',
       },
     };
-    await fs.outputJSON(path.join(cwd, 'package.json'), pkg);
-    await fs.outputJSON(path.join(cwd, DEFAULT_CONFIG_FILE), cfg);
+    await Promise.all([
+      fs.outputJSON(path.join(cwd, 'package.json'), pkg),
+      fs.outputJSON(path.join(cwd, DEFAULT_CONFIG_FILE), cfg),
+    ]);
     await yargs
       .command(command, desc, builder as any, handler)
       .parseAsync(

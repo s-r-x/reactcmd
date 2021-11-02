@@ -29,7 +29,7 @@ export class ComponentBuilder {
   private componentName = DEFAULT_COMPONENT_NAME;
   private isClass = IS_CLASS_BY_DEFAULT;
   private isPure = IS_PURE_BY_DEFAULT;
-  private useTs = ENABLE_TS_BY_DEFAULT;
+  protected useTs = ENABLE_TS_BY_DEFAULT;
   private props = DEFAULT_PROPS;
   private useMobx = USE_MOBX_BY_DEFAULT;
   private useRedux = USE_REDUX_BY_DEFAULT;

@@ -1,8 +1,5 @@
 import { injectable } from 'inversify';
-import type {
-  TCliConfigCmdName,
-  TCliConfigFile as TCfg,
-} from '../../../typings/config';
+import type { TCliConfigFile as TCfg } from '../../../typings/config';
 import { CfgCmdSetuper } from './abstract';
 import {
   COMPONENT_DEFAULT_FILENAME,
@@ -21,7 +18,7 @@ import _ from 'lodash';
 
 @injectable()
 export class GenerateComponentCmdSetuper extends CfgCmdSetuper<'generateComponent'> {
-  protected cmdName: TCliConfigCmdName = 'generateComponent';
+  protected cmdName: 'generateComponent' = 'generateComponent';
   protected async setupCommand(cfg: TCfg) {
     this.setLang(cfg);
     await this.selectComponentFilename(cfg);

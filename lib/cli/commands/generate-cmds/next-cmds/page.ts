@@ -6,9 +6,9 @@ import type {
 } from '../../../../generators/next-page/interface';
 import container from '../../../../ioc/container';
 import { TOKENS } from '../../../../ioc/tokens';
-import { IConfigReader } from '../../../../readers/config/interface';
+import type { IConfigReader } from '../../../../readers/config/interface';
 
-export const command = 'page <name> [dir]';
+export const command = 'page <path> [dir]';
 export const aliases = ['p'];
 export const desc = 'Generate new next.js page';
 
@@ -40,6 +40,29 @@ export const builder: CommandBuilder = async yargs => {
         default: cfg?.lang ?? baseCfg?.lang ?? undefined,
         alias: 'l',
       },
+      tag: {
+        type: 'string',
+        desc: 'JSX tag',
+        default: cfg?.tag ?? 'div',
+        alias: 't',
+      },
+      pure: {
+        type: 'boolean',
+        desc: 'Memoize the component?',
+        default: cfg?.pure,
+      },
+      cc: { type: 'boolean', desc: 'Class component?', default: cfg?.cc },
+      fc: { type: 'boolean', desc: 'Functional component?', default: cfg?.fc },
+      mobx: {
+        type: 'boolean',
+        desc: 'Wrap in mobx observer?',
+        default: cfg?.mobx,
+      },
+      redux: {
+        type: 'boolean',
+        desc: 'Wrap in redux connect?',
+        default: cfg?.redux,
+      },
       dry: {
         type: 'boolean',
         desc: 'Do not write generated files to disk',
@@ -56,14 +79,15 @@ export const builder: CommandBuilder = async yargs => {
         alias: 'q',
       },
     })
-    .positional('name', {
+    .positional('path', {
       type: 'string',
       demandOption: true,
-      desc: 'Name of the component',
+      desc: 'Path to the page relative to next.js pages folder. Examples: article/[slug], index',
     })
     .positional('dir', {
       type: 'string',
-      desc: 'Directory of the component',
+      desc: 'Next.js pages folder',
+      default: 'pages',
     });
 };
 

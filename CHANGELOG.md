@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/s-r-x/reactcmd/compare/v1.1.0...v1.2.0) (2021-11-02)
+
+
+### Features
+
+* generate next page config setuper ([879c630](https://github.com/s-r-x/reactcmd/commit/879c630cdfa81b4b5b22bb1c0c394ac94fed6336))
+* next page generator ([3bcf16a](https://github.com/s-r-x/reactcmd/commit/3bcf16a3072f69ebd53b71a1e1918118e31005cd))
+
 # [1.1.0](https://github.com/s-r-x/reactcmd/compare/v1.0.0...v1.1.0) (2021-10-22)
 
 

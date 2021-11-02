@@ -1,5 +1,6 @@
 import type { Arguments, CommandBuilder } from 'yargs';
 import { AVAILABLE_LANGS } from '../../../../constants/lang';
+import { NEXT_DEFAULT_PAGES_FOLDER } from '../../../../generators/next-page/constants';
 import type {
   IGenerateNextPageOptions,
   INextPageGenerator,
@@ -86,8 +87,8 @@ export const builder: CommandBuilder = async yargs => {
     })
     .positional('dir', {
       type: 'string',
-      desc: 'Next.js pages folder',
-      default: 'pages',
+      desc: 'Next.js pages folder(relative to the project source folder)',
+      default: cfg?.dir ?? NEXT_DEFAULT_PAGES_FOLDER,
     });
 };
 

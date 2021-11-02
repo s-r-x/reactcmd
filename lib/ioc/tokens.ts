@@ -10,8 +10,8 @@ export const TOKENS = {
   styBldrFctry: Symbol.for('styleBuilderFact'),
   cmpGen: Symbol.for('cmpGen'),
   componentTestsBuilder: Symbol.for('componentTestsBuilder'),
-  componentBuilderFacade: Symbol.for('componentBuilderFacade'),
   cmpGenInputNrmlz: Symbol.for('cmpGenInputNrmlz'),
+  nextPageGenInputNrmlz: Symbol.for('nextPageGenInputNrmlz'),
   fileWriter: Symbol.for('fileWriter'),
   ui: Symbol.for('ui'),
   pkgJsonReader: Symbol.for('pkgJsonReader'),
@@ -23,4 +23,5 @@ export const TOKENS = {
   cfgCmdSetuperFctry: Symbol.for('cfgCmdSetuperFctry'),
   cfgWriter: Symbol.for('cfgWriter'),
   pkgJsonWriter: Symbol.for('pkgJsonWriter'),
+  nextPageGen: Symbol.for('nextPageGen'),
 };

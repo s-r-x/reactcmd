@@ -7,10 +7,6 @@ import type { IComponentTestsBuilder } from '../../builders/component-tests/inte
 import type { IFileWriter } from '../../writers/file/interface';
 import type { IComponentStoriesBuilder } from '../../builders/component-stories/interface';
 import type {
-  IComponentBuilderFacade,
-  IComponentGeneratorSpec,
-} from '../../builders/component/interface';
-import type {
   IStyleBuildArtifacts,
   TStyleBuilderFactory,
 } from '../../builders/style/interface';
@@ -23,7 +19,8 @@ import type {
 } from './interface';
 import type { TTestLib, TTestRunner } from '../../typings/testing';
 import type { ILogger } from '../../logger/interface';
-import type { TLang } from '../../typings';
+import { langToJsxFileExt } from '../../utils/lang-to-file-ext';
+import { ComponentBuilder } from '../../builders/component';
 
 @injectable()
 export class ComponentGenerator implements IComponentGenerator {
@@ -32,14 +29,13 @@ export class ComponentGenerator implements IComponentGenerator {
     private styleBuilderFactory: TStyleBuilderFactory,
     @inject(TOKENS.cmpGenInputNrmlz)
     private inputNormalizer: IComponentGenInputNormalizer,
-    @inject(TOKENS.componentBuilderFacade)
-    private componentBuilder: IComponentBuilderFacade,
     @inject(TOKENS.fileWriter) private fileWriter: IFileWriter,
     @inject(TOKENS.componentTestsBuilder)
     private testsBuilder: IComponentTestsBuilder,
     @inject(TOKENS.componentStoriesBuilder)
     private storiesBuilder: IComponentStoriesBuilder,
-    @inject(TOKENS.logger) private logger: ILogger
+    @inject(TOKENS.logger) private logger: ILogger,
+    private componentBuilder: ComponentBuilder
   ) {}
   async gen(rawOpts: IGenerateComponentOptions): Promise<void> {
     const opts = await this.inputNormalizer.normalize(rawOpts);
@@ -79,21 +75,19 @@ export class ComponentGenerator implements IComponentGenerator {
   }
   private genWritableFilesList(opts: IGenerateComponentOptions): TStringDict {
     const style = this.genStyleArtifacts(opts);
-    const component = this.componentBuilder.buildUsingComponentGeneratorSpec(
-      this.genComponentBuilderSpec(opts, style)
-    );
+    const component = this.buildComponent(opts, style);
     const tests = this.genTests(opts);
     const stories = this.genStories(opts);
 
     const rootDir = path.join(opts.dir!, opts.name);
-    const ext = this.getExt(opts.lang);
+    const ext = langToJsxFileExt(opts.lang);
     return {
-      [path.join(rootDir, `${opts.componentfile!}.${ext}`)]: component,
+      [path.join(rootDir, opts.componentfile! + ext)]: component,
       ...(tests && {
-        [path.join(rootDir, `${opts.testfile!}.${ext}`)]: tests,
+        [path.join(rootDir, opts.testfile + ext)]: tests,
       }),
       ...(stories && {
-        [path.join(rootDir, `${opts.storiesfile!}.${ext}`)]: stories,
+        [path.join(rootDir, opts.storiesfile! + ext)]: stories,
       }),
       ...(style?.standalone && {
         [path.join(rootDir, style.standalone.filename)]:
@@ -136,27 +130,42 @@ export class ComponentGenerator implements IComponentGenerator {
     }
     return null;
   }
-  private genComponentBuilderSpec(
+  private buildComponent(
     opts: IGenerateComponentOptions,
     style: Maybe<IStyleBuildArtifacts>
-  ): IComponentGeneratorSpec {
-    return {
-      ..._.pick(opts, [
-        'name',
-        'fc',
-        'cc',
-        'lang',
-        'tag',
-        'mobx',
-        'redux',
-        'pure',
-      ]),
-      imports: style?.imports,
-      hocs: style?.hocs,
-      jsx: style?.jsx,
-    };
-  }
-  private getExt(lang?: TLang): string {
-    return lang === 'ts' ? 'tsx' : 'jsx';
+  ): string {
+    const b = this.componentBuilder;
+    b.reset().withComponentName(opts.name);
+    if (opts.fc) {
+      b.asFC();
+    }
+    if (opts.cc) {
+      b.asClassComponent();
+    }
+    if (opts.lang === 'ts') {
+      b.withTypescript();
+    }
+    if (opts.tag) {
+      b.withTag(opts.tag);
+    }
+    if (opts.mobx) {
+      b.withMobx();
+    }
+    if (opts.redux) {
+      b.withRedux();
+    }
+    if (opts.pure) {
+      b.makePure();
+    }
+    if (style?.imports) {
+      b.withExtraImports(style.imports);
+    }
+    if (style?.hocs) {
+      b.withExtraHocs(style.hocs);
+    }
+    if (style?.jsx) {
+      b.withJsx(style?.jsx);
+    }
+    return b.build();
   }
 }

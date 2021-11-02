@@ -7,8 +7,6 @@ import { FileSystem } from '../file-system';
 import type { IFileSystem } from '../file-system/interface';
 import { Logger } from '../logger';
 import type { ILogger } from '../logger/interface';
-import { ComponentGenInputNormalizer } from '../normalizers/component-gen-input';
-import type { IComponentGenInputNormalizer } from '../normalizers/component-gen-input/interface';
 import { TOKENS } from './tokens';
 import { modules } from './modules';
 
@@ -21,9 +19,6 @@ export const createContainer = () => {
   c.bind<IUi>(TOKENS.ui).to(Ui);
   c.bind<ILogger>(TOKENS.logger).to(Logger).inSingletonScope();
   c.bind<IFileSystem>(TOKENS.fs).to(FileSystem).inSingletonScope();
-  c.bind<IComponentGenInputNormalizer>(TOKENS.cmpGenInputNrmlz).to(
-    ComponentGenInputNormalizer
-  );
   return c;
 };
 

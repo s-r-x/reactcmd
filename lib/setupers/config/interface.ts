@@ -1,6 +1,6 @@
 import { TCliConfigFile as TConfig } from '../../typings/config';
 
-export type TCfgCmdSetuperName = 'gc';
+export type TCfgCmdSetuperName = 'gc' | 'gnp';
 export interface ICfgSetuper {
   setup(opts: ICfgSetuperOptions): Promise<void>;
 }
